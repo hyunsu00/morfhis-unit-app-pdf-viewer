@@ -1,5 +1,6 @@
 import { Paper } from '@mui/material';
 import Box from '@mui/material/Box';
+import WebPDF from './WebPDF/WebPDF';
 
 const Content = () => {
   return (
@@ -13,8 +14,10 @@ const Content = () => {
         padding: '10px',
         gap: '10px',
         backgroundColor: '#efefef',
+        // height: '100%'
       }}>
-      <Paper variant='outlined' sx={{ width: '210mm', height: '297mm', backgroundColor: 'white' }} /> {/* pdf 1개 페이지 */}
+      <Paper variant='outlined' sx={{ width: '210mm', height: '297mm', backgroundColor: 'white' }} />
+      {/* <WebPDF/> */}
     </Box>
   );
 };

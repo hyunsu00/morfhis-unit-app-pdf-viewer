@@ -8,6 +8,7 @@ const Container = ({ header, content }) => {
           display: 'flex',
           flexDirection: 'column',
           boxSizing: 'border-box',
+          // height: 'inherit'
         }}>
         {header}
         {content}

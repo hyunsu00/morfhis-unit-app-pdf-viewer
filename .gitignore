@@ -32,6 +32,7 @@ yarn-error.log*
 /public/styles/
 /public/config/
 /public/intl/
+/public/external/
 
 # ide
 /.vscode/
