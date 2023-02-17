@@ -1,0 +1,70 @@
+{
+  "name": "pdf-viewer",
+  "version": "0.0.1",
+  "private": false,
+  "dependencies": {
+    "@emotion/cache": "^11.10.3",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.3",
+    "@mui/material": "^5.10.3",
+    "@tanstack/react-query": "^4.2.3",
+    "axios": "^0.21.1",
+    "lodash": "^4.17.21",
+    "react": "^17.0.1",
+    "react-device-detect": "^2.2.2",
+    "react-dom": "^17.0.1",
+    "react-intl": "^5.13.4",
+    "react-router-dom": "^5.2.0",
+    "zustand": "^4.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "clean-dist": "rm -rf dist",
+    "clean-package": "rm -rf package",
+    "clean-package-tgz": "rm -rf package-tgz",
+    "mkdir-package": "mkdirp package",
+    "mkdir-package-tgz": "mkdirp package-tgz",
+    "cp-package": "cp -r package.json README.md dist/Components/PdfViewer ./package",
+    "tar-package-tgz": "tar cvzf package-tgz/pdf-viewer-0.0.1.tgz package",
+    "package": "npm run build && npm run clean-dist && npm run clean-package && npm run clean-package-tgz && npm run mkdir-package && npm run mkdir-package-tgz && tsc && npm run cp-package && npm run tar-package-tgz && npm run clean-dist && npm run clean-package"
+  },
+  "homepage": "/hdv",
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^16.11.21",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "eslint": "^8.32.0",
+    "http-proxy-middleware": "^1.3.1",
+    "mkdirp": "^2.1.3",
+    "prettier": "2.7.1",
+    "react-scripts": "5.0.0",
+    "typescript": "^4.5.5",
+    "web-vitals": "^2.1.4"
+  }
+}
