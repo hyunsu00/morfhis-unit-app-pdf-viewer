@@ -21,7 +21,9 @@ const Header = () => {
           <IconButton
             sx={{ color: 'action.active', borderRadius: '10%' }}
             onClick={(event) => {
-              alert('버튼1');
+              window.PDFViewerApplication.toolbar.eventBus.dispatch("openfile", {
+                source: window.PDFViewerApplicationOptions.toolbar
+              });
             }}>
             <CheckIcon />
           </IconButton>

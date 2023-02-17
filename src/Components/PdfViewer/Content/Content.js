@@ -14,10 +14,10 @@ const Content = () => {
         padding: '10px',
         gap: '10px',
         backgroundColor: '#efefef',
-        // height: '100%'
+        height: '100%'
       }}>
-      <Paper variant='outlined' sx={{ width: '210mm', height: '297mm', backgroundColor: 'white' }} />
-      {/* <WebPDF/> */}
+      {/* <Paper variant='outlined' sx={{ width: '210mm', height: '297mm', backgroundColor: 'white' }} /> */}
+      <WebPDF/>
     </Box>
   );
 };
