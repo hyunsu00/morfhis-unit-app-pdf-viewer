@@ -941,6 +941,57 @@ class Annotation {
     return null;
   }
 
+  get hasTextContent() {
+    return false;
+  }
+
+  async extractTextContent(evaluator, task, viewBox) {
+    if (!this.appearance) {
+      return;
+    }
+
+    const resources = await this.loadResources(
+      ["ExtGState", "Font", "Properties", "XObject"],
+      this.appearance
+    );
+
+    const text = [];
+    const buffer = [];
+    const sink = {
+      desiredSize: Math.Infinity,
+      ready: true,
+
+      enqueue(chunk, size) {
+        for (const item of chunk.items) {
+          buffer.push(item.str);
+          if (item.hasEOL) {
+            text.push(buffer.join(""));
+            buffer.length = 0;
+          }
+        }
+      },
+    };
+
+    await evaluator.getTextContent({
+      stream: this.appearance,
+      task,
+      resources,
+      includeMarkedContent: true,
+      combineTextItems: true,
+      sink,
+      viewBox,
+    });
+    this.reset();
+
+    if (buffer.length) {
+      text.push(buffer.join(""));
+    }
+
+    if (text.length > 0) {
+      this.data.textContent = text;
+    }
+  }
+
   /**
    * Get field data for usage in JS sandbox.
    *
@@ -2204,7 +2255,7 @@ class TextWidgetAnnotation extends WidgetAnnotation {
     // Determine the maximum length of text in the field.
     let maximumLength = getInheritableProperty({ dict, key: "MaxLen" });
     if (!Number.isInteger(maximumLength) || maximumLength < 0) {
-      maximumLength = null;
+      maximumLength = 0;
     }
     this.data.maxLen = maximumLength;
 
@@ -2215,7 +2266,7 @@ class TextWidgetAnnotation extends WidgetAnnotation {
       !this.hasFieldFlag(AnnotationFieldFlag.MULTILINE) &&
       !this.hasFieldFlag(AnnotationFieldFlag.PASSWORD) &&
       !this.hasFieldFlag(AnnotationFieldFlag.FILESELECT) &&
-      this.data.maxLen !== null;
+      this.data.maxLen !== 0;
     this.data.doNotScroll = this.hasFieldFlag(AnnotationFieldFlag.DONOTSCROLL);
   }
 
@@ -3250,6 +3301,10 @@ class FreeTextAnnotation extends MarkupAnnotation {
     this.data.annotationType = AnnotationType.FREETEXT;
   }
 
+  get hasTextContent() {
+    return !!this.appearance;
+  }
+
   static createNewDict(annotation, xref, { apRef, ap }) {
     const { color, fontSize, rect, rotation, user, value } = annotation;
     const freetext = new Dict(xref);
@@ -4037,4 +4092,5 @@ export {
   AnnotationFactory,
   getQuadPoints,
   MarkupAnnotation,
+  PopupAnnotation,
 };
