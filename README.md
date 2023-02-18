@@ -10,4 +10,8 @@ cd ../../
 # 2. pdf-annotate.js 관련 패키지 설치 (실행경로 : ${workspaceRoot})
 cd ./extern/pdf-annotate.js && npm install
 cd ../../
+
+# 2. pdfAnnotate 관련 패키지 설치 (실행경로 : ${workspaceRoot})
+cd ./extern/pdfAnnotate && npm install
+cd ../../
 ```
