@@ -20,7 +20,7 @@ module.exports = {
   output: {
     filename: fileName + '.js',
     path: path.join(__dirname, 'dist'),
-    library: 'PDFAnnotate',
+    library: 'PDFAnnotateRender',
     libraryTarget: 'umd'
   },
   module: {

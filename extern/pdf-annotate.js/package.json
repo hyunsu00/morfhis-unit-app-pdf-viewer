@@ -8,9 +8,9 @@
     "start": "./scripts/web",
     "lint": "./node_modules/.bin/eslint .",
     "startindocker": "./scripts/web-docker",
-    "build": "webpack && MINIFY=1 webpack",
+    "build": "webpack",
     "codecov": "codecov",
-    "prepublishOnly": "npm run build"
+    "clean": "rimraf ./dist"
   },
   "repository": {
     "type": "git",
