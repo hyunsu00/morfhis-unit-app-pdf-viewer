@@ -16,6 +16,18 @@ cd ./extern/pdfAnnotate && npm install
 cd ../../
 
 # 4. pdf-lib 관련 패키지 설치 (실행경로 : ${workspaceRoot})
-cd ./extern/pdf-lib && npm install
+npm install -g yarn
+cd ./extern/pdf-lib && yarn
 cd ../../
+```
+
+## extern 라이브러리 빌드
+```bash
+#  (실행경로 : ${workspaceRoot})
+npm run lib
+```
+## extern 라이브러리 정리
+```bash
+#  (실행경로 : ${workspaceRoot})
+npm run clean
 ```
