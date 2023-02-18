@@ -32,7 +32,6 @@ async function runTests(results) {
       "find_spec.js",
       "freetext_editor_spec.js",
       "ink_editor_spec.js",
-      "a11y_spec.js",
     ],
   });
 

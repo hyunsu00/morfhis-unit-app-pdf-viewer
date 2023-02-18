@@ -207,7 +207,7 @@ class Rasterize {
   ) {
     try {
       const { svg, foreignObject, style, div } = this.createContainer(viewport);
-      div.className = "annotationLayer";
+      div.className = "pdfjsAnnotationLaye";
 
       const [common, overrides] = await this.annotationStylePromise;
       style.textContent =

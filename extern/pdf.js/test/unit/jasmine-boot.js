@@ -167,10 +167,10 @@ async function initializePDFJS(callback) {
       return document.body;
     },
     createElement() {
-      return document.createElement(...arguments);
+      return document.createElement.apply(document, arguments);
     },
     createTextNode() {
-      return document.createTextNode(...arguments);
+      return document.createTextNode.apply(document, arguments);
     },
     timer: new jasmine.Timer(),
   });

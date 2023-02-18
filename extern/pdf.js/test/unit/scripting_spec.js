@@ -1061,7 +1061,7 @@ describe("Scripting", function () {
                 value: "",
                 actions: {
                   Calculate: [
-                    `AFSimple_Calculate("SUM", ["field1", "field2", "field3", "unknown"]);`,
+                    `AFSimple_Calculate("SUM", ["field1", "field2", "field3"]);`,
                   ],
                 },
                 type: "text",

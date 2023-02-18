@@ -1027,7 +1027,9 @@ function stopServer() {
 }
 
 function getSession(browser) {
-  return sessions.find(session => session.name === browser);
+  return sessions.filter(function (session) {
+    return session.name === browser;
+  })[0];
 }
 
 async function closeSession(browser) {
