@@ -1478,7 +1478,6 @@ function processSegment(segment, visitor) {
   }
   const callbackName = "on" + header.typeName;
   if (callbackName in visitor) {
-    // eslint-disable-next-line prefer-spread
     visitor[callbackName].apply(visitor, args);
   }
 }
@@ -1637,7 +1636,7 @@ class SimpleSegmentVisitor {
   }
 
   onImmediateLosslessGenericRegion() {
-    this.onImmediateGenericRegion(...arguments);
+    this.onImmediateGenericRegion.apply(this, arguments);
   }
 
   onSymbolDictionary(
@@ -1744,7 +1743,7 @@ class SimpleSegmentVisitor {
   }
 
   onImmediateLosslessTextRegion() {
-    this.onImmediateTextRegion(...arguments);
+    this.onImmediateTextRegion.apply(this, arguments);
   }
 
   onPatternDictionary(dictionary, currentSegment, data, start, end) {
@@ -1789,7 +1788,7 @@ class SimpleSegmentVisitor {
   }
 
   onImmediateLosslessHalftoneRegion() {
-    this.onImmediateHalftoneRegion(...arguments);
+    this.onImmediateHalftoneRegion.apply(this, arguments);
   }
 
   onTables(currentSegment, data, start, end) {

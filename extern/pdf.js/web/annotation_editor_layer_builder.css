@@ -14,15 +14,11 @@
  */
 
 :root {
-  --focus-outline: solid 2px blue;
+  --focus-outline: solid 2px red;
   --hover-outline: dashed 2px blue;
   --freetext-line-height: 1.35;
   --freetext-padding: 2px;
-  /*#if COMPONENTS*/
-  --editorInk-editing-cursor: pointer;
-  /*#else*/
   --editorInk-editing-cursor: url(images/toolbarButton-editorInk.svg) 0 16;
-  /*#endif*/
 }
 
 @media (forced-colors: active) {
@@ -49,6 +45,7 @@
   left: 0;
   font-size: calc(100px * var(--scale-factor));
   transform-origin: 0 0;
+  display: none !important;
 }
 
 .annotationEditorLayer .selectedEditor {

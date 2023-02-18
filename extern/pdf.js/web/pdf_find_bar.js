@@ -111,19 +111,46 @@ class PDFFindBar {
   updateUIState(state, previous, matchesCount) {
     let findMsg = Promise.resolve("");
     let status = "";
-
+    var uiUpdateValue = {};
+    
     switch (state) {
       case FindState.FOUND:
+        this.eventBus.dispatch("updateUi", {
+          eventType : "hidden",
+          widgetName : "not_found_msg",
+          value : "",
+        });
         break;
       case FindState.PENDING:
         status = "pending";
+        this.eventBus.dispatch("updateUi", {
+          eventType : "hidden",
+          widgetName : "not_found_msg",
+          value : "",
+        });
         break;
       case FindState.NOT_FOUND:
         findMsg = this.l10n.get("find_not_found");
         status = "notFound";
+        uiUpdateValue["not_found_msg"] =  String(window.LangDefine.NoResults);
+        this.eventBus.dispatch("updateUi", {
+          eventType : "visible",
+          widgetName : "not_found_msg",
+          value : "",
+        });
         break;
       case FindState.WRAPPED:
         findMsg = this.l10n.get(`find_reached_${previous ? "top" : "bottom"}`);
+        if(previous) {
+          uiUpdateValue["not_found_msg"] =  String(window.LangDefine.FindendBegin);
+        } else {
+          uiUpdateValue["not_found_msg"] =  String(window.LangDefine.FindendEnd);
+        }
+        this.eventBus.dispatch("updateUi", {
+          eventType : "visible",
+          widgetName : "not_found_msg",
+          value : "",
+        });
         break;
     }
     this.findField.setAttribute("data-status", status);
@@ -132,6 +159,7 @@ class PDFFindBar {
     findMsg.then(msg => {
       this.findMsg.textContent = msg;
       this.#adjustWidth();
+      this.eventBus.dispatch("updateDescription", {value : uiUpdateValue,});
     });
 
     this.updateResultsCount(matchesCount);

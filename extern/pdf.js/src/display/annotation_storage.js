@@ -68,20 +68,11 @@ class AnnotationStorage {
    * Remove a value from the storage.
    * @param {string} key
    */
-  remove(key) {
+  removeKey(key) {
     this._storage.delete(key);
 
     if (this._storage.size === 0) {
       this.resetModified();
-    }
-
-    if (typeof this.onAnnotationEditor === "function") {
-      for (const value of this._storage.values()) {
-        if (value instanceof AnnotationEditor) {
-          return;
-        }
-      }
-      this.onAnnotationEditor(null);
     }
   }
 
@@ -179,6 +170,15 @@ class AnnotationStorage {
       }
     }
     return clone;
+  }
+
+  get hasAnnotationEditors() {
+    for (const value of this._storage.values()) {
+      if (value instanceof AnnotationEditor) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**

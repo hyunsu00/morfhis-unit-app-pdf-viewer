@@ -13,11 +13,13 @@
  * limitations under the License.
  */
 
+import { binarySearchFirstItem } from "pdfjs-lib";
+
 const DEFAULT_SCALE_VALUE = "auto";
 const DEFAULT_SCALE = 1.0;
 const DEFAULT_SCALE_DELTA = 1.1;
-const MIN_SCALE = 0.1;
-const MAX_SCALE = 10.0;
+const MIN_SCALE = 0.5;
+const MAX_SCALE = 3;
 const UNKNOWN_SCALE = 0;
 const MAX_AUTO_SCALE = 1.25;
 const SCROLLBAR_PADDING = 40;
@@ -222,38 +224,6 @@ function removeNullCharacters(str, replaceInvisible = false) {
     str = str.replace(InvisibleCharactersRegExp, " ");
   }
   return str.replace(NullCharactersRegExp, "");
-}
-
-/**
- * Use binary search to find the index of the first item in a given array which
- * passes a given condition. The items are expected to be sorted in the sense
- * that if the condition is true for one item in the array, then it is also true
- * for all following items.
- *
- * @returns {number} Index of the first array element to pass the test,
- *                   or |items.length| if no such element exists.
- */
-function binarySearchFirstItem(items, condition, start = 0) {
-  let minIndex = start;
-  let maxIndex = items.length - 1;
-
-  if (maxIndex < 0 || !condition(items[maxIndex])) {
-    return items.length;
-  }
-  if (condition(items[minIndex])) {
-    return minIndex;
-  }
-
-  while (minIndex < maxIndex) {
-    const currentIndex = (minIndex + maxIndex) >> 1;
-    const currentItem = items[currentIndex];
-    if (condition(currentItem)) {
-      maxIndex = currentIndex;
-    } else {
-      minIndex = currentIndex + 1;
-    }
-  }
-  return minIndex; /* === maxIndex */
 }
 
 /**
@@ -843,7 +813,6 @@ export {
   approximateFraction,
   AutoPrintRegExp,
   backtrackBeforeAllVisibleElements, // only exported for testing
-  binarySearchFirstItem,
   DEFAULT_SCALE,
   DEFAULT_SCALE_DELTA,
   DEFAULT_SCALE_VALUE,

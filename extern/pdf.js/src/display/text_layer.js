@@ -132,14 +132,12 @@ function appendText(task, geom, styles, ctx) {
         paddingRight: 0,
         paddingTop: 0,
         scale: 1,
-        fontSize: 0,
       }
     : {
         angle: 0,
         canvasWidth: 0,
         hasText: geom.str !== "",
         hasEOL: geom.hasEOL,
-        fontSize: 0,
       };
 
   task._textDivs.push(textDiv);
@@ -167,8 +165,6 @@ function appendText(task, geom, styles, ctx) {
   textDiv.style.top = `${top}px`;
   textDiv.style.fontSize = `${fontHeight}px`;
   textDiv.style.fontFamily = style.fontFamily;
-
-  textDivProperties.fontSize = fontHeight;
 
   // Keeps screen readers from pausing on every new text span.
   textDiv.setAttribute("role", "presentation");
@@ -599,7 +595,6 @@ class TextLayerRenderTask {
     this._capability = createPromiseCapability();
     this._renderTimer = null;
     this._bounds = [];
-    this._devicePixelRatio = globalThis.devicePixelRatio || 1;
 
     // Always clean-up the temporary canvas once rendering is no longer pending.
     this._capability.promise
@@ -685,17 +680,14 @@ class TextLayerRenderTask {
 
     let transform = "";
     if (textDivProperties.canvasWidth !== 0 && textDivProperties.hasText) {
-      const { fontFamily } = textDiv.style;
-      const { fontSize } = textDivProperties;
+      const { fontSize, fontFamily } = textDiv.style;
 
       // Only build font string and set to context if different from last.
       if (
         fontSize !== this._layoutTextLastFontSize ||
         fontFamily !== this._layoutTextLastFontFamily
       ) {
-        this._layoutTextCtx.font = `${
-          fontSize * this._devicePixelRatio
-        }px ${fontFamily}`;
+        this._layoutTextCtx.font = `${fontSize} ${fontFamily}`;
         this._layoutTextLastFontSize = fontSize;
         this._layoutTextLastFontFamily = fontFamily;
       }
@@ -703,8 +695,7 @@ class TextLayerRenderTask {
       const { width } = this._layoutTextCtx.measureText(textDiv.textContent);
 
       if (width > 0) {
-        const scale =
-          (this._devicePixelRatio * textDivProperties.canvasWidth) / width;
+        const scale = textDivProperties.canvasWidth / width;
         if (this._enhanceTextSelection) {
           textDivProperties.scale = scale;
         }

@@ -126,7 +126,7 @@ class XfaLayer {
           html.setAttribute("data-element-id", value);
           break;
         case "style":
-          Object.assign(html.style, value);
+          // Object.assign(html.style, value);
           break;
         case "textContent":
           html.textContent = value;

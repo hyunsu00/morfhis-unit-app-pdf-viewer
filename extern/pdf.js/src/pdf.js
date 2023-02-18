@@ -41,15 +41,7 @@ import {
   VerbosityLevel,
 } from "./shared/util.js";
 import {
-  build,
-  getDocument,
-  LoopbackPort,
-  PDFDataRangeTransport,
-  PDFWorker,
-  setPDFNetworkStreamFactory,
-  version,
-} from "./display/api.js";
-import {
+  binarySearchFirstItem,
   getFilenameFromUrl,
   getPdfFilenameFromUrl,
   getXfaPageViewport,
@@ -60,6 +52,15 @@ import {
   PixelsPerInch,
   RenderingCancelledException,
 } from "./display/display_utils.js";
+import {
+  build,
+  getDocument,
+  LoopbackPort,
+  PDFDataRangeTransport,
+  PDFWorker,
+  setPDFNetworkStreamFactory,
+  version,
+} from "./display/api.js";
 import { AnnotationEditorLayer } from "./display/editor/annotation_editor_layer.js";
 import { AnnotationEditorUIManager } from "./display/editor/tools.js";
 import { AnnotationLayer } from "./display/annotation_layer.js";
@@ -68,6 +69,7 @@ import { isNodeJS } from "./shared/is_node.js";
 import { renderTextLayer } from "./display/text_layer.js";
 import { SVGGraphics } from "./display/svg.js";
 import { XfaLayer } from "./display/xfa_layer.js";
+import { GlobalPDFOptions } from "./display/pdf_options.js";
 
 /* eslint-disable-next-line no-unused-vars */
 const pdfjsVersion =
@@ -116,6 +118,7 @@ export {
   AnnotationEditorUIManager,
   AnnotationLayer,
   AnnotationMode,
+  binarySearchFirstItem,
   build,
   CMapCompressionType,
   createPromiseCapability,
@@ -147,4 +150,5 @@ export {
   VerbosityLevel,
   version,
   XfaLayer,
+  GlobalPDFOptions,
 };

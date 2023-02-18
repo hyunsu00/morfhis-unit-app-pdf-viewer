@@ -185,7 +185,7 @@ function mapStyle(styleStr, node, richText) {
   if (richText && style.fontSize) {
     style.fontSize = `calc(${style.fontSize} * var(--scale-factor))`;
   }
-
+  
   fixTextIndent(style);
   return style;
 }

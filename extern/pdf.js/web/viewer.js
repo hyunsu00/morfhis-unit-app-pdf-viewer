@@ -13,9 +13,7 @@
  * limitations under the License.
  */
 
-import { RenderingStates, ScrollMode, SpreadMode } from "./ui_utils.js";
 import { AppOptions } from "./app_options.js";
-import { LinkTarget } from "./pdf_link_service.js";
 import { PDFViewerApplication } from "./app.js";
 
 /* eslint-disable-next-line no-unused-vars */
@@ -25,13 +23,7 @@ const pdfjsVersion =
 const pdfjsBuild =
   typeof PDFJSDev !== "undefined" ? PDFJSDev.eval("BUNDLE_BUILD") : void 0;
 
-const AppConstants =
-  typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")
-    ? { LinkTarget, RenderingStates, ScrollMode, SpreadMode }
-    : null;
-
 window.PDFViewerApplication = PDFViewerApplication;
-window.PDFViewerApplicationConstants = AppConstants;
 window.PDFViewerApplicationOptions = AppOptions;
 
 if (typeof PDFJSDev !== "undefined" && PDFJSDev.test("CHROME")) {
@@ -101,6 +93,7 @@ function getViewerConfiguration() {
           ? document.getElementById("openFile")
           : null,
       print: document.getElementById("print"),
+      editorNoneButton: document.getElementById("editorNone"),
       editorFreeTextButton: document.getElementById("editorFreeText"),
       editorFreeTextParamsToolbar: document.getElementById(
         "editorFreeTextParamsToolbar"
@@ -142,7 +135,7 @@ function getViewerConfiguration() {
     sidebar: {
       // Divs (and sidebar button)
       outerContainer: document.getElementById("outerContainer"),
-      sidebarContainer: document.getElementById("sidebarContainer"),
+      viewerContainer: document.getElementById("viewerContainer"),
       toggleButton: document.getElementById("sidebarToggle"),
       // Buttons
       thumbnailButton: document.getElementById("viewThumbnail"),
@@ -178,14 +171,16 @@ function getViewerConfiguration() {
       findNextButton: document.getElementById("findNext"),
     },
     passwordOverlay: {
-      dialog: document.getElementById("passwordDialog"),
+      overlayName: "passwordOverlay",
+      container: document.getElementById("passwordOverlay"),
       label: document.getElementById("passwordText"),
       input: document.getElementById("password"),
       submitButton: document.getElementById("passwordSubmit"),
       cancelButton: document.getElementById("passwordCancel"),
     },
     documentProperties: {
-      dialog: document.getElementById("documentPropertiesDialog"),
+      overlayName: "documentPropertiesOverlay",
+      container: document.getElementById("documentPropertiesOverlay"),
       closeButton: document.getElementById("documentPropertiesClose"),
       fields: {
         fileName: document.getElementById("fileNameField"),
@@ -224,13 +219,14 @@ function getViewerConfiguration() {
 function webViewerLoad() {
   const config = getViewerConfiguration();
   if (typeof PDFJSDev === "undefined" || !PDFJSDev.test("PRODUCTION")) {
-    if (window.chrome) {
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = "../build/dev-css/viewer.css";
+    // if (window.chrome) {
+    //   const link = document.createElement("link");
+    //   link.rel = "stylesheet";
+    //   link.type = "text/css";
+    //   link.href = "external/pdf.js/build/dev-css/viewer.css";
 
-      document.head.append(link);
-    }
+    //   document.head.append(link);
+    // }
 
     Promise.all([
       import("pdfjs-web/genericcom.js"),
@@ -277,8 +273,4 @@ if (
   document.addEventListener("DOMContentLoaded", webViewerLoad, true);
 }
 
-export {
-  PDFViewerApplication,
-  AppConstants as PDFViewerApplicationConstants,
-  AppOptions as PDFViewerApplicationOptions,
-};
+export { PDFViewerApplication, AppOptions as PDFViewerApplicationOptions };

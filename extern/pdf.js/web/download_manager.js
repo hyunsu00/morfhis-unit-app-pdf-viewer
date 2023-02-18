@@ -83,6 +83,7 @@ class DownloadManager {
       if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
         // The current URL is the viewer, let's use it and append the file.
         viewerUrl = "?file=" + encodeURIComponent(blobUrl + "#" + filename);
+        viewerUrl += "&mode=viewer";
       } else if (PDFJSDev.test("CHROME")) {
         // In the Chrome extension, the URL is rewritten using the history API
         // in viewer.js, so an absolute URL must be generated.

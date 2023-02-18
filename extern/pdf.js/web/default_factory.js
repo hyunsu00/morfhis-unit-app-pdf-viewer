@@ -30,8 +30,6 @@
 /** @typedef {import("./interfaces").IPDFTextLayerFactory} IPDFTextLayerFactory */
 /** @typedef {import("./interfaces").IPDFXfaLayerFactory} IPDFXfaLayerFactory */
 /** @typedef {import("./text_highlighter").TextHighlighter} TextHighlighter */
-// eslint-disable-next-line max-len
-/** @typedef {import("./text_accessibility.js").TextAccessibilityManager} TextAccessibilityManager */
 
 import { AnnotationEditorLayerBuilder } from "./annotation_editor_layer_builder.js";
 import { AnnotationLayerBuilder } from "./annotation_layer_builder.js";
@@ -62,7 +60,6 @@ class DefaultAnnotationLayerFactory {
    *   [fieldObjectsPromise]
    * @property {Map<string, HTMLCanvasElement>} [annotationCanvasMap] - Map some
    *   annotation ids with canvases used to render them.
-   * @property {TextAccessibilityManager} [accessibilityManager]
    */
 
   /**
@@ -81,7 +78,6 @@ class DefaultAnnotationLayerFactory {
     mouseState = null,
     fieldObjectsPromise = null,
     annotationCanvasMap = null,
-    accessibilityManager = null,
   }) {
     return new AnnotationLayerBuilder({
       pageDiv,
@@ -96,7 +92,6 @@ class DefaultAnnotationLayerFactory {
       fieldObjectsPromise,
       mouseState,
       annotationCanvasMap,
-      accessibilityManager,
     });
   }
 }
@@ -112,7 +107,6 @@ class DefaultAnnotationEditorLayerFactory {
    * @property {PDFPageProxy} pdfPage
    * @property {IL10n} l10n
    * @property {AnnotationStorage} [annotationStorage] - Storage for annotation
-   * @property {TextAccessibilityManager} [accessibilityManager]
    *   data in forms.
    */
 
@@ -124,7 +118,6 @@ class DefaultAnnotationEditorLayerFactory {
     uiManager = null,
     pageDiv,
     pdfPage,
-    accessibilityManager = null,
     l10n,
     annotationStorage = null,
   }) {
@@ -132,7 +125,6 @@ class DefaultAnnotationEditorLayerFactory {
       uiManager,
       pageDiv,
       pdfPage,
-      accessibilityManager,
       l10n,
       annotationStorage,
     });
@@ -171,7 +163,6 @@ class DefaultTextLayerFactory {
    * @property {boolean} [enhanceTextSelection]
    * @property {EventBus} eventBus
    * @property {TextHighlighter} highlighter
-   * @property {TextAccessibilityManager} [accessibilityManager]
    */
 
   /**
@@ -185,7 +176,6 @@ class DefaultTextLayerFactory {
     enhanceTextSelection = false,
     eventBus,
     highlighter,
-    accessibilityManager = null,
   }) {
     return new TextLayerBuilder({
       textLayerDiv,
@@ -194,7 +184,6 @@ class DefaultTextLayerFactory {
       enhanceTextSelection,
       eventBus,
       highlighter,
-      accessibilityManager,
     });
   }
 }

@@ -445,6 +445,11 @@ class Annotation {
     this.setFlags(dict.get("F"));
     this.setRectangle(dict.getArray("Rect"));
     this.setColor(dict.getArray("C"));
+    this.setfillColor(dict.has("IC") ? dict.getArray("IC") : null);
+    this.setStrokeAlpha(dict.has("CA") ? dict.getArray("CA") : 1);
+    this.setTextColor(dict.has("TextColor") ? dict.getArray("TextColor") : null);
+    this.setTextSize(dict.has("FontSize") ? dict.getArray("FontSize") : null);
+    this.setTextStyle(dict.has("RC") ? dict.getArray("RC") : null);
     this.setBorderStyle(dict);
     this.setAppearance(dict);
     this.setOptionalContent(dict);
@@ -463,6 +468,10 @@ class Annotation {
       annotationFlags: this.flags,
       borderStyle: this.borderStyle,
       color: this.color,
+      fillColor: this.fillColor,
+      strokeAlpha: this.strokeAlpha,
+      textColor: this.textColor,
+      textSize: this.textSize,
       backgroundColor: this.backgroundColor,
       borderColor: this.borderColor,
       rotation: this.rotation,
@@ -473,6 +482,10 @@ class Annotation {
       rect: this.rectangle,
       subtype: params.subtype,
       hasOwnCanvas: false,
+      fontWeight: this.fontWeight,
+      fontItalic: this.fontItalic,
+      textWord: this.textWord,
+      textlineThrough: this.textlineThrough,
     };
 
     if (params.collectFields) {
@@ -691,6 +704,86 @@ class Annotation {
    */
   setColor(color) {
     this.color = getRgbColor(color);
+  }
+
+  setfillColor(fillColor) {
+    if (fillColor) {
+      this.fillColor = getRgbColor(fillColor);
+    }
+  }
+
+  setStrokeAlpha(strokeAlpha) {
+    this.strokeAlpha = strokeAlpha;
+  }
+
+  setTextColor(textColor) {
+    if (textColor) {
+      this.textColor = getRgbColor(textColor);
+    }
+  }
+
+  setTextSize(textSize) {
+    if (textSize) {
+      this.textSize = textSize;
+    }
+  }
+  
+  setTextStyle(rc) {
+    if (rc) {
+      if (rc.includes("font-weight:bold")){ //두껍게
+        this.fontWeight = true;
+      } else {
+        this.fontWeight = false;
+      }
+
+      if (rc.includes("font-style:italic")){ //기울기
+        this.fontItalic = true;
+      } else {
+        this.fontItalic = false;
+      }
+
+      if (rc.includes("text-decoration") && (rc.includes("word") || rc.includes("underline"))) { //밑줄
+        this.textWord = true;
+      } else {
+        this.textWord = false;
+      }
+
+      if (rc.includes("text-decoration") && rc.includes("line-through")){ //취소선
+        this.textlineThrough = true;
+      } else {
+        this.textlineThrough = false;
+      }
+
+      // rc html에 color 값이 있으면 textcolor 값을 변경한다.
+      let str = 'color:';
+      var pos1 = rc.indexOf(str);
+      if (pos1 != -1) {
+        var pos2 = rc.indexOf('#', pos1);
+        var color = rc.substring(pos2, pos2 + 7);
+        this.textColor = this.hexToRgb(color);
+      }
+
+      // rc html에 font-size 값이 있으면 fontsize 값을 변경한다.
+      str = 'font-size:';
+      var pos1 = rc.indexOf(str);
+      if (pos1 != -1) {
+        var pos2 = rc.indexOf('pt', pos1);
+        var size = rc.substring(pos1 + str.length, pos2);
+        this.textSize = size.trim();
+      }
+    }
+  }
+
+  hexToRgb(color) {
+    let hex = color.replace('#', '');
+    let value = hex.match(/[a-f\d]/gi);
+    if (value.length == 3) hex = value[0] + value[0] + value[1] + value[1] + value[2] + value[2];
+    value = hex.match(/[a-f\d]{2}/gi);
+    if (!value) {
+      return value;
+    }
+
+    return [ parseInt(value[ 0 ], 16), parseInt(value[ 1 ], 16), parseInt(value[ 2 ], 16) ];
   }
 
   /**
@@ -939,57 +1032,6 @@ class Annotation {
 
   async save(evaluator, task, annotationStorage) {
     return null;
-  }
-
-  get hasTextContent() {
-    return false;
-  }
-
-  async extractTextContent(evaluator, task, viewBox) {
-    if (!this.appearance) {
-      return;
-    }
-
-    const resources = await this.loadResources(
-      ["ExtGState", "Font", "Properties", "XObject"],
-      this.appearance
-    );
-
-    const text = [];
-    const buffer = [];
-    const sink = {
-      desiredSize: Math.Infinity,
-      ready: true,
-
-      enqueue(chunk, size) {
-        for (const item of chunk.items) {
-          buffer.push(item.str);
-          if (item.hasEOL) {
-            text.push(buffer.join(""));
-            buffer.length = 0;
-          }
-        }
-      },
-    };
-
-    await evaluator.getTextContent({
-      stream: this.appearance,
-      task,
-      resources,
-      includeMarkedContent: true,
-      combineTextItems: true,
-      sink,
-      viewBox,
-    });
-    this.reset();
-
-    if (buffer.length) {
-      text.push(buffer.join(""));
-    }
-
-    if (text.length > 0) {
-      this.data.textContent = text;
-    }
   }
 
   /**
@@ -2255,7 +2297,7 @@ class TextWidgetAnnotation extends WidgetAnnotation {
     // Determine the maximum length of text in the field.
     let maximumLength = getInheritableProperty({ dict, key: "MaxLen" });
     if (!Number.isInteger(maximumLength) || maximumLength < 0) {
-      maximumLength = 0;
+      maximumLength = null;
     }
     this.data.maxLen = maximumLength;
 
@@ -2266,7 +2308,7 @@ class TextWidgetAnnotation extends WidgetAnnotation {
       !this.hasFieldFlag(AnnotationFieldFlag.MULTILINE) &&
       !this.hasFieldFlag(AnnotationFieldFlag.PASSWORD) &&
       !this.hasFieldFlag(AnnotationFieldFlag.FILESELECT) &&
-      this.data.maxLen !== 0;
+      this.data.maxLen !== null;
     this.data.doNotScroll = this.hasFieldFlag(AnnotationFieldFlag.DONOTSCROLL);
   }
 
@@ -3301,10 +3343,6 @@ class FreeTextAnnotation extends MarkupAnnotation {
     this.data.annotationType = AnnotationType.FREETEXT;
   }
 
-  get hasTextContent() {
-    return !!this.appearance;
-  }
-
   static createNewDict(annotation, xref, { apRef, ap }) {
     const { color, fontSize, rect, rotation, user, value } = annotation;
     const freetext = new Dict(xref);
@@ -4092,5 +4130,4 @@ export {
   AnnotationFactory,
   getQuadPoints,
   MarkupAnnotation,
-  PopupAnnotation,
 };

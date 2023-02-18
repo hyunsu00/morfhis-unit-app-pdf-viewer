@@ -13,11 +13,12 @@
  * limitations under the License.
  */
 
-import { createPromiseCapability, PasswordResponses } from "pdfjs-lib";
+import { PasswordResponses } from "pdfjs-lib";
 
 /**
  * @typedef {Object} PasswordPromptOptions
- * @property {HTMLDialogElement} dialog - The overlay's DOM element.
+ * @property {string} overlayName - Name of the overlay for the overlay manager.
+ * @property {HTMLDivElement} container - Div container for the overlay.
  * @property {HTMLParagraphElement} label - Label containing instructions for
  *                                          entering the password.
  * @property {HTMLInputElement} input - Input field for entering the password.
@@ -28,12 +29,6 @@ import { createPromiseCapability, PasswordResponses } from "pdfjs-lib";
  */
 
 class PasswordPrompt {
-  #activeCapability = null;
-
-  #updateCallback = null;
-
-  #reason = null;
-
   /**
    * @param {PasswordPromptOptions} options
    * @param {OverlayManager} overlayManager - Manager for the viewer overlays.
@@ -41,8 +36,9 @@ class PasswordPrompt {
    * @param {boolean} [isViewerEmbedded] - If the viewer is embedded, in e.g.
    *   an <iframe> or an <object>. The default value is `false`.
    */
-  constructor(options, overlayManager, l10n, isViewerEmbedded = false) {
-    this.dialog = options.dialog;
+  constructor(options, overlayManager, l10n, isViewerEmbedded = false, eventBus) {
+    this.overlayName = options.overlayName;
+    this.container = options.container;
     this.label = options.label;
     this.input = options.input;
     this.submitButton = options.submitButton;
@@ -50,36 +46,35 @@ class PasswordPrompt {
     this.overlayManager = overlayManager;
     this.l10n = l10n;
     this._isViewerEmbedded = isViewerEmbedded;
+    this.eventBus = eventBus;
+
+    this.updateCallback = null;
+    this.reason = null;
+
+    this.isOpenPrompt = false;
 
     // Attach the event listeners.
-    this.submitButton.addEventListener("click", this.#verify.bind(this));
+    this.submitButton.addEventListener("click", this.verify.bind(this));
     this.cancelButton.addEventListener("click", this.close.bind(this));
     this.input.addEventListener("keydown", e => {
       if (e.keyCode === /* Enter = */ 13) {
-        this.#verify();
+        this.verify();
       }
     });
 
-    this.overlayManager.register(this.dialog, /* canForceClose = */ true);
-
-    this.dialog.addEventListener("close", this.#cancel.bind(this));
+    this.overlayManager.register(
+      this.overlayName,
+      this.container,
+      this.close.bind(this),
+      true
+    );
   }
 
   async open() {
-    if (this.#activeCapability) {
-      await this.#activeCapability.promise;
-    }
-    this.#activeCapability = createPromiseCapability();
-
-    try {
-      await this.overlayManager.open(this.dialog);
-    } catch (ex) {
-      this.#activeCapability = null;
-      throw ex;
-    }
+    await this.overlayManager.open(this.overlayName);
 
     const passwordIncorrect =
-      this.#reason === PasswordResponses.INCORRECT_PASSWORD;
+      this.reason === PasswordResponses.INCORRECT_PASSWORD;
 
     if (!this._isViewerEmbedded || passwordIncorrect) {
       this.input.focus();
@@ -87,43 +82,48 @@ class PasswordPrompt {
     this.label.textContent = await this.l10n.get(
       `password_${passwordIncorrect ? "invalid" : "label"}`
     );
+
+    this.eventBus.dispatch("showDialog", {
+      eventType : "ui",
+      widgetName : "show",
+      value : "dialog_password",
+      dialogName: "e_dialog_password",
+      updateValues: {file_password: ""},
+      focusName: "file_password"
+    });
+
+    this.isOpenPrompt = true;
   }
 
-  async close() {
-    if (this.overlayManager.active === this.dialog) {
-      this.overlayManager.close(this.dialog);
-    }
+  close() {
+    this.isOpenPrompt = false;
+
+    this.overlayManager.close(this.overlayName).then(() => {
+      this.input.value = "";
+    });
   }
 
-  #verify() {
+  verify() {
     const password = this.input.value;
     if (password?.length > 0) {
-      this.#invokeCallback(password);
+      this.close();
+      this.updateCallback(password);
     }
   }
 
-  #cancel() {
-    this.#invokeCallback(new Error("PasswordPrompt cancelled."));
-    this.#activeCapability.resolve();
+	verify(password) {
+    if (password?.length > 0) {
+      this.updateCallback(password);
+    }
+  }
+	
+  setUpdateCallback(updateCallback, reason) {
+    this.updateCallback = updateCallback;
+    this.reason = reason;
   }
 
-  #invokeCallback(password) {
-    if (!this.#updateCallback) {
-      return; // Ensure that the callback is only invoked once.
-    }
-    this.close();
-    this.input.value = "";
-
-    this.#updateCallback(password);
-    this.#updateCallback = null;
-  }
-
-  async setUpdateCallback(updateCallback, reason) {
-    if (this.#activeCapability) {
-      await this.#activeCapability.promise;
-    }
-    this.#updateCallback = updateCallback;
-    this.#reason = reason;
+  isOpened() {
+    return this.isOpenPrompt;
   }
 }
 

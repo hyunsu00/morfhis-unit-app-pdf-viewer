@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import { AnnotationFactory, PopupAnnotation } from "./annotation.js";
 import {
   assert,
   FormatError,
@@ -30,6 +29,8 @@ import {
   UNSUPPORTED_FEATURES,
   Util,
   warn,
+  UnknownErrorException,
+  AnnotationType,
 } from "../shared/util.js";
 import {
   collectActions,
@@ -43,6 +44,7 @@ import {
 } from "./core_utils.js";
 import { Dict, isName, Name, Ref } from "./primitives.js";
 import { getXfaFontDict, getXfaFontName } from "./xfa_fonts.js";
+import { AnnotationFactory } from "./annotation.js";
 import { BaseStream } from "./base_stream.js";
 import { calculateMD5 } from "./crypto.js";
 import { Catalog } from "./catalog.js";
@@ -451,6 +453,16 @@ class Page {
       if (newAnnotations) {
         annotations = annotations.concat(newAnnotations);
       }
+      
+      const annotationsData = [];
+      for (const annotation of annotations) {
+        annotationsData.push(annotation.data);
+      }
+      handler.send("onParsedAnnotations", {
+        annotations: annotationsData,
+        pageIndex : partialEvaluator.pageIndex
+      });
+
       if (
         annotations.length === 0 ||
         intent & RenderingIntentFlag.ANNOTATIONS_DISABLE
@@ -466,7 +478,51 @@ class Page {
       // Collect the operator list promises for the annotations. Each promise
       // is resolved with the complete operator list for a single annotation.
       const opListPromises = [];
+      const isAddOpListPromises = function(annotation) {
+        if (!annotation) {
+          return false;
+        }
+        
+        switch (annotation.data.annotationType) {
+          case AnnotationType.TEXT:
+          case AnnotationType.FREETEXT:
+          case AnnotationType.LINE:
+          case AnnotationType.SQUARE:
+          case AnnotationType.POLYLINE:
+          case AnnotationType.HIGHLIGHT:
+          case AnnotationType.UNDERLINE:
+          case AnnotationType.STRIKEOUT:
+          case AnnotationType.INK:
+            return false;
+
+          case AnnotationType.LINK:
+          case AnnotationType.CIRCLE:
+          case AnnotationType.POLYGON:
+          case AnnotationType.SQUIGGLY:
+          case AnnotationType.STAMP: 
+          case AnnotationType.CARET:
+          case AnnotationType.POPUP:
+          case AnnotationType.FILEATTACHMENT:
+          case AnnotationType.SOUND:
+          case AnnotationType.MOVIE:
+          case AnnotationType.WIDGET:
+          case AnnotationType.SCREEN:
+          case AnnotationType.PRINTERMARK:
+          case AnnotationType.TRAPNET:
+          case AnnotationType.WATERMARK:
+          case AnnotationType.THREED:
+          case AnnotationType.REDACT:
+          default:
+        }
+
+        return true;
+      };
+
       for (const annotation of annotations) {
+        if (!isAddOpListPromises(annotation)) {
+          continue;
+        }
+
         if (
           intentAny ||
           (intentDisplay && annotation.mustBeViewed(annotationStorage)) ||
@@ -578,56 +634,30 @@ class Page {
     return tree;
   }
 
-  async getAnnotationsData(handler, task, intent) {
-    const annotations = await this._parsedAnnotations;
-    if (annotations.length === 0) {
-      return [];
-    }
+  getAnnotationsData(intent) {
+    return this._parsedAnnotations.then(function (annotations) {
+      const annotationsData = [];
 
-    const textContentPromises = [];
-    const annotationsData = [];
-    let partialEvaluator;
-
-    const intentAny = !!(intent & RenderingIntentFlag.ANY),
-      intentDisplay = !!(intent & RenderingIntentFlag.DISPLAY),
-      intentPrint = !!(intent & RenderingIntentFlag.PRINT);
-
-    for (const annotation of annotations) {
-      // Get the annotation even if it's hidden because
-      // JS can change its display.
-      const isVisible = intentAny || (intentDisplay && annotation.viewable);
-      if (isVisible || (intentPrint && annotation.printable)) {
-        annotationsData.push(annotation.data);
+      if (annotations.length === 0) {
+        return annotationsData;
       }
+      const intentAny = !!(intent & RenderingIntentFlag.ANY),
+        intentDisplay = !!(intent & RenderingIntentFlag.DISPLAY),
+        intentPrint = !!(intent & RenderingIntentFlag.PRINT);
 
-      if (annotation.hasTextContent && isVisible) {
-        if (!partialEvaluator) {
-          partialEvaluator = new PartialEvaluator({
-            xref: this.xref,
-            handler,
-            pageIndex: this.pageIndex,
-            idFactory: this._localIdFactory,
-            fontCache: this.fontCache,
-            builtInCMapCache: this.builtInCMapCache,
-            standardFontDataCache: this.standardFontDataCache,
-            globalImageCache: this.globalImageCache,
-            options: this.evaluatorOptions,
-          });
+      for (const annotation of annotations) {
+        // Get the annotation even if it's hidden because
+        // JS can change its display.
+        if (
+          intentAny ||
+          (intentDisplay && annotation.viewable) ||
+          (intentPrint && annotation.printable)
+        ) {
+          annotationsData.push(annotation.data);
         }
-        textContentPromises.push(
-          annotation
-            .extractTextContent(partialEvaluator, task, this.view)
-            .catch(function (reason) {
-              warn(
-                `getAnnotationsData - ignoring textContent during "${task.name}" task: "${reason}".`
-              );
-            })
-        );
       }
-    }
-
-    await Promise.all(textContentPromises);
-    return annotationsData;
+      return annotationsData;
+    });
   }
 
   get annotations() {
@@ -656,32 +686,7 @@ class Page {
         }
 
         return Promise.all(annotationPromises).then(function (annotations) {
-          if (annotations.length === 0) {
-            return annotations;
-          }
-
-          const sortedAnnotations = [];
-          let popupAnnotations;
-          // Ensure that PopupAnnotations are handled last, since they depend on
-          // their parent Annotation in the display layer; fixes issue 11362.
-          for (const annotation of annotations) {
-            if (!annotation) {
-              continue;
-            }
-            if (annotation instanceof PopupAnnotation) {
-              if (!popupAnnotations) {
-                popupAnnotations = [];
-              }
-              popupAnnotations.push(annotation);
-              continue;
-            }
-            sortedAnnotations.push(annotation);
-          }
-          if (popupAnnotations) {
-            sortedAnnotations.push(...popupAnnotations);
-          }
-
-          return sortedAnnotations;
+          return annotations.filter(annotation => !!annotation);
         });
       });
 
@@ -780,6 +785,16 @@ class PDFDocument {
     if (stream.length <= 0) {
       throw new InvalidPDFException(
         "The PDF file is empty, i.e. its size is zero bytes."
+      );
+    }
+    
+    // 파일 크기가 200mb일 경우 파일 오픈을 제한한다.
+    const kb = stream.length / 1024,
+    mb = kb / 1024;
+
+    if (mb >= 200) {
+      throw new UnknownErrorException(
+        "file_open_constraint_error"
       );
     }
 

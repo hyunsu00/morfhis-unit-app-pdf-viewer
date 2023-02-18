@@ -490,6 +490,14 @@ class AnnotationEditor {
   enableEditing() {}
 
   /**
+   * Get the id to use in aria-owns when a link is done in the text layer.
+   * @returns {string}
+   */
+  getIdForTextLayer() {
+    return this.id;
+  }
+
+  /**
    * Get some properties to update in the UI.
    * @returns {Object}
    */

@@ -44,6 +44,7 @@ const PAGE_NUMBER_LOADING_INDICATOR = "visiblePageIsLoading";
  * @property {HTMLButtonElement} openFile - Button to open a new document.
  * @property {HTMLButtonElement} presentationModeButton - Button to switch to
  *   presentation mode.
+ * @property {HTMLButtonElement} editorNoneButton - Button to disable editing.
  * @property {HTMLButtonElement} editorFreeTextButton - Button to switch to
  *   FreeText editing.
  * @property {HTMLButtonElement} download - Button to download the document.
@@ -52,8 +53,6 @@ const PAGE_NUMBER_LOADING_INDICATOR = "visiblePageIsLoading";
  */
 
 class Toolbar {
-  #wasLocalized = false;
-
   /**
    * @param {ToolbarOptions} options
    * @param {EventBus} eventBus
@@ -76,28 +75,19 @@ class Toolbar {
       { element: options.download, eventName: "download" },
       { element: options.viewBookmark, eventName: null },
       {
+        element: options.editorNoneButton,
+        eventName: "switchannotationeditormode",
+        eventDetails: { mode: AnnotationEditorType.NONE },
+      },
+      {
         element: options.editorFreeTextButton,
         eventName: "switchannotationeditormode",
-        eventDetails: {
-          get mode() {
-            const { classList } = options.editorFreeTextButton;
-            return classList.contains("toggled")
-              ? AnnotationEditorType.NONE
-              : AnnotationEditorType.FREETEXT;
-          },
-        },
+        eventDetails: { mode: AnnotationEditorType.FREETEXT },
       },
       {
         element: options.editorInkButton,
         eventName: "switchannotationeditormode",
-        eventDetails: {
-          get mode() {
-            const { classList } = options.editorInkButton;
-            return classList.contains("toggled")
-              ? AnnotationEditorType.NONE
-              : AnnotationEditorType.INK;
-          },
-        },
+        eventDetails: { mode: AnnotationEditorType.INK },
       },
     ];
     if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
@@ -112,30 +102,36 @@ class Toolbar {
       next: options.next,
       zoomIn: options.zoomIn,
       zoomOut: options.zoomOut,
+      editorNoneButton: options.editorNoneButton,
+      editorFreeTextButton: options.editorFreeTextButton,
+      editorFreeTextParamsToolbar: options.editorFreeTextParamsToolbar,
+      editorInkButton: options.editorInkButton,
+      editorInkParamsToolbar: options.editorInkParamsToolbar,
     };
 
-    // Bind the event listeners for click and various other actions.
-    this.#bindListeners(options);
-
+    this._wasLocalized = false;
     this.reset();
+
+    // Bind the event listeners for click and various other actions.
+    this._bindListeners(options);
   }
 
   setPageNumber(pageNumber, pageLabel) {
     this.pageNumber = pageNumber;
     this.pageLabel = pageLabel;
-    this.#updateUIState(false);
+    this._updateUIState(false);
   }
 
   setPagesCount(pagesCount, hasPageLabels) {
     this.pagesCount = pagesCount;
     this.hasPageLabels = hasPageLabels;
-    this.#updateUIState(true);
+    this._updateUIState(true);
   }
 
   setPageScale(pageScaleValue, pageScale) {
     this.pageScaleValue = (pageScaleValue || pageScale).toString();
     this.pageScale = pageScale;
-    this.#updateUIState(false);
+    this._updateUIState(false);
   }
 
   reset() {
@@ -145,14 +141,14 @@ class Toolbar {
     this.pagesCount = 0;
     this.pageScaleValue = DEFAULT_SCALE_VALUE;
     this.pageScale = DEFAULT_SCALE;
-    this.#updateUIState(true);
+    this._updateUIState(true);
     this.updateLoadingIndicatorState();
 
     // Reset the Editor buttons too, since they're document specific.
     this.eventBus.dispatch("toolbarreset", { source: this });
   }
 
-  #bindListeners(options) {
+  _bindListeners(options) {
     const { pageNumber, scaleSelect } = this.items;
     const self = this;
 
@@ -207,15 +203,16 @@ class Toolbar {
     scaleSelect.oncontextmenu = noContextMenuHandler;
 
     this.eventBus._on("localized", () => {
-      this.#wasLocalized = true;
+      this._wasLocalized = true;
       this.#adjustScaleWidth();
-      this.#updateUIState(true);
+      this._updateUIState(true);
     });
 
     this.#bindEditorToolsListener(options);
   }
 
   #bindEditorToolsListener({
+    editorNoneButton,
     editorFreeTextButton,
     editorFreeTextParamsToolbar,
     editorInkButton,
@@ -223,6 +220,7 @@ class Toolbar {
   }) {
     const editorModeChanged = (evt, disableButtons = false) => {
       const editorButtons = [
+        { mode: AnnotationEditorType.NONE, button: editorNoneButton },
         {
           mode: AnnotationEditorType.FREETEXT,
           button: editorFreeTextButton,
@@ -240,7 +238,9 @@ class Toolbar {
         button.classList.toggle("toggled", checked);
         button.setAttribute("aria-checked", checked);
         button.disabled = disableButtons;
-        toolbar?.classList.toggle("hidden", !checked);
+        if (toolbar) {
+          toolbar.classList.toggle("hidden", !checked);
+        }
       }
     };
     this.eventBus._on("annotationeditormodechanged", editorModeChanged);
@@ -255,8 +255,8 @@ class Toolbar {
     });
   }
 
-  #updateUIState(resetNumPages = false) {
-    if (!this.#wasLocalized) {
+  _updateUIState(resetNumPages = false) {
+    if (!this._wasLocalized) {
       // Don't update the UI state until we localize the toolbar.
       return;
     }

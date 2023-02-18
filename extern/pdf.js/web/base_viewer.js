@@ -30,8 +30,6 @@
 // eslint-disable-next-line max-len
 /** @typedef {import("./interfaces").IPDFTextLayerFactory} IPDFTextLayerFactory */
 /** @typedef {import("./interfaces").IPDFXfaLayerFactory} IPDFXfaLayerFactory */
-// eslint-disable-next-line max-len
-/** @typedef {import("./text_accessibility.js").TextAccessibilityManager} TextAccessibilityManager */
 
 import {
   AnnotationEditorType,
@@ -232,6 +230,9 @@ class BaseViewer {
 
   #onVisibilityChange = null;
 
+  enablePrint = true; 
+
+  enableModifyAnnotation = true;
   /**
    * @param {PDFViewerOptions} options
    */
@@ -322,6 +323,7 @@ class BaseViewer {
 
     this.scroll = watchScroll(this.container, this._scrollUpdate.bind(this));
     this.presentationModeState = PresentationModeState.UNKNOWN;
+    this._mavenModeState = false;
     this._onBeforeDraw = this._onAfterDraw = null;
     this._resetView();
 
@@ -572,6 +574,16 @@ class BaseViewer {
       params.annotationEditorMode = AnnotationEditorType.DISABLE;
     }
 
+    // 인쇄가 허용되지 않는 경우
+    if (!permissions.includes(PermissionFlag.PRINT)) {
+      this.enablePrint = false;
+    }
+    
+    // 주석 수정이 허용된 되지 않는 경우
+    if (!permissions.includes(PermissionFlag.MODIFY_ANNOTATIONS)) {
+      this.enableModifyAnnotation = false;
+    }
+
     if (
       !permissions.includes(PermissionFlag.MODIFY_ANNOTATIONS) &&
       !permissions.includes(PermissionFlag.FILL_INTERACTIVE_FORMS) &&
@@ -661,6 +673,10 @@ class BaseViewer {
       ? pdfDocument.getPermissions()
       : Promise.resolve();
 
+    // 문서 로드시 Permission 체크
+    this.enablePrint = true;
+    this.enableModifyAnnotation = true;
+
     // Given that browsers don't handle huge amounts of DOM-elements very well,
     // enforce usage of PAGE-scrolling when loading *very* long/large documents.
     if (pagesCount > PagesCountLimit.FORCE_SCROLL_MODE_PAGE) {
@@ -729,6 +745,12 @@ class BaseViewer {
           if (isPureXfa) {
             console.warn("Warning: XFA-editing is not implemented.");
           } else if (isValidAnnotationEditorMode(mode)) {
+            // Ensure that the Editor buttons, in the toolbar, are updated.
+            this.eventBus.dispatch("annotationeditormodechanged", {
+              source: this,
+              mode,
+            });
+
             this.#annotationEditorUIManager = new AnnotationEditorUIManager(
               this.container,
               this.eventBus
@@ -811,14 +833,6 @@ class BaseViewer {
           }
           if (this._scriptingManager) {
             this._scriptingManager.setDocument(pdfDocument); // Enable scripting.
-          }
-
-          if (this.#annotationEditorUIManager) {
-            // Ensure that the Editor buttons, in the toolbar, are updated.
-            this.eventBus.dispatch("annotationeditormodechanged", {
-              source: this,
-              mode: this.#annotationEditorMode,
-            });
           }
 
           // In addition to 'disableAutoFetch' being set, also attempt to reduce
@@ -1143,9 +1157,11 @@ class BaseViewer {
 
   _setScale(value, noScroll = false) {
     let scale = parseFloat(value);
-
+    let sValue;
     if (scale > 0) {
+      sValue = Number(scale).toFixed(2);
       this._setScaleUpdatePages(scale, value, noScroll, /* preset = */ false);
+      this._updateViewScaleEventAction(sValue);
     } else {
       const currentPage = this._pages[this._currentPageNumber - 1];
       if (!currentPage) {
@@ -1158,7 +1174,8 @@ class BaseViewer {
         hPadding = vPadding = 4;
       } else if (this.removePageBorders) {
         hPadding = vPadding = 0;
-      } else if (this._scrollMode === ScrollMode.HORIZONTAL) {
+      }
+      if (this._scrollMode === ScrollMode.HORIZONTAL) {
         [hPadding, vPadding] = [vPadding, hPadding]; // Swap the padding values.
       }
       const pageWidthScale =
@@ -1168,18 +1185,28 @@ class BaseViewer {
       const pageHeightScale =
         ((this.container.clientHeight - vPadding) / currentPage.height) *
         currentPage.scale;
+
       switch (value) {
-        case "page-actual":
+        case "page-actual": //실제크기
           scale = 1;
+          sValue = Number(scale).toFixed(2);
+          this._updateViewScaleEventAction(sValue);
           break;
         case "page-width":
           scale = pageWidthScale;
+          sValue = Number(scale).toFixed(2);
+          this._updateViewScaleEventAction("zoom_fit_width");
           break;
         case "page-height":
           scale = pageHeightScale;
+          sValue = Number(scale).toFixed(2);
+          this._updateViewScaleEventAction("zoom_fit");
           break;
         case "page-fit":
           scale = Math.min(pageWidthScale, pageHeightScale);
+          scale = this._findScaleArray(scale);		
+          sValue = Number(scale).toFixed(2);
+          this._updateViewScaleEventAction(sValue);
           break;
         case "auto":
           // For pages in landscape mode, fit the page height to the viewer
@@ -1188,15 +1215,66 @@ class BaseViewer {
             ? pageWidthScale
             : Math.min(pageHeightScale, pageWidthScale);
           scale = Math.min(MAX_AUTO_SCALE, horizontalScale);
+          scale = this._findScaleArray(scale);	
+          sValue = Number(scale).toFixed(2);
+          this._updateViewScaleEventAction(sValue);
           break;
         default:
-          console.error(`_setScale: "${value}" is an unknown zoom value.`);
+          //console.error(`_setScale: "${value}" is an unknown zoom value.`);
           return;
       }
+
       this._setScaleUpdatePages(scale, value, noScroll, /* preset = */ true);
     }
+
+    let isZoomInEnable = "enable",
+    isZoomOutEnable = "enable";
+
+    if(sValue <= 0.5) {
+      isZoomOutEnable = "disable";
+    }
+
+    if(sValue >= 3) {
+      isZoomInEnable = "disable";
+    }
+
+    this.eventBus.dispatch("updateUi", {
+      eventType : isZoomInEnable,
+      widgetName : "e_zoom",
+      value : "zoom_in",
+    });
+
+    this.eventBus.dispatch("updateUi", {
+      eventType : isZoomOutEnable,
+      widgetName : "e_zoom",
+      value : "zoom_out",
+    });
   }
 
+  _updateViewScaleEventAction(sValue) {
+    this.eventBus.dispatch("updateUi", {
+      eventType : "makeUpdateEventAction",
+      widgetName : "e_view_scale",
+      value : sValue,
+    });
+  }
+
+  _findScaleArray(currentScale) {
+    let targetScale = currentScale,
+    scaleArray = [0.50, 0.75, 1.00, 1.25, 1.50, 2.00, 3.00],
+    index = scaleArray.indexOf(targetScale);
+
+    if (index == -1) {
+      let scales = scaleArray.filter(function(scale) {
+          return scale >= targetScale;
+        });
+      targetScale = Math.min.apply(null, scales);
+    } else {
+      targetScale = (index < scaleArray.length - 1) ? scaleArray[index + 1] : scaleArray[index];
+    }
+
+    return targetScale;
+  }
   /**
    * Refreshes page view: scrolls to the current page and updates the scale.
    */
@@ -1477,6 +1555,18 @@ class BaseViewer {
       : this.container.scrollHeight > this.container.clientHeight;
   }
 
+  get mavenModeState() {
+    return this._mavenModeState;
+  }
+
+  set mavenModeState (mode) {
+    if (this._mavenModeState === mode) {
+      return;
+    }
+
+    this._mavenModeState = mode;
+  }
+
   _getVisiblePages() {
     const views =
         this._scrollMode === ScrollMode.PAGE
@@ -1639,7 +1729,6 @@ class BaseViewer {
    * @property {boolean} [enhanceTextSelection]
    * @property {EventBus} eventBus
    * @property {TextHighlighter} highlighter
-   * @property {TextAccessibilityManager} [accessibilityManager]
    */
 
   /**
@@ -1653,7 +1742,6 @@ class BaseViewer {
     enhanceTextSelection = false,
     eventBus,
     highlighter,
-    accessibilityManager = null,
   }) {
     return new TextLayerBuilder({
       textLayerDiv,
@@ -1664,7 +1752,6 @@ class BaseViewer {
         ? false
         : enhanceTextSelection,
       highlighter,
-      accessibilityManager,
     });
   }
 
@@ -1703,7 +1790,6 @@ class BaseViewer {
    *   [fieldObjectsPromise]
    * @property {Map<string, HTMLCanvasElement>} [annotationCanvasMap] - Map some
    *   annotation ids with canvases used to render them.
-   * @property {TextAccessibilityManager} [accessibilityManager]
    */
 
   /**
@@ -1722,7 +1808,6 @@ class BaseViewer {
     mouseState = this._scriptingManager?.mouseState,
     fieldObjectsPromise = this.pdfDocument?.getFieldObjects(),
     annotationCanvasMap = null,
-    accessibilityManager = null,
   }) {
     return new AnnotationLayerBuilder({
       pageDiv,
@@ -1738,7 +1823,6 @@ class BaseViewer {
       mouseState,
       fieldObjectsPromise,
       annotationCanvasMap,
-      accessibilityManager,
     });
   }
 
@@ -1749,7 +1833,6 @@ class BaseViewer {
    * @property {PDFPageProxy} pdfPage
    * @property {IL10n} l10n
    * @property {AnnotationStorage} [annotationStorage] - Storage for annotation
-   * @property {TextAccessibilityManager} [accessibilityManager]
    *   data in forms.
    */
 
@@ -1761,7 +1844,6 @@ class BaseViewer {
     uiManager = this.#annotationEditorUIManager,
     pageDiv,
     pdfPage,
-    accessibilityManager = null,
     l10n,
     annotationStorage = this.pdfDocument?.annotationStorage,
   }) {
@@ -1770,7 +1852,6 @@ class BaseViewer {
       pageDiv,
       pdfPage,
       annotationStorage,
-      accessibilityManager,
       l10n,
     });
   }
@@ -2173,12 +2254,18 @@ class BaseViewer {
    * @param {number} [steps] - Defaults to zooming once.
    */
   increaseScale(steps = 1) {
-    let newScale = this._currentScale;
-    do {
-      newScale = (newScale * DEFAULT_SCALE_DELTA).toFixed(2);
-      newScale = Math.ceil(newScale * 10) / 10;
-      newScale = Math.min(MAX_SCALE, newScale);
-    } while (--steps > 0 && newScale < MAX_SCALE);
+    let newScale = this._currentScale,
+    scaleArray = [0.50, 0.75, 1.00, 1.25, 1.50, 2.00, 3.00],
+    index = scaleArray.indexOf(newScale);
+
+    if (index == -1) {
+      let scales = scaleArray.filter(function(scale) {
+          return scale >= newScale;
+      });
+      newScale = Math.min.apply(null, scales);
+  } else {
+    newScale = (index < scaleArray.length - 1) ? scaleArray[index + 1] : scaleArray[index];
+  }
     this.currentScaleValue = newScale;
   }
 
@@ -2187,12 +2274,18 @@ class BaseViewer {
    * @param {number} [steps] - Defaults to zooming once.
    */
   decreaseScale(steps = 1) {
-    let newScale = this._currentScale;
-    do {
-      newScale = (newScale / DEFAULT_SCALE_DELTA).toFixed(2);
-      newScale = Math.floor(newScale * 10) / 10;
-      newScale = Math.max(MIN_SCALE, newScale);
-    } while (--steps > 0 && newScale > MIN_SCALE);
+    let newScale = this._currentScale,
+    scaleArray = [0.50, 0.75, 1.00, 1.25, 1.50, 2.00, 3.00],
+    index = scaleArray.indexOf(newScale);
+
+    if (index == -1) {
+      let scales = scaleArray.filter(function(scale) {
+          return scale <= newScale;
+      });
+      newScale = Math.max.apply(null, scales);
+  } else {
+    newScale = (index > 0) ? scaleArray[index - 1] : scaleArray[index];
+  }
     this.currentScaleValue = newScale;
   }
 
@@ -2246,17 +2339,6 @@ class BaseViewer {
       throw new Error(`The AnnotationEditor is not enabled.`);
     }
     this.#annotationEditorUIManager.updateParams(type, value);
-  }
-
-  refresh() {
-    if (!this.pdfDocument) {
-      return;
-    }
-    const updateArgs = {};
-    for (const pageView of this._pages) {
-      pageView.update(updateArgs);
-    }
-    this.update();
   }
 }
 

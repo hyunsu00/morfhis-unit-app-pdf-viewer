@@ -414,9 +414,6 @@ class AForm {
     const values = [];
     for (const cField of cFields) {
       const field = this._document.getField(cField);
-      if (!field) {
-        continue;
-      }
       const number = this.AFMakeNumber(field.value);
       if (number !== null) {
         values.push(number);
