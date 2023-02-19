@@ -38,7 +38,7 @@ export default (function () {
 
           console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdfjs/web/viewer.js) Succeeded`);
 
-          import(/* webpackIgnore: true */ `${lipsPath}/pdf-annotate.min.js`)
+          import(/* webpackIgnore: true */ `${lipsPath}/pdf-annotate.js`)
             .then((module) => {
               AnnotationManager.initialize(window.PDFAnnotate['default']);
               window.PDFApp = window.PDFViewerApplication;
@@ -46,29 +46,29 @@ export default (function () {
               window.AnnotationManager = AnnotationManager;
               window.gUndoRedoManager = new UndoRedoManager(window.PDFViewerApplication.baseUrl);
 
-              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdf-annotate.min.js) Succeeded`);
+              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdf-annotate.js) Succeeded`);
             })
             .catch((err) => {
-              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdf-annotate.min.js) Failed] : ${err.message}`);
+              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdf-annotate.js) Failed] : ${err.message}`);
             });
 
-          import(/* webpackIgnore: true */ `${lipsPath}/annotpdf.min.js`)
+          import(/* webpackIgnore: true */ `${lipsPath}/annotpdf.js`)
             .then((module) => {
               window.PDFAnnotateWriter = window.pdfAnnotate;
 
-              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/annotpdf.min.js) Succeeded`);
+              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/annotpdf.js) Succeeded`);
             })
             .catch((err) => {
-              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/annotpdf.min.js) Failed] : ${err.message}`);
+              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/annotpdf.js) Failed] : ${err.message}`);
             });
 
-          import(/* webpackIgnore: true */ `${lipsPath}/pdf-lib.min.js`)
+          import(/* webpackIgnore: true */ `${lipsPath}/pdf-lib.js`)
             .then((module) => {
               // window.PDFLib = window.PDFLib;
-              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdf-lib.min.js) Succeeded`);
+              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdf-lib.js) Succeeded`);
             })
             .catch((err) => {
-              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdf-lib.min.js) Failed] : ${err.message}`);
+              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdf-lib.js) Failed] : ${err.message}`);
             });
         })
         .catch((err) => {

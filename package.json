@@ -33,14 +33,14 @@
     "package": "npm run build && npm run clean-dist && npm run clean-package && npm run clean-package-tgz && npm run mkdir-package && npm run mkdir-package-tgz && tsc && npm run cp-package && npm run tar-package-tgz && npm run clean-dist && npm run clean-package",
     "libs": "npm run lib:pdf.js && npm run lib:pdf-annotate.js && npm run lib:annotpdf && npm run lib:pdf-lib",
     "clean": "npm run clean:pdf.js && npm run clean:pdf-annotate.js && npm run clean:annotpdf && npm run clean:pdf-lib",
-    "lib:pdf.js": "gulp -f ./extern/pdf.js/gulpfile.js generic && cpx \"./extern/pdf.js/build/generic/**/*\" ./public/libs/pdfjs && rimraf ./public/libs/pdfjs/web/viewer.html",
+    "lib:pdf.js": "gulp -f ./extern/pdf.js/gulpfile.js minified && cpx \"./extern/pdf.js/build/minified/**/*\" ./public/libs/pdfjs && rimraf ./public/libs/pdfjs/web/viewer.html && node -e \"require('fs').rename('./public/libs/pdfjs/web/pdf.viewer.js', './public/libs/pdfjs/web/viewer.js', function(err) { if (err) console.log(err); })\"",
     "clean:pdf.js": "gulp -f ./extern/pdf.js/gulpfile.js clean && rimraf ./public/libs/pdfjs",
-    "lib:pdf-annotate.js": "npm --prefix ./extern/pdf-annotate.js run build && cpx \"./extern/pdf-annotate.js/dist/**/*\" ./public/libs",
-    "clean:pdf-annotate.js": "npm --prefix ./extern/pdf-annotate.js run clean && rimraf ./public/libs/pdf-annotate.min.js",
-    "lib:annotpdf": "npm --prefix ./extern/pdfAnnotate run build && cpx \"./extern/pdfAnnotate/_bundles/**/*\" ./public/libs",
-    "clean:annotpdf": "npm --prefix ./extern/pdfAnnotate run clean && rimraf ./public/libs/annotpdf.min.js",
-    "lib:pdf-lib": "npm --prefix ./extern/pdf-lib run build:es && npm --prefix ./extern/pdf-lib run build:umd:min && cpx \"./extern/pdf-lib/dist/**/*\" ./public/libs",
-    "clean:pdf-lib": "npm --prefix ./extern/pdf-lib run clean && rimraf ./public/libs/pdf-lib.min.js"
+    "lib:pdf-annotate.js": "npm --prefix ./extern/pdf-annotate.js run build && cpx \"./extern/pdf-annotate.js/dist/**/*\" ./public/libs && node -e \"require('fs').rename('./public/libs/pdf-annotate.min.js', './public/libs/pdf-annotate.js', function(err) { if (err) console.log(err); })\"",
+    "clean:pdf-annotate.js": "npm --prefix ./extern/pdf-annotate.js run clean && rimraf ./public/libs/pdf-annotate.js",
+    "lib:annotpdf": "npm --prefix ./extern/pdfAnnotate run build && cpx \"./extern/pdfAnnotate/_bundles/**/*\" ./public/libs && node -e \"require('fs').rename('./public/libs/annotpdf.min.js', './public/libs/annotpdf.js', function(err) { if (err) console.log(err); })\"",
+    "clean:annotpdf": "npm --prefix ./extern/pdfAnnotate run clean && rimraf ./public/libs/annotpdf.js",
+    "lib:pdf-lib": "npm --prefix ./extern/pdf-lib run build:es && npm --prefix ./extern/pdf-lib run build:umd:min && cpx \"./extern/pdf-lib/dist/**/*\" ./public/libs && node -e \"require('fs').rename('./public/libs/pdf-lib.min.js', './public/libs/pdf-lib.js', function(err) { if (err) console.log(err); })\"",
+    "clean:pdf-lib": "npm --prefix ./extern/pdf-lib run clean && rimraf ./public/libs/pdf-lib.js"
   },
   "homepage": "/hdv",
   "eslintConfig": {
