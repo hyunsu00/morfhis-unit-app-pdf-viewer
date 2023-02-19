@@ -38,7 +38,7 @@
     "lib:pdf-annotate.js": "npm --prefix ./extern/pdf-annotate.js run build && cpx \"./extern/pdf-annotate.js/dist/**/*\" ./public/libs",
     "clean:pdf-annotate.js": "npm --prefix ./extern/pdf-annotate.js run clean && rimraf ./public/libs/pdf-annotate.js ./public/libs/pdf-annotate.js.map",
     "lib:annotpdf": "npm --prefix ./extern/pdfAnnotate run build && cpx \"./extern/pdfAnnotate/_bundles/**/*\" ./public/libs",
-    "clean:annotpdf": "npm --prefix ./extern/pdfAnnotate run clean && rimraf ./public/libs/annotpdf.js",
+    "clean:annotpdf": "npm --prefix ./extern/pdfAnnotate run clean && rimraf ./public/libs/annotpdf.js ./public/libs/annotpdf.js.map",
     "lib:pdf-lib": "npm --prefix ./extern/pdf-lib run build:es && npm --prefix ./extern/pdf-lib run build:umd && cpx \"./extern/pdf-lib/dist/**/*\" ./public/libs",
     "clean:pdf-lib": "npm --prefix ./extern/pdf-lib run clean && rimraf ./public/libs/pdf-lib.js ./public/libs/pdf-lib.js.map"
   },
