@@ -2,14 +2,14 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  devtool: "inline-source-map",
+  devtool: 'inline-source-map',
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, '_bundles'),
     filename: 'annotpdf.js',
     libraryTarget: 'umd',
     library: 'PDFAnnotateWriter',
-    umdNamedDefine: true
+    umdNamedDefine: true,
   },
   module: {
     rules: [
@@ -18,12 +18,12 @@ module.exports = {
         loader: 'ts-loader',
         exclude: /node_modules/,
       },
-    ]
+    ],
+  },
+  node: {
+    fs: 'empty',
   },
   resolve: {
-    fallback: {
-      fs: false,
-    },
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: ['.tsx', '.ts', '.js'],
   },
 };
