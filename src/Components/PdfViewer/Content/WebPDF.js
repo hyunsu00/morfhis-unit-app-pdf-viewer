@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import "./pdfjs/pdfjs.css"
-import import_pdfjs from './pdfjs/pdfjs';
-import html from "./pdfjs/pdfjs.html";
-import { ShadowDomUtil } from '../../ShadowDomUtil';
+import "../../../web-pdf-lib/webPdfLib.scss";
+import webPdfLib from '../../../web-pdf-lib/webPdfLib';
+import html from "../../../web-pdf-lib/webPdfLib.html";
 
 function WebPDF() {
   console.log("function WebPDF())");
@@ -11,7 +10,8 @@ function WebPDF() {
   useEffect(() => {
     console.log("WebPDF.componentDidMount[Function]");
 
-    import_pdfjs();
+    // import_pdfjs();
+    webPdfLib.initialize(`${process.env.PUBLIC_URL}/libs`);
     
     // componentWillUnmount with useEffect
     return () => {

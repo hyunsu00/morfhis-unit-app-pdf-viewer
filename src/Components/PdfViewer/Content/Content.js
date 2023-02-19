@@ -1,6 +1,6 @@
 import { Paper } from '@mui/material';
 import Box from '@mui/material/Box';
-import WebPDF from './WebPDF/WebPDF';
+import WebPDF from './WebPDF';
 
 const Content = () => {
   return (
