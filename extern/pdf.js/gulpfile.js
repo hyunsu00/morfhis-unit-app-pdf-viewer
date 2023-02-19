@@ -253,7 +253,7 @@ function createWebpackConfig(
         "pdfjs-fitCurve": path.join(__dirname, "src/display/editor/fit_curve"),
       },
     },
-    devtool: enableSourceMaps ? "source-map" : undefined,
+    devtool: undefined,
     module: {
       rules: [
         {

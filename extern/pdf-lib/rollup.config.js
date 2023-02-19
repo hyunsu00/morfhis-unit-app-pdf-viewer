@@ -51,7 +51,7 @@ export default {
   output: {
     name: 'PDFLib',
     format: MODULE_TYPE,
-    sourcemap: true,
+    sourcemap: false,
   },
   plugins: [resolve(), commonjs(), json(), MINIFY === 'true' && terser()],
 };

@@ -1,14 +1,15 @@
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
-  devtool: 'source-map',
+  mode: 'production',
+  devtool: 'none',
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, '_bundles'),
-    filename: 'annotpdf.js',
+    filename: 'annotpdf.min.js',
     libraryTarget: 'umd',
-    library: 'PDFAnnotateWriter',
+    library: 'pdfAnnotate',
     umdNamedDefine: true,
   },
   module: {
@@ -26,4 +27,15 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
+  optimization : {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true
+          }
+        }
+      })
+    ]
+  }
 };

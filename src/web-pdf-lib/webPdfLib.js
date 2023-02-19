@@ -36,24 +36,24 @@ export default (function () {
           _appOptions.set('showLoadingProgress', PDFJsListener.onShowLoadingProgress);
           _appOptions.set('onParsedAnnotations', PDFJsListener.onParsedAnnotations);
 
-          import(/* webpackIgnore: true */ `${lipsPath}/pdf-annotate.js`)
+          import(/* webpackIgnore: true */ `${lipsPath}/pdf-annotate.min.js`)
             .then((module) => {
-              AnnotationManager.initialize(window.PDFAnnotateRender['default']);
+              AnnotationManager.initialize(window.PDFAnnotate['default']);
               window.PDFApp = window.PDFViewerApplication;
               window.PDFAppOptions = window.PDFViewerApplicationOptions;
               window.AnnotationManager = AnnotationManager;
               window.gUndoRedoManager = new UndoRedoManager(window.PDFViewerApplication.baseUrl);
             })
             .catch((err) => {
-              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdf-annotate.js) Failed] : ${err.message}`);
+              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdf-annotate.min.js) Failed] : ${err.message}`);
             });
 
           import(/* webpackIgnore: true */ `${lipsPath}/annotpdf.js`)
             .then((module) => {
-              window.PDFAnnotateWriter = window.PDFAnnotateWriter;
+              window.PDFAnnotateWriter = window.pdfAnnotate;
             })
             .catch((err) => {
-              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/annotpdf.js) Failed] : ${err.message}`);
+              console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/annotpdf.min.js) Failed] : ${err.message}`);
             });
 
           import(/* webpackIgnore: true */ `${lipsPath}/pdf-lib.js`)

@@ -2,25 +2,26 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
 let fileName = 'pdf-annotate';
-let optimization = {};
-
-if (process.env.MINIFY) {
-  fileName += '.min';
-  optimization = {
-    minimize: true,
-    minimizer: [new TerserPlugin()]
-  };
-}
 
 module.exports = {
-  devtool: 'source-map',
-  optimization: optimization,
+  devtool: 'none',
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true
+          }
+        }
+      })
+    ]
+  },
   entry: './index.js',
-  mode: 'development',
+  mode: 'production',
   output: {
-    filename: fileName + '.js',
+    filename: fileName + '.min.js',
     path: path.join(__dirname, 'dist'),
-    library: 'PDFAnnotateRender',
+    library: 'PDFAnnotate',
     libraryTarget: 'umd'
   },
   module: {

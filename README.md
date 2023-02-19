@@ -24,7 +24,7 @@ cd ../../
 ### - extern 라이브러리 빌드
 ```bash
 #  (실행경로 : ${workspaceRoot})
-npm run lib
+npm run libs
 ```
 ### - extern 라이브러리 정리
 ```bash
