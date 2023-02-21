@@ -21,7 +21,7 @@ export default (function () {
   /*******************************************************************************
    * Private Variables
    ******************************************************************************/
-  /*  
+/*  
   const _keyCodeMap = CommonFrameUtil.keyCodeMap,
   _escKeyCode = parseInt(_keyCodeMap.esc, 10),
   _delKeyCode = parseInt(_keyCodeMap.del, 10)
@@ -113,7 +113,7 @@ export default (function () {
       }
 
       var isEnable = isEnableModifyAnnotation ? 'enable' : 'disable';
-      /*      
+/*      
       UiManager.setEventAction(isEnable, UiDefine.EVENT_ACTION_NAMES.D_SAVE);
 */
     },
@@ -315,13 +315,13 @@ export default (function () {
   };
 
   AnnotationManager.onSetStyleBarDisableState = function (value) {
-    /*    
+/*    
     UiManager.onSetStyleBarDisableState(value);
 */
   };
 
   AnnotationManager.onSetAnnotationSidebarEnable = function (value) {
-    /*    
+/*    
     UiManager.onSetAnnotationSidebarEnable(value);
 */
   };

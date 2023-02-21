@@ -174,7 +174,7 @@ export default (function () {
       }
 */
       window.PDFApp.eventBus.dispatch('scalechanged', {
-        source: PDFApp.scaleSelect,
+        source: window.PDFApp.scaleSelect,
         value: evtAction.value,
       });
       /*
@@ -488,11 +488,12 @@ export default (function () {
   }
 
   function a_highlight(evtAction) {
+/* 
     if (checkAllSelectStatus()) {
       evtAction.value = 'off';
       return;
     }
-/*	
+	
     // let sel = UiManager.getSelection();
     // let range = (sel.rangeCount > 0) ? sel.getRangeAt(0) : null;
     let range = UiManager.getRange();
@@ -506,6 +507,7 @@ export default (function () {
       AnnotationExecutor.switchAnnotation(evtAction);
     }
 */	
+    AnnotationExecutor.switchAnnotation(evtAction);
   }
 
   function checkAllSelectStatus() {
@@ -537,7 +539,7 @@ export default (function () {
   }
 
   function e_dialog_password(evtAction) {
-    widnow.PDFApp.passwordPrompt.verify(evtAction.value.file_password);
+    window.PDFApp.passwordPrompt.verify(evtAction.value.file_password);
   }
 
   const _actionMap = (function () {
@@ -595,12 +597,14 @@ export default (function () {
     },
 
     setAllSelectStatus(select) {
+/*      
       if (_isAllSelected) {
         var selection = window.getSelection();
         selection.removeAllRanges();
         UiManager.setSelection(selection);
       }
       _isAllSelected = select;
+*/      
     },
 
     isFindOpened() {

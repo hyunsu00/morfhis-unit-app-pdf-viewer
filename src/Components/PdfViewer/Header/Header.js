@@ -1,12 +1,9 @@
 import { AppBar, Box, IconButton } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import actionManager from '../../../web-pdf-lib/action/actionManager';
 
 const Header = () => {
-  function btn2(event) {
-    alert('버튼2');
-  }
-
   return (
     <Box sx={{ display: 'flex', height: '64px' }}>
       <AppBar sx={{ display: 'flex', flexDirection: 'row', boxSizing: 'border-box', height: 'inherit', alignItems: 'center' }}>
@@ -21,16 +18,14 @@ const Header = () => {
           <IconButton
             sx={{ color: 'action.active', borderRadius: '10%' }}
             onClick={(event) => {
-              window.PDFViewerApplication.toolbar.eventBus.dispatch("openfile", {
-                source: window.PDFViewerApplicationOptions.toolbar
-              });
+              actionManager.execute({name: "d_open"});
             }}>
             <CheckIcon />
           </IconButton>
           <IconButton
             sx={{ color: 'action.active', borderRadius: '10%' }}
             onClick={(event) => {
-              btn2(event);
+              actionManager.execute({name: "a_highlight"});
             }}>
             <DoneAllIcon />
           </IconButton>

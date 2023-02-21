@@ -8,7 +8,6 @@ import AnnotationManager from "../annotation/annotationManager.js";
 
 export default (function () {
 	
-
   function _ToAnnotationType(actionName) {
     let annotationType = null;
     switch(actionName) {
