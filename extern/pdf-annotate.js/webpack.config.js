@@ -1,40 +1,47 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
-let fileName = 'pdf-annotate';
+module.exports = (env) => {
+  let optimization = {};
+  if (env && env.mode == 'production') {
+    optimization = {
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            compress: {
+              drop_console: true
+            }
+          }
+        })
+      ]
+    };
+  }
+  const mode = (env && env.mode == 'production') ? 'production' : 'development';
+  const devtool = (env && env.mode == 'production') ? 'none' : 'inline-source-map';
 
-module.exports = {
-  devtool: 'none',
-  optimization: {
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          compress: {
-            drop_console: true
+  return {
+    mode: mode,
+    devtool: devtool,
+    optimization: optimization,
+    entry: './index.js',
+    output: {
+      filename: 'pdf-annotate.js',
+      path: path.join(__dirname, '../../public/libs'),
+      library: 'PDFAnnotate',
+      libraryTarget: 'umd'
+    },
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+            plugins: ['add-module-exports']
           }
         }
-      })
-    ]
-  },
-  entry: './index.js',
-  mode: 'production',
-  output: {
-    filename: fileName + '.min.js',
-    path: path.join(__dirname, 'dist'),
-    library: 'PDFAnnotate',
-    libraryTarget: 'umd'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env'],
-          plugins: ['add-module-exports']
-        }
-      }
-    ]
-  }
+      ]
+    }
+  };
 };

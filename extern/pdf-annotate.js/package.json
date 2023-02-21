@@ -8,9 +8,10 @@
     "start": "./scripts/web",
     "lint": "./node_modules/.bin/eslint .",
     "startindocker": "./scripts/web-docker",
-    "build": "webpack",
+    "build": "webpack --env.mode=production",
+    "dev": "webpack --env.mode=development",
     "codecov": "codecov",
-    "clean": "rimraf ./dist"
+    "clean": "rimraf ../../public/libs/pdf-annotate.js"
   },
   "repository": {
     "type": "git",

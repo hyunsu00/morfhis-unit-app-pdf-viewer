@@ -5,10 +5,11 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --env.mode=production",
+    "dev": "webpack --env.mode=development",
     "test": "jest --config jestconfig.json",
     "example": "http-server -p 8080",
-    "clean": "rimraf ./lib ./_bundles"
+    "clean": "rimraf ./lib ../../public/libs/annotpdf.js"
   },
   "files": [
     "lib/**/*",
