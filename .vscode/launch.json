@@ -1,0 +1,65 @@
+{
+	// IntelliSense를 사용하여 가능한 특성에 대해 알아보세요.
+	// 기존 특성에 대한 설명을 보려면 가리킵니다.
+	// 자세한 내용을 보려면 https://go.microsoft.com/fwlink/?linkid=830387을(를) 방문하세요.
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "chrome",
+			"request": "launch",
+			"name": "[morfhis-unit-app-pdf-viewer] 디버그",
+			"url": "http://localhost:3000",
+			"webRoot": "${workspaceFolder}/src",
+			"sourceMapPathOverrides": {
+				"webpack:///src/*": "${webRoot}/*"
+			}
+		},
+		{
+			"name": "[pdf.js] : gulp generic 디버그",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceRoot}/extern/pdf.js/node_modules/gulp/bin/gulp.js",
+			"stopOnEntry": false,
+			"args": [
+				"generic"
+			],
+			"cwd": "${workspaceRoot}/extern/pdf.js/",
+			"runtimeArgs": [
+				"--nolazy"
+			],
+			"console": "internalConsole",
+		},
+		{
+			"name": "[pdf.js] : gulp clean 디버그",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceRoot}/extern/pdf.js/node_modules/gulp/bin/gulp.js",
+			"stopOnEntry": false,
+			"args": [
+				"clean"
+			],
+			"cwd": "${workspaceRoot}/extern/pdf.js/",
+			"runtimeArgs": [
+				"--nolazy"
+			],
+			"console": "internalConsole",
+		},
+		{
+			"name": "[pdf-annotate.js] : webpack 디버그",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceRoot}/extern/pdf-annotate.js/node_modules/webpack/bin/webpack.js",
+			"stopOnEntry": false,
+			"args": [
+				"--config", "${workspaceRoot}/extern/pdf-annotate.js/webpack.config.js",
+				// "--env.mode=production",
+			],
+			"cwd": "${workspaceRoot}/extern/pdf-annotate.js/",
+			"runtimeArgs": [
+				"--nolazy"
+			],
+			"console": "internalConsole",
+		}
+	]
+	]
+}

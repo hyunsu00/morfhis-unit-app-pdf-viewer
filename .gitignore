@@ -35,5 +35,5 @@ yarn-error.log*
 /public/libs/
 
 # ide
-/.vscode/
+#/.vscode/
 /.idea/
