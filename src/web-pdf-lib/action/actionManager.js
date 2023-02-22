@@ -13,6 +13,7 @@ import AnnotationExecutor from './annotationActionExecutor.js';
 import DefineTypes from '../define/defineTypes.js';
 import DefineActions from '../define/defineActions.js';
 import Util from '../utils/util.js';
+import webPdfLib from '../webPdfLib.js';
 
 export default (function () {
   let _isAllSelected = false;
@@ -22,34 +23,39 @@ export default (function () {
     // 임시코드
     evtAction.value = 'off';
 
-    AnnotationManager.save(window.PDFApp.baseUrl, window.PDFApp.pdfDocument, false);
+    AnnotationManager.save(webPdfLib.PDFViewerApplication.baseUrl, webPdfLib.PDFViewerApplication.pdfDocument, false);
   }
 
   function download(evtAction) {
     // 임시코드
     evtAction.value = 'off';
 
-    // PDFApp.toolbar.eventBus.dispatch("download", {
-    // 	source: PDFApp.toolbar
+    // webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch("download", {
+    // 	source: webPdfLib.PDFViewerApplication.toolbar
     // });
 
-    AnnotationManager.download(window.PDFApp.baseUrl, window.PDFApp.pdfDocument);
+    AnnotationManager.download(webPdfLib.PDFViewerApplication.baseUrl, webPdfLib.PDFViewerApplication.pdfDocument);
   }
 
   function d_open(evtAction) {
     // 임시코드
     evtAction.value = 'off';
 
-    window.PDFApp.toolbar.eventBus.dispatch('openfile', {
-      source: window.PDFApp.toolbar,
+    // webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch('openfile', {
+    //   source:  webPdfLib.PDFViewerApplication.toolbar,
+    // });
+  
+    webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch('openfile', {
+      source:  webPdfLib.PDFViewerApplication.toolbar,
     });
+    
   }
 
   function d_print(evtAction) {
     // 임시코드
     evtAction.value = 'off';
 
-    AnnotationManager.print(window.PDFApp.baseUrl, window.PDFApp.pdfDocument);
+    AnnotationManager.print(webPdfLib.PDFViewerApplication.baseUrl, webPdfLib.PDFViewerApplication.pdfDocument);
   }
 
   function e_dialog_print(evtAction) {}
@@ -58,10 +64,10 @@ export default (function () {
     // 임시코드
     evtAction.value = 'off';
 
-    window.PDFApp.secondaryToolbar.eventBus.dispatch('documentproperties', {
-      source: window.PDFApp.secondaryToolbar,
+    webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('documentproperties', {
+      source: webPdfLib.PDFViewerApplication.secondaryToolbar,
     });
-    window.PDFApp.secondaryToolbar.close();
+    webPdfLib.PDFViewerApplication.secondaryToolbar.close();
   }
 
   function zoom(evtAction) {
@@ -73,8 +79,8 @@ export default (function () {
         evtAction.value = 'off';
       }
 
-      window.PDFApp.eventBus.dispatch('scalechanged', {
-        source: window.PDFApp.scaleSelect,
+      webPdfLib.PDFViewerApplication.eventBus.dispatch('scalechanged', {
+        source: webPdfLib.PDFViewerApplication.scaleSelect,
         value: 'page-height',
       });
       /*	  
@@ -87,8 +93,8 @@ export default (function () {
         evtAction.value = 'off';
       }
 
-      window.PDFApp.eventBus.dispatch('scalechanged', {
-        source: window.PDFApp.scaleSelect,
+      webPdfLib.PDFViewerApplication.eventBus.dispatch('scalechanged', {
+        source: webPdfLib.PDFViewerApplication.scaleSelect,
         value: 'page-width',
       });
       /*	  
@@ -97,7 +103,7 @@ export default (function () {
 */
     } else if (evtAction.value === UI_VALUE.zoomIn || evtAction.value === UI_VALUE.zoomOut) {
       let value = evtAction.target.dataset.value,
-        ratio = window.PDFApp.pdfViewer._currentScale,
+        ratio = webPdfLib.PDFViewerApplication.pdfViewer._currentScale,
         scaleArray = [0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 3.0],
         index = scaleArray.indexOf(ratio),
         DEFINE_VARIABLE = DefineTypes.editorVariable;
@@ -135,8 +141,8 @@ export default (function () {
         isZoomOutEnable = UIDefine.EVENT_ACTION_TYPE.DISABLE;
       }
 */
-      window.PDFApp.eventBus.dispatch('scalechanged', {
-        source: window.PDFApp.scaleSelect,
+      webPdfLib.PDFViewerApplication.eventBus.dispatch('scalechanged', {
+        source: webPdfLib.PDFViewerApplication.scaleSelect,
         value: ratio,
       });
       /*
@@ -148,8 +154,8 @@ export default (function () {
     } else if (evtAction.value === UI_VALUE.zoomFix) {
       // 100%
       evtAction.value = 'off';
-      window.PDFApp.eventBus.dispatch('scalechanged', {
-        source: window.PDFApp.scaleSelect,
+      webPdfLib.PDFViewerApplication.eventBus.dispatch('scalechanged', {
+        source: webPdfLib.PDFViewerApplication.scaleSelect,
         value: '1.0',
       });
       /*
@@ -173,8 +179,8 @@ export default (function () {
         isZoomInEnable = UIDefine.EVENT_ACTION_TYPE.DISABLE;
       }
 */
-      window.PDFApp.eventBus.dispatch('scalechanged', {
-        source: window.PDFApp.scaleSelect,
+      webPdfLib.PDFViewerApplication.eventBus.dispatch('scalechanged', {
+        source: webPdfLib.PDFViewerApplication.scaleSelect,
         value: evtAction.value,
       });
       /*
@@ -190,19 +196,19 @@ export default (function () {
     evtAction.value = 'off';
 
     if (evtAction.name == 'e_show_mode_start') {
-      window.PDFApp.secondaryToolbar.eventBus.dispatch('firstpage', {
-        source: window.PDFApp.secondaryToolbar,
+      webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('firstpage', {
+        source: webPdfLib.PDFViewerApplication.secondaryToolbar,
       });
-      window.PDFApp.secondaryToolbar.close();
+      webPdfLib.PDFViewerApplication.secondaryToolbar.close();
     }
 
-    window.PDFApp.toolbar.eventBus.dispatch('presentationmode', {
-      source: window.PDFApp.toolbar,
+    webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch('presentationmode', {
+      source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
   function document_window(evtAction) {
-    evtAction.value === 'on' ? window.PDFApp.pdfSidebar.open() : window.PDFApp.pdfSidebar.close();
+    evtAction.value === 'on' ? webPdfLib.PDFViewerApplication.pdfSidebar.open() : webPdfLib.PDFViewerApplication.pdfSidebar.close();
   }
 
   function e_find_close(evtAction) {
@@ -210,9 +216,9 @@ export default (function () {
       return;
     }
 
-    if (window.PDFApp) {
-      window.PDFApp.findBar.eventBus.dispatch('findbarclose', {
-        source: window.PDFApp.findBar,
+    if (webPdfLib.PDFViewerApplication) {
+      webPdfLib.PDFViewerApplication.findBar.eventBus.dispatch('findbarclose', {
+        source: webPdfLib.PDFViewerApplication.findBar,
       });
 
       _isFindOpened = false;
@@ -225,8 +231,8 @@ export default (function () {
     }
 
     if (evtAction.value.execute === 'find_next') {
-      window.PDFApp.findBar.eventBus.dispatch('find', {
-        source: window.PDFApp.findBar,
+      webPdfLib.PDFViewerApplication.findBar.eventBus.dispatch('find', {
+        source: webPdfLib.PDFViewerApplication.findBar,
         type: 'again',
         query: evtAction.value.find_input,
         phraseSearch: true,
@@ -246,11 +252,11 @@ export default (function () {
 
   function switchcursortool(evtAction) {
     const details = {
-      source: window.PDFApp.secondaryToolbar,
+      source: webPdfLib.PDFViewerApplication.secondaryToolbar,
       tool: evtAction.name === 't_select' ? 0 : 1,
     };
-    window.PDFApp.secondaryToolbar.eventBus.dispatch('switchcursortool', details);
-    window.PDFApp.secondaryToolbar.close();
+    webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('switchcursortool', details);
+    webPdfLib.PDFViewerApplication.secondaryToolbar.close();
     if (evtAction.value === 'on') {
 /*		
       $.publish('/ui/update', EventActionGenerator.makeUpdateEventAction(evtAction.name === 't_select' ? 't_hand' : 't_select', 'off'));
@@ -299,15 +305,15 @@ export default (function () {
   function e_viewsidebar_tab(evtAction) {
 /*	
     if (evtAction.value === 'viewOutline') {
-      PDFApp.pdfSidebar.switchView(2, true);
+      webPdfLib.PDFViewerApplication.pdfSidebar.switchView(2, true);
       UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'sidebar_area', ''));
       UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', ''));
     } else if (evtAction.value === 'viewAttachments') {
-      PDFApp.pdfSidebar.switchView(3, true);
+      webPdfLib.PDFViewerApplication.pdfSidebar.switchView(3, true);
       UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'sidebar_area', ''));
       UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', ''));
     } else if (evtAction.value === 'viewLayers') {
-      PDFApp.pdfSidebar.switchView(4, true);
+      webPdfLib.PDFViewerApplication.pdfSidebar.switchView(4, true);
       UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'sidebar_area', ''));
       UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', ''));
     } else if (evtAction.value === 'drawn') {
@@ -339,8 +345,8 @@ export default (function () {
     // 임시코드
     evtAction.value = 'off';
 
-    window.PDFApp.secondaryToolbar.eventBus.dispatch('firstpage', {
-      source: window.PDFApp.toolbar,
+    webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('firstpage', {
+      source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
@@ -348,8 +354,8 @@ export default (function () {
     // 임시코드
     evtAction.value = 'off';
 
-    window.PDFApp.secondaryToolbar.eventBus.dispatch('previouspage', {
-      source: window.PDFApp.toolbar,
+    webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('previouspage', {
+      source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
@@ -357,8 +363,8 @@ export default (function () {
     // 임시코드
     evtAction.value = 'off';
 
-    window.PDFApp.secondaryToolbar.eventBus.dispatch('nextpage', {
-      source: window.PDFApp.toolbar,
+    webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('nextpage', {
+      source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
@@ -366,15 +372,15 @@ export default (function () {
     // 임시코드
     evtAction.value = 'off';
 
-    window.PDFApp.secondaryToolbar.eventBus.dispatch('lastpage', {
-      source: window.PDFApp.toolbar,
+    webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('lastpage', {
+      source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
   function page_number(evtAction) {
-    if (evtAction.value.pageNumber <= window.PDFApp.pdfLinkService.pagesCount) {
-		window.PDFApp.toolbar.eventBus.dispatch('pagenumberchanged', {
-        source: window.PDFApp.toolbar,
+    if (evtAction.value.pageNumber <= webPdfLib.PDFViewerApplication.pdfLinkService.pagesCount) {
+		webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch('pagenumberchanged', {
+        source: webPdfLib.PDFViewerApplication.toolbar,
         value: evtAction.value.pageNumber,
       });
     }
@@ -384,14 +390,14 @@ export default (function () {
     // 임시코드
     evtAction.value = 'off';
 
-    window.gUndoRedoManager.Undo();
+    webPdfLib.gUndoRedoManager.Undo();
   }
 
   function e_redo(evtAction) {
     // 임시코드
     evtAction.value = 'off';
 
-    window.gUndoRedoManager.Redo();
+    webPdfLib.gUndoRedoManager.Redo();
   }
 
   function a_delete_annotation(evtAction) {
@@ -539,7 +545,7 @@ export default (function () {
   }
 
   function e_dialog_password(evtAction) {
-    window.PDFApp.passwordPrompt.verify(evtAction.value.file_password);
+    webPdfLib.PDFViewerApplication.passwordPrompt.verify(evtAction.value.file_password);
   }
 
   const _actionMap = (function () {

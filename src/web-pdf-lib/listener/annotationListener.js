@@ -8,6 +8,8 @@ import CommonFrameUtil from '../../../commonFrame/js/utils/util.js';
 import UiManager from '../../uiFrame/uiManager.js';
 */
 import { AddFormCommand, AddChildFormCommand, ModifyFormCommand, RemoveFormCommand, ModifyComment } from '../undoRedo/UndoRedoCommand.js';
+import webPdfLib from '../webPdfLib.js';
+import annotationManager from '../annotation/annotationManager.js';
 
 export default (function () {
   
@@ -38,7 +40,7 @@ export default (function () {
 
     onAnnotationUpdated: function (docId, annotations) {
       console.log(`call annotationListener.onAnnotationUpdated(docId = ${docId}, annotationId =`, annotations, ')');
-      window.AnnotationManager.modified = true;
+      annotationManager.modified = true;
     },
 
     // 도형 클릭 선택
@@ -104,30 +106,30 @@ export default (function () {
 
     onAnnotationAddForm: function (docId, pageId, target, result) {
       console.log(`call annotationListener.onAnnotationAddForm(docId = ${docId}, pageId = ${pageId}, target = `, target, `, result =`, result, ')');
-      if (window.AnnotationManager.annotationType != 'draw' && window.AnnotationManager.annotationType != 'cursor') {
-        window.AnnotationManager.switchUI('cursor');
+      if (annotationManager.annotationType != 'draw' && annotationManager.annotationType != 'cursor') {
+        annotationManager.switchUI('cursor');
       }
-      window.gUndoRedoManager.Add(new AddFormCommand(docId, pageId, target, result));
-      window.AnnotationManager.renderThumnail(pageId);
+      webPdfLib.gUndoRedoManager.Add(new AddFormCommand(docId, pageId, target, result));
+      annotationManager.renderThumnail(pageId);
     },
     onAnnotationAddChildForm: function (docId, pageId, target, result) {
       console.log(`call annotationListener.onAnnotationAddChildForm(docId = ${docId}, pageId = ${pageId}, target = `, target, `, result =`, result, ')');
-      window.gUndoRedoManager.Add(new AddChildFormCommand(docId, pageId, target, result));
-      window.AnnotationManager.renderThumnail(pageId);
+      webPdfLib.gUndoRedoManager.Add(new AddChildFormCommand(docId, pageId, target, result));
+      annotationManager.renderThumnail(pageId);
     },
     onAnnotationModifyForm: function (docId, pageId, target, result) {
       console.log(`call annotationListener.onAnnotationModifyForm(docId = ${docId}, pageId = ${pageId}, target = `, target, `, result =`, result, ')');
-      window.gUndoRedoManager.Add(new ModifyFormCommand(docId, pageId, target, result));
-      window.AnnotationManager.renderThumnail(pageId);
+      webPdfLib.gUndoRedoManager.Add(new ModifyFormCommand(docId, pageId, target, result));
+      annotationManager.renderThumnail(pageId);
     },
     onAnnotationRemoveForm: function (docId, pageId, target, result) {
       console.log(`call annotationListener.onAnnotationRemoveForm(docId = ${docId}, pageId = ${pageId}, target = `, target, `, result =`, result, ')');
-      window.gUndoRedoManager.Add(new RemoveFormCommand(docId, pageId, target, result));
-      window.AnnotationManager.renderThumnail(pageId);
+      webPdfLib.gUndoRedoManager.Add(new RemoveFormCommand(docId, pageId, target, result));
+      annotationManager.renderThumnail(pageId);
     },
     onAnnotationModifyComment: function (docId, pageId, target, result) {
       console.log(`call annotationListener.onAnnotationModifyComment(docId = ${docId}, pageId = ${pageId}, target = `, target, `, result =`, result, ')');
-      window.gUndoRedoManager.Add(new ModifyComment(docId, pageId, target, result));
+      webPdfLib.gUndoRedoManager.Add(new ModifyComment(docId, pageId, target, result));
     },
     onSetAnnotationSidebarEnable: function (value) {
       console.log(`call annotationListener.onSetAnnotationSidebarEnable(value = ${value})`);
@@ -162,7 +164,7 @@ export default (function () {
 
     onAnnotationAddComment: function (documentId, annotationId, content, dataString, author) {
       console.log(`call annotationListener.onAnnotationAddComment`);
-      window.AnnotationManager.addComment(documentId, annotationId, content, dataString, author);
+      annotationManager.addComment(documentId, annotationId, content, dataString, author);
     },
   };
 })();

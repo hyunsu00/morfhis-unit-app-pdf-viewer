@@ -9,6 +9,7 @@ import UiManager from '../../uiFrame/uiManager.js';
 import Util from '../../utils/util.js';
 */
 import AnnotationManager from '../annotation/annotationManager.js';
+import webPdfLib from '../webPdfLib.js';
 
 export default (function () {
   return {
@@ -20,14 +21,14 @@ export default (function () {
       AnnotationManager.modified = false;
 /*
       if (Util.IsMavenMode()) {
-        window.PDFApp.pdfViewer.mavenModeState = true;
+        webPdfLib.PDFViewerApplication.pdfViewer.mavenModeState = true;
       }
 */
       // 문서가 열릴경우 로컬스토리지 삭제
-      window.localStorage.removeItem(`${window.PDFApp.baseUrl}/annotations`);
+      window.localStorage.removeItem(`${webPdfLib.PDFViewerApplication.baseUrl}/annotations`);
 
       // low data를 얻어온다.
-      let data = await window.PDFApp.pdfDocument.getData();
+      let data = await webPdfLib.PDFViewerApplication.pdfDocument.getData();
       try {
         data = await AnnotationManager.removeAnnotations(data);
       } catch (e) {
@@ -36,12 +37,12 @@ export default (function () {
       AnnotationManager.documentData = data;
     },
     onWebViewerAnnotateRender({ parentNode, canvasWrapper, id, pdfPage, scale }) {
-      const docId = window.PDFApp.baseUrl;
+      const docId = webPdfLib.PDFViewerApplication.baseUrl;
       AnnotationManager.render(docId, parentNode, canvasWrapper, id, pdfPage, scale);
     },
     onDocumentSave() {
-      const docId = window.PDFApp.baseUrl;
-      AnnotationManager.save(docId, window.PDFApp.pdfDocument, false);
+      const docId = webPdfLib.PDFViewerApplication.baseUrl;
+      AnnotationManager.save(docId, webPdfLib.PDFViewerApplication.pdfDocument, false);
     },
     onWebViewerAnnotateThumnailRender({ pageNumber }) {
       AnnotationManager.renderThumnail(pageNumber);

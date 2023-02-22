@@ -40,11 +40,12 @@ export default (function () {
 
           import(/* webpackIgnore: true */ `${lipsPath}/pdf-annotate.js`)
             .then((module) => {
-              AnnotationManager.initialize(window.PDFAnnotate['default']);
-              window.PDFApp = window.PDFViewerApplication;
-              window.PDFAppOptions = window.PDFViewerApplicationOptions;
-              window.AnnotationManager = AnnotationManager;
-              window.gUndoRedoManager = new UndoRedoManager(window.PDFViewerApplication.baseUrl);
+              this.PDFViewerApplication = window.PDFViewerApplication;
+              this.PDFAppOptions = window.PDFViewerApplicationOptions;
+              this.PDFAnnotateRender = window.PDFAnnotate['default'];
+              this.gUndoRedoManager = new UndoRedoManager(window.PDFViewerApplication.baseUrl);
+              
+              AnnotationManager.initialize(this.PDFAnnotateRender);
 
               console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdf-annotate.js) Succeeded`);
             })
@@ -54,7 +55,7 @@ export default (function () {
 
           import(/* webpackIgnore: true */ `${lipsPath}/annotpdf.js`)
             .then((module) => {
-              window.PDFAnnotateWriter = window.pdfAnnotate;
+              this.PDFAnnotateWriter = window.pdfAnnotate;
 
               console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/annotpdf.js) Succeeded`);
             })
@@ -64,7 +65,8 @@ export default (function () {
 
           import(/* webpackIgnore: true */ `${lipsPath}/pdf-lib.js`)
             .then((module) => {
-              // window.PDFLib = window.PDFLib;
+              this.PDFLib = window.PDFLib;
+
               console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdf-lib.js) Succeeded`);
             })
             .catch((err) => {

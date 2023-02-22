@@ -16,6 +16,7 @@ import Util from '../utils/util.js';
 import AnnotationListener from '../listener/annotationListener.js';
 import AnnotationExecutor from '../action/annotationActionExecutor.js';
 import AnnotationUtils from './annotationUtils.js';
+import webPdfLib from '../webPdfLib.js';
 
 export default (function () {
   /*******************************************************************************
@@ -108,7 +109,7 @@ export default (function () {
       this._modified = value;
 
       var isEnableModifyAnnotation = this._modified;
-      if (typeof window.PDFApp != 'undefined' && !window.PDFApp.pdfViewer.enableModifyAnnotation) {
+      if (typeof webPdfLib.PDFViewerApplication != 'undefined' && !webPdfLib.PDFViewerApplication.pdfViewer.enableModifyAnnotation) {
         isEnableModifyAnnotation = false;
       }
 
@@ -702,8 +703,8 @@ export default (function () {
     const PDF_TO_CSS_UNITS = 96.0 / 72.0;
 
     try {
-      const docId = window.PDFApp.baseUrl;
-      const pdfDocument = window.PDFApp.pdfDocument;
+      const docId = webPdfLib.PDFViewerApplication.baseUrl;
+      const pdfDocument = webPdfLib.PDFViewerApplication.pdfDocument;
       const page = await pdfDocument.getPage(pageIndex + 1);
 
       const viewport = page.getViewport({ scale: DEFAULT_SCALE * PDF_TO_CSS_UNITS });
@@ -1138,9 +1139,9 @@ export default (function () {
       return false;
     };
 
-    const pdfDoc = await window.PDFLib.PDFDocument.load(buffer, {
+    const pdfDoc = await webPdfLib.PDFLib.PDFDocument.load(buffer, {
       ignoreEncryption: true,
-      parseSpeed: window.PDFLib.ParseSpeeds.Slow,
+      parseSpeed: webPdfLib.PDFLib.ParseSpeeds.Slow,
       throwOnInvalidObject: true,
       updateMetadata: true,
       capNumbers: false,
@@ -1150,7 +1151,7 @@ export default (function () {
 
     pages.forEach((page) => {
       const annots = page.node.Annots();
-      const annotsRef = page.node.dict.get(window.PDFLib.PDFName.Annots);
+      const annotsRef = page.node.dict.get(webPdfLib.PDFLib.PDFName.Annots);
       const size = annots?.size();
 
       if (size) {
@@ -1162,15 +1163,15 @@ export default (function () {
           }
           const annotObj = page.node.context.lookup(annotRef);
           if (annotObj) {
-            const subtype = annotObj.lookup(window.PDFLib.PDFName.of('Subtype'));
+            const subtype = annotObj.lookup(webPdfLib.PDFLib.PDFName.of('Subtype'));
             if (!_isRemoveAnnot(subtype.encodedName)) {
               continue;
             }
 
             // /XObject Obj 삭제
-            const apObj = annotObj.lookup(window.PDFLib.PDFName.of('AP'));
+            const apObj = annotObj.lookup(webPdfLib.PDFLib.PDFName.of('AP'));
             if (apObj) {
-              const apRef = apObj.dict.get(window.PDFLib.PDFName.of('N'));
+              const apRef = apObj.dict.get(webPdfLib.PDFLib.PDFName.of('N'));
               if (apRef) {
                 annots.context.delete(apRef);
               }
@@ -1196,7 +1197,7 @@ export default (function () {
         // /Annots Obj 삭제
         page.node.context.delete(annotsRef);
         // Page내의 /Annots 요소 삭제
-        page.node.delete(window.PDFLib.PDFName.Annots);
+        page.node.delete(webPdfLib.PDFLib.PDFName.Annots);
       }
     });
 
@@ -1213,8 +1214,8 @@ export default (function () {
     const DEFAULT_SCALE = 1.0;
     const PDF_TO_CSS_UNITS = 96.0 / 72.0;
 
-    let writer = new window.PDFAnnotateWriter.AnnotationFactory(AnnotationManager.documentData);
-    const pagesCount = window.PDFViewerApplication.pagesCount;
+    let writer = new webPdfLib.PDFAnnotateWriter.AnnotationFactory(AnnotationManager.documentData);
+    const pagesCount = webPdfLib.PDFViewerApplication.pagesCount;
 
     try {
       for (let i = 1; i <= pagesCount; i++) {
@@ -1512,12 +1513,12 @@ export default (function () {
     if (svgEls.length <= 0) {
       return;
     }
-    const { canvas } = window.PDFApp.pdfViewer.getPageView(pageId - 1);
+    const { canvas } = webPdfLib.PDFViewerApplication.pdfViewer.getPageView(pageId - 1);
     if (!canvas) {
       return;
     }
     _renderSVG(canvas, svgEls[0]).then((img) => {
-      let thumnail = window.PDFApp.pdfThumbnailViewer.getThumbnail(pageId - 1);
+      let thumnail = webPdfLib.PDFViewerApplication.pdfThumbnailViewer.getThumbnail(pageId - 1);
       const reducedCanvas = thumnail._reduceImage(img);
 
       if (thumnail.image) {
