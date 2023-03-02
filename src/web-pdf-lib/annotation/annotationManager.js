@@ -6,13 +6,15 @@ import UiDefine from '../../../commonFrame/js/uiFramework/uiDefine.js';
 */
 /*
 import UiController from '../../../commonFrame/js/uiFramework/uiController.js';
-import UiManager from '../../uiFrame/uiManager.js';
-import DocumentLoader from '../../controller/documentLoader.js';
+
+
 import Config from '../../common/config.js';
 */
 
 import DefineActions from '../define/defineActions.js';
 import Util from '../utils/util.js';
+import UiManager from '../uiFrame/uiManager.js';
+import DocumentLoader from '../controller/documentLoader.js';
 import AnnotationListener from '../listener/annotationListener.js';
 import AnnotationExecutor from '../action/annotationActionExecutor.js';
 import AnnotationUtils from './annotationUtils.js';
@@ -1039,6 +1041,8 @@ export default (function () {
 
             break;
           }
+          default:
+            break;
         }
       }
     } catch (e) {
@@ -1049,7 +1053,7 @@ export default (function () {
   };
 
   AnnotationManager.save = async function (docId, pdfDocument, isUnload = false) {
-    /*    
+
     if (!this.modified) {
       return;
     }
@@ -1059,13 +1063,13 @@ export default (function () {
 
       let writer = await writeAnnotation(docId, pdfDocument);
       let pdfData = writer.write();
+
       DocumentLoader.save(pdfData, isUnload);
     } catch (e) {
       console.log('Error when saving the document');
     } finally {
       this.modified = false;
     }
-*/
   };
 
   AnnotationManager.download = function (docId, pdfDocument) {

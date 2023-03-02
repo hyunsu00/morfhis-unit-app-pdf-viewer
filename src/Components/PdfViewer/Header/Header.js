@@ -20,14 +20,21 @@ const Header = () => {
             onClick={(event) => {
               actionManager.execute({name: "d_open"});
             }}>
-            <CheckIcon />
+            <CheckIcon titleAccess = "열기"/>
           </IconButton>
           <IconButton
             sx={{ color: 'action.active', borderRadius: '10%' }}
             onClick={(event) => {
               actionManager.execute({name: "a_highlight"});
             }}>
-            <DoneAllIcon />
+            <DoneAllIcon titleAccess = "형광펜" />
+          </IconButton>
+          <IconButton
+            sx={{ color: 'action.active', borderRadius: '10%' }}
+            onClick={(event) => {
+              actionManager.execute({name: "d_save"});
+            }}>
+            <DoneAllIcon titleAccess = "저장" />
           </IconButton>
         </Box>
       </AppBar>

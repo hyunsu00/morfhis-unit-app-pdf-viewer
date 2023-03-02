@@ -19,11 +19,10 @@ export default (function () {
   let _isAllSelected = false;
   let _isFindOpened = false;
 
-  function save(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-
+  function save(_evtAction) {
+    console.group(`function save(_evtAction)`);
     AnnotationManager.save(webPdfLib.PDFViewerApplication.baseUrl, webPdfLib.PDFViewerApplication.pdfDocument, false);
+    console.groupEnd();
   }
 
   function download(evtAction) {

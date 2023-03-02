@@ -688,12 +688,12 @@ class PDFPageView {
     const lastDivBeforeTextDiv =
       this.annotationLayer?.div || this.annotationEditorLayer?.div;
 
-     if (this.annotationLayer?.div) {
-       // The annotation layer needs to stay on top.
-       lastDivBeforeTextDiv.before(canvasWrapper);
-     } else {
-       div.prepend(canvasWrapper);
-     }
+    if (lastDivBeforeTextDiv) {
+      // The annotation layer needs to stay on top.
+      lastDivBeforeTextDiv.before(canvasWrapper);
+    } else {
+      div.append(canvasWrapper);
+    }
 
     let textLayer = null;
     if (this.textLayerMode !== TextLayerMode.DISABLE && this.textLayerFactory) {
