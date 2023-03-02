@@ -25,15 +25,14 @@ export default (function () {
     console.groupEnd();
   }
 
-  function download(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-
-    // webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch("download", {
-    // 	source: webPdfLib.PDFViewerApplication.toolbar
-    // });
-
-    AnnotationManager.download(webPdfLib.PDFViewerApplication.baseUrl, webPdfLib.PDFViewerApplication.pdfDocument);
+  function download(_evtAction) {
+    console.group(`function download(_evtAction)`);
+    const promise = AnnotationManager.download(webPdfLib.PDFViewerApplication.baseUrl, webPdfLib.PDFViewerApplication.pdfDocument);
+    promise.then(
+      function(result) { console.log(result) },
+      function(error) { console.log(error) }
+    );
+    console.groupEnd();
   }
 
   function d_open(evtAction) {

@@ -32,7 +32,7 @@ const Header = () => {
           <IconButton
             sx={{ color: 'action.active', borderRadius: '10%' }}
             onClick={(event) => {
-              actionManager.execute({name: "d_save"});
+              actionManager.execute({name: "d_download"});
             }}>
             <DoneAllIcon titleAccess = "저장" />
           </IconButton>

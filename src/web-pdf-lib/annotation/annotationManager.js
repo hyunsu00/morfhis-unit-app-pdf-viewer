@@ -1072,22 +1072,16 @@ export default (function () {
     }
   };
 
-  AnnotationManager.download = function (docId, pdfDocument) {
-    /*    
+  AnnotationManager.download = async function (docId, pdfDocument) {
     UiManager.showLoadingProgress();
-*/
-    writeAnnotation(docId, pdfDocument)
-      .then((writer) => {
-        writer.download();
-      })
-      .catch(() => {
-        console.log('Error when download the document');
-      })
-      .finally(() => {
-        /*        
-        UiManager.hideLoadingProgress();
-*/
-      });
+    try {
+      let writer = await writeAnnotation(docId, pdfDocument);
+      writer.download();
+    } catch (err) {
+      console.log(`writeAnnotation() Failed Err = ${err}`);
+    } finally {
+    	UiManager.hideLoadingProgress();
+    }
   };
 
   AnnotationManager.print = function (docId, pdfDocument) {
