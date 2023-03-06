@@ -14,184 +14,68 @@ import DefineTypes from '../define/defineTypes.js';
 import DefineActions from '../define/defineActions.js';
 import Util from '../utils/util.js';
 import webPdfLib from '../webPdfLib.js';
+import uiManager from '../uiFrame/uiManager.js';
+import annotationManager from '../annotation/annotationManager.js';
 
 export default (function () {
   let _isAllSelected = false;
   let _isFindOpened = false;
 
-  function save(_evtAction) {
+  async function save(_evtAction) {
     console.group(`function save(_evtAction)`);
-    AnnotationManager.save(webPdfLib.PDFViewerApplication.baseUrl, webPdfLib.PDFViewerApplication.pdfDocument, false);
+    await AnnotationManager.save(webPdfLib.PDFViewerApplication.baseUrl, webPdfLib.PDFViewerApplication.pdfDocument, false);
     console.groupEnd();
   }
 
-  function download(_evtAction) {
+  async function download(_evtAction) {
     console.group(`function download(_evtAction)`);
-    const promise = AnnotationManager.download(webPdfLib.PDFViewerApplication.baseUrl, webPdfLib.PDFViewerApplication.pdfDocument);
-    promise.then(
-      function(result) { console.log(result) },
-      function(error) { console.log(error) }
-    );
+    await AnnotationManager.download(webPdfLib.PDFViewerApplication.baseUrl, webPdfLib.PDFViewerApplication.pdfDocument);
     console.groupEnd();
   }
 
-  function d_open(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-
-    // webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch('openfile', {
-    //   source:  webPdfLib.PDFViewerApplication.toolbar,
-    // });
-  
+  function d_open(_evtAction) {
+    console.group(`function d_open(_evtAction)`);
     webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch('openfile', {
       source:  webPdfLib.PDFViewerApplication.toolbar,
     });
-    
+    console.groupEnd();
   }
 
-  function d_print(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-
+  function d_print(_evtAction) {
+    console.group(`function d_print(_evtAction)`);
     AnnotationManager.print(webPdfLib.PDFViewerApplication.baseUrl, webPdfLib.PDFViewerApplication.pdfDocument);
+    console.groupEnd();
   }
 
-  function e_dialog_print(evtAction) {}
-
-  function d_info(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-
+  function d_info(_evtAction) {
+    console.group(`function d_info(_evtAction)`);
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('documentproperties', {
       source: webPdfLib.PDFViewerApplication.secondaryToolbar,
     });
-    webPdfLib.PDFViewerApplication.secondaryToolbar.close();
+    console.warn(`function d_info(_evtAction) 다이얼로그 구현 필요`);
+    console.groupEnd();
   }
 
+  /**
+   * 
+   * @param {*} evtAction 
+   * page-height 쪽맞춤
+   * page-width 폭맞춤
+   * 0.1 ~ 3.0 비율
+   */
   function zoom(evtAction) {
-    let UI_VALUE = DefineActions.uiValue;
+    console.group(`function zoom(evtAction)`);
 
-    if (evtAction.value === UI_VALUE.zoomFit) {
-      // 쪽맞춤
-      if (evtAction.name == 'e_status_zoom') {
-        evtAction.value = 'off';
-      }
-
-      webPdfLib.PDFViewerApplication.eventBus.dispatch('scalechanged', {
-        source: webPdfLib.PDFViewerApplication.scaleSelect,
-        value: 'page-height',
-      });
-      /*	  
-      let pubAction = EventActionGenerator.makeUpdateEventAction('e_view_scale', UI_VALUE.zoomFit);
-      $.publish('/ui/update', pubAction);
-*/
-    } else if (evtAction.value === UI_VALUE.zoomFixWidth) {
-      // 폭맞춤
-      if (evtAction.name == 'e_status_zoom') {
-        evtAction.value = 'off';
-      }
-
-      webPdfLib.PDFViewerApplication.eventBus.dispatch('scalechanged', {
-        source: webPdfLib.PDFViewerApplication.scaleSelect,
-        value: 'page-width',
-      });
-      /*	  
-      let pubAction = EventActionGenerator.makeUpdateEventAction('e_view_scale', UI_VALUE.zoomFixWidth);
-      $.publish('/ui/update', pubAction);
-*/
-    } else if (evtAction.value === UI_VALUE.zoomIn || evtAction.value === UI_VALUE.zoomOut) {
-      let value = evtAction.target.dataset.value,
-        ratio = webPdfLib.PDFViewerApplication.pdfViewer._currentScale,
-        scaleArray = [0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 3.0],
-        index = scaleArray.indexOf(ratio),
-        DEFINE_VARIABLE = DefineTypes.editorVariable;
-      /*		
-    let isZoomInEnable = UIDefine.EVENT_ACTION_TYPE.ENABLE,
-        isZoomOutEnable = UIDefine.EVENT_ACTION_TYPE.ENABLE;
-
-      evtAction.value = 'off';
-
-      if (index == -1) {
-        if (value === UI_VALUE.zoomIn) {
-          let scales = scaleArray.filter(function (scale) {
-            return scale >= ratio;
-          });
-          ratio = Math.min.apply(null, scales);
-        } else {
-          let scales = scaleArray.filter(function (scale) {
-            return scale <= ratio;
-          });
-          ratio = Math.max.apply(null, scales);
-        }
-      } else {
-        if (value === UI_VALUE.zoomIn) {
-          ratio = index < scaleArray.length - 1 ? scaleArray[index + 1] : scaleArray[index];
-        } else {
-          ratio = index > 0 ? scaleArray[index - 1] : scaleArray[index];
-        }
-      }
-
-      if (ratio == DEFINE_VARIABLE.maxZoom && value === 'zoom_in') {
-        isZoomInEnable = UIDefine.EVENT_ACTION_TYPE.DISABLE;
-      }
-
-      if (ratio == DEFINE_VARIABLE.minZoom && value === 'zoom_out') {
-        isZoomOutEnable = UIDefine.EVENT_ACTION_TYPE.DISABLE;
-      }
-*/
-      webPdfLib.PDFViewerApplication.eventBus.dispatch('scalechanged', {
-        source: webPdfLib.PDFViewerApplication.scaleSelect,
-        value: ratio,
-      });
-      /*
-      let pubAction = EventActionGenerator.makeUpdateEventAction('e_view_scale', Number(ratio).toFixed(2));
-      pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, isZoomInEnable, 'e_zoom', 'zoom_in'));
-      pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, isZoomOutEnable, 'e_zoom', 'zoom_out'));
-      $.publish('/ui/update', pubAction);
-*/
-    } else if (evtAction.value === UI_VALUE.zoomFix) {
-      // 100%
-      evtAction.value = 'off';
-      webPdfLib.PDFViewerApplication.eventBus.dispatch('scalechanged', {
-        source: webPdfLib.PDFViewerApplication.scaleSelect,
-        value: '1.0',
-      });
-      /*
-      let pubAction = EventActionGenerator.makeUpdateEventAction('e_view_scale', '1.00');
-      pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.ENABLE, 'e_zoom', 'zoom_in'));
-      pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.ENABLE, 'e_zoom', 'zoom_out'));
-      $.publish('/ui/update', pubAction);
-*/
-    } else if (evtAction.value === 'off') {
-      console.log('{evtAction.name} : ' + evtAction.name + ', {evtAction.value} : ' + evtAction.value);
-    } else {
-      /*		
-      let isZoomInEnable = UIDefine.EVENT_ACTION_TYPE.ENABLE,
-        isZoomOutEnable = UIDefine.EVENT_ACTION_TYPE.ENABLE;
-
-      if (evtAction.value == DefineTypes.editorVariable.minScale) {
-        isZoomOutEnable = UIDefine.EVENT_ACTION_TYPE.DISABLE;
-      }
-
-      if (evtAction.value == DefineTypes.editorVariable.maxScale) {
-        isZoomInEnable = UIDefine.EVENT_ACTION_TYPE.DISABLE;
-      }
-*/
-      webPdfLib.PDFViewerApplication.eventBus.dispatch('scalechanged', {
-        source: webPdfLib.PDFViewerApplication.scaleSelect,
-        value: evtAction.value,
-      });
-      /*
-      let pubAction = EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, isZoomInEnable, 'e_zoom', 'zoom_in');
-      pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, isZoomOutEnable, 'e_zoom', 'zoom_out'));
-      $.publish('/ui/update', pubAction);
-*/
-    }
+    const value = evtAction.value;
+    console.log(`current scaleValue = ${annotationManager.currentScaleValue}`);
+    annotationManager.currentScaleValue = value;
+    console.log(`changed scaleValue = ${annotationManager.currentScaleValue}`);
+    
+    console.groupEnd();
   }
 
   function slideshow(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
+    console.group(`function slideshow(evtAction)`);
 
     if (evtAction.name == 'e_show_mode_start') {
       webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('firstpage', {
@@ -203,10 +87,16 @@ export default (function () {
     webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch('presentationmode', {
       source: webPdfLib.PDFViewerApplication.toolbar,
     });
+
+    console.groupEnd();
   }
 
   function document_window(evtAction) {
+    console.group(`function document_window(evtAction)`);
+
     evtAction.value === 'on' ? webPdfLib.PDFViewerApplication.pdfSidebar.open() : webPdfLib.PDFViewerApplication.pdfSidebar.close();
+
+    console.groupEnd();
   }
 
   function e_find_close(evtAction) {
@@ -550,15 +440,10 @@ export default (function () {
     return new Map([
       ['d_save', save],
       ['d_download', download],
-      ['d_pdf_download', download],
       ['d_open', d_open],
       ['d_print', d_print],
-      ['e_dialog_print', e_dialog_print],
       ['d_info', d_info],
-      ['e_view_scale', zoom],
       ['e_zoom', zoom],
-      ['e_status_zoom', zoom],
-      ['v_view_scale', zoom],
       ['e_show_mode_start', slideshow],
       ['e_show_mode', slideshow],
       ['document_window', document_window],

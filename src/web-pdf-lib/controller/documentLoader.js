@@ -31,6 +31,6 @@
 export default {
 	save: function (data, isUnload= false) {
         // _saveDocument(data, isUnload);
-		console.warn(`save() 구현 필요`);
+		console.warn(`save(data, isUnload= false) 구현 필요`);
     },
 };

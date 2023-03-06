@@ -19,12 +19,13 @@ import AnnotationListener from '../listener/annotationListener.js';
 import AnnotationExecutor from '../action/annotationActionExecutor.js';
 import AnnotationUtils from './annotationUtils.js';
 import webPdfLib from '../webPdfLib.js';
+import is from 'is_js';
 
 export default (function () {
   /*******************************************************************************
    * Private Variables
    ******************************************************************************/
-/*  
+  /*  
   const _keyCodeMap = CommonFrameUtil.keyCodeMap,
   _escKeyCode = parseInt(_keyCodeMap.esc, 10),
   _delKeyCode = parseInt(_keyCodeMap.del, 10)
@@ -119,6 +120,12 @@ export default (function () {
 /*      
       UiManager.setEventAction(isEnable, UiDefine.EVENT_ACTION_NAMES.D_SAVE);
 */
+    },
+    get currentScaleValue() {
+      return webPdfLib.PDFViewerApplication.pdfViewer.currentScaleValue;
+    },
+    set currentScaleValue(value) {
+      webPdfLib.PDFViewerApplication.pdfViewer.currentScaleValue = value;
     },
 
     _UpdateProperty(properties, adjustTarget) {
@@ -318,13 +325,13 @@ export default (function () {
   };
 
   AnnotationManager.onSetStyleBarDisableState = function (value) {
-/*    
+    /*    
     UiManager.onSetStyleBarDisableState(value);
 */
   };
 
   AnnotationManager.onSetAnnotationSidebarEnable = function (value) {
-/*    
+    /*    
     UiManager.onSetAnnotationSidebarEnable(value);
 */
   };
@@ -1053,7 +1060,6 @@ export default (function () {
   };
 
   AnnotationManager.save = async function (docId, pdfDocument, isUnload = false) {
-
     if (!this.modified) {
       return;
     }
@@ -1065,8 +1071,8 @@ export default (function () {
       let pdfData = writer.write();
 
       DocumentLoader.save(pdfData, isUnload);
-    } catch (e) {
-      console.log('Error when saving the document');
+    } catch (err) {
+      console.log(`AnnotationManager.save Failed Err = ${err}`);
     } finally {
       this.modified = false;
     }
@@ -1078,36 +1084,32 @@ export default (function () {
       let writer = await writeAnnotation(docId, pdfDocument);
       writer.download();
     } catch (err) {
-      console.log(`writeAnnotation() Failed Err = ${err}`);
+      console.log(`AnnotationManager.download Failed Err = ${err}`);
     } finally {
-    	UiManager.hideLoadingProgress();
+      UiManager.hideLoadingProgress();
     }
   };
 
-  AnnotationManager.print = function (docId, pdfDocument) {
-/*    
-    const promise = writeAnnotation(docId, pdfDocument);
-    promise
-      .then((writer) => {
-        const pdfData = writer.write();
-        const blob = new Blob([pdfData], { type: 'application/pdf' });
-        const downloadFrame = $('#download_iframe')[0];
-        if (downloadFrame && !$.browser.msie) {
-          const url = window.URL.createObjectURL(blob);
-          downloadFrame.contentWindow.location = url;
-          downloadFrame.onload = function () {
-            setTimeout(function () {
-              downloadFrame.focus();
-              downloadFrame.contentWindow.print();
-              window.URL.revokeObjectURL(url);
-            }, 1);
-          };
-        }
-      })
-      .catch(() => {
-        console.log('AnnotationManager.print() Failed');
-      });
-*/      
+  AnnotationManager.print = async function (docId, pdfDocument) {   
+    try {
+      let writer = await writeAnnotation(docId, pdfDocument);
+      const pdfData = writer.write();
+      const blob = new Blob([pdfData], { type: 'application/pdf' });
+      const downloadFrame = document.querySelectorAll('#download_iframe')[0];
+      if (downloadFrame && !is.ie()) {
+        const url = window.URL.createObjectURL(blob);
+        downloadFrame.contentWindow.location = url;
+        downloadFrame.onload = function () {
+          setTimeout(function () {
+            downloadFrame.focus();
+            downloadFrame.contentWindow.print();
+            window.URL.revokeObjectURL(url);
+          }, 1);
+        };
+      }
+    } catch (err) {
+      console.log(`AnnotationManager.print Failed Err = ${err}`);
+    }
   };
 
   AnnotationManager.removeAnnotations = async function (buffer) {
@@ -1422,9 +1424,9 @@ export default (function () {
         _UI.disableText();
 
         if (!this.getSelect()) {
-/*          
+          /*          
           UiManager.onSetStyleBarDisableState(true);
-*/          
+*/
         }
         break;
       case 'cursor':
@@ -1458,9 +1460,9 @@ export default (function () {
         break;
       case 'text':
         _UI.enableText();
-/*        
+        /*        
         UiManager.onSetStyleBarDisableState(false);
-*/        
+*/
         break;
       case 'cursor':
         _UI.enableEdit();
@@ -1551,15 +1553,15 @@ export default (function () {
       case 'cursor':
         if (keyCode === _escKeyCode) {
           this.select(null);
-/*          
+          /*          
           $.publish('/ui/action', EventActionGenerator.makeUpdateEventAction('e_find_close'));
-*/          
+*/
         } else if (keyCode === _delKeyCode) {
           if (this.getSelect()) {
             e.preventDefault();
-/*            
+            /*            
             $.publish('/ui/action', EventActionGenerator.makeUpdateEventAction('a_delete_annotation'));
-*/            
+*/
           }
         }
 
@@ -1570,7 +1572,7 @@ export default (function () {
   };
 
   AnnotationManager.doMouseClickEvent = function (e, id) {
-/*    
+    /*    
     if (UiManager.isPopupEditing()) {
       UiManager.onSetUIEvents(false);
       UiManager.setEditDisabled(true);
@@ -1583,7 +1585,7 @@ export default (function () {
         }
       }
     }
-*/    
+*/
   };
 
   AnnotationManager.getAnnotationProperties = function (target) {
@@ -1649,7 +1651,7 @@ export default (function () {
 
   AnnotationManager.addComment = function (documentId, annotationId, content, dataString, author) {
     let authorName = author;
-/*    
+    /*    
     if (Util.IsMavenMode()) {
       authorName = Config.userId;
     }

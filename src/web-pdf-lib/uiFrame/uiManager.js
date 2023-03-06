@@ -6,6 +6,6 @@ export default (function () {
 
     showLoadingProgress: function () {
       console.warn(`showLoadingProgress() 구현 필요`);
-    },
+    }
   };
 })();

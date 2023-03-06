@@ -32,9 +32,9 @@ const Header = () => {
           <IconButton
             sx={{ color: 'action.active', borderRadius: '10%' }}
             onClick={(event) => {
-              actionManager.execute({name: "d_download"});
+              actionManager.execute({name: "e_zoom", value: '2.0'});
             }}>
-            <DoneAllIcon titleAccess = "저장" />
+            <DoneAllIcon titleAccess = "줌" />
           </IconButton>
         </Box>
       </AppBar>
