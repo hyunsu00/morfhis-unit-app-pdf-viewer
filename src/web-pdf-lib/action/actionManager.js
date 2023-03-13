@@ -19,7 +19,6 @@ import annotationManager from '../annotation/annotationManager.js';
 
 export default (function () {
   let _isAllSelected = false;
-  let _isFindOpened = false;
 
   async function save(_evtAction) {
     console.group(`function save(_evtAction)`);
@@ -56,6 +55,12 @@ export default (function () {
     console.groupEnd();
   }
 
+  function d_find(_evtAction) {
+    console.group(`function d_find(_evtAction)`);
+    console.warn(`function d_find(_evtAction) 다이얼로그 구현 필요`);
+    console.groupEnd();
+  }
+  
   /**
    * 
    * @param {*} evtAction 
@@ -97,45 +102,6 @@ export default (function () {
     evtAction.value === 'on' ? webPdfLib.PDFViewerApplication.pdfSidebar.open() : webPdfLib.PDFViewerApplication.pdfSidebar.close();
 
     console.groupEnd();
-  }
-
-  function e_find_close(evtAction) {
-    if (!_isFindOpened) {
-      return;
-    }
-
-    if (webPdfLib.PDFViewerApplication) {
-      webPdfLib.PDFViewerApplication.findBar.eventBus.dispatch('findbarclose', {
-        source: webPdfLib.PDFViewerApplication.findBar,
-      });
-
-      _isFindOpened = false;
-    }
-  }
-
-  function e_find_replace(evtAction) {
-    if (!_isFindOpened) {
-      _isFindOpened = true;
-    }
-
-    if (evtAction.value.execute === 'find_next') {
-      webPdfLib.PDFViewerApplication.findBar.eventBus.dispatch('find', {
-        source: webPdfLib.PDFViewerApplication.findBar,
-        type: 'again',
-        query: evtAction.value.find_input,
-        phraseSearch: true,
-        caseSensitive: evtAction.value.find_case_sensitive == 'false' ? 0 : 1,
-        entireWord: evtAction.value.find_entire_word == 'false' ? 0 : 1,
-        highlightAll: evtAction.value.find_highlight_all == 'false' ? 0 : 1,
-        findPrevious: evtAction.value.direction_forward == 'down' ? 0 : 1,
-        matchDiacritics: false,
-      });
-/*
-      let addAction = EventActionGenerator.addFocusProperty(evtAction, 'find_input');
-      evtAction = EventActionGenerator.addEventAction(evtAction, addAction);
-      $.publish('/ui/update', evtAction);
-*/	  
-    }
   }
 
   function switchcursortool(evtAction) {
@@ -443,12 +409,11 @@ export default (function () {
       ['d_open', d_open],
       ['d_print', d_print],
       ['d_info', d_info],
+      ['d_find', d_find],
       ['e_zoom', zoom],
       ['e_show_mode_start', slideshow],
       ['e_show_mode', slideshow],
       ['document_window', document_window],
-      ['e_find_close', e_find_close],
-      ['e_find_replace', e_find_replace],
       ['t_select', switchcursortool],
       ['t_hand', switchcursortool],
       ['e_select_all', e_select_all],
@@ -494,10 +459,6 @@ export default (function () {
       }
       _isAllSelected = select;
 */      
-    },
-
-    isFindOpened() {
-      return _isFindOpened;
     },
   };
 })();
