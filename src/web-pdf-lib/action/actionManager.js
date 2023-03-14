@@ -99,7 +99,11 @@ export default (function () {
   function document_window(evtAction) {
     console.group(`function document_window(evtAction)`);
 
-    evtAction.value === 'on' ? webPdfLib.PDFViewerApplication.pdfSidebar.open() : webPdfLib.PDFViewerApplication.pdfSidebar.close();
+    if (webPdfLib.PDFViewerApplication.pdfSidebar.isOpen) {
+      webPdfLib.PDFViewerApplication.pdfSidebar.close();
+    } else {
+      webPdfLib.PDFViewerApplication.pdfSidebar.open()
+    }
 
     console.groupEnd();
   }
