@@ -1,9 +1,8 @@
 import Main from '../Main/Main';
 
-const Container = ({ sidebar, header, content, propertyBar }) => {
+const Container = ({ header, content, propertyBar }) => {
   return (
     <>
-      {sidebar}
       <Main header={header} content={content} />
       {propertyBar}
     </>

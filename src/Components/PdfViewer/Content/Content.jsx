@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import PdfViewerState from '../Store/PdfViewerState';
 
 const Content = () => {
-  const { winSize, touchScreen, visibleHeader, headerHeight, visibleSidebar, sidebarWidth, visiblePropertyBar, propertyBarWidth } = PdfViewerState();
+  const { winSize, touchScreen, visibleHeader, headerHeight, visiblePropertyBar, propertyBarWidth } = PdfViewerState();
 
   const minHeight = () => {
     if (visibleHeader) {
@@ -16,9 +16,6 @@ const Content = () => {
   const minWidth = () => {
     let minusWidth = 0;
     if (touchScreen === false) {
-      if (visibleSidebar) {
-        minusWidth += sidebarWidth;
-      }
       if (visiblePropertyBar) {
         minusWidth += propertyBarWidth;
       }

@@ -9,10 +9,11 @@ import MoreMenu from './MoreMenu';
 import Pagination from './Pagination';
 import SelectTheme from './SelectTheme';
 import PenTool from './PenTool';
+import actionManager from '../../../web-pdf-lib/action/actionManager';
 
 const Header = () => {
   const { zoomScale } = Utils();
-  const { winSize, viewportResizing, headerHeight, visibleSidebar, setVisibleSidebar, visiblePropertyBar, setVisiblePropertyBar, headerZIndex } = PdfViewerState();
+  const { winSize, viewportResizing, headerHeight, visiblePropertyBar, setVisiblePropertyBar, headerZIndex } = PdfViewerState();
 
   return (
     <Box id={'pdf_viewer_header'} sx={{ userSelect: 'none', height: headerHeight + 'px' }}>
@@ -44,7 +45,7 @@ const Header = () => {
           <IconButton
             sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
             onClick={() => {
-              setVisibleSidebar(!visibleSidebar);
+              actionManager.execute({name:'document_window'});
             }}>
             <MenuIcon />
           </IconButton>
