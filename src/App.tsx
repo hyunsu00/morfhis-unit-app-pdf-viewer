@@ -1,9 +1,27 @@
-import PdfViewerShadowDom from './Components/PdfViewer/PdfViewerShadowDom';
 import PdfViewerFrame from './Components/PdfViewer/PdfViewerFrame';
+import { useEffect, useState } from 'react';
 
 function App() {
-  // return <PdfViewerShadowDom parentLocale={'ko'} />;
-  return <PdfViewerFrame parentLocale={'ko'} cacheContainer={null} themeContainer={null} />;
+  const [props, setProps] = useState(undefined);
+
+  useEffect(() => {
+    initProps().then(() => {});
+  }, []);
+
+  async function initProps() {
+    const props = {
+      parentLocale: 'ko',
+    };
+
+    // @ts-ignore
+    setProps(props);
+  }
+
+  if (props === undefined) {
+    return <div>Loading...</div>;
+  }
+
+  return <PdfViewerFrame props={props} />;
 }
 
 export default App;

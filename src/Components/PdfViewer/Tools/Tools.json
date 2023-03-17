@@ -1,0 +1,28 @@
+{
+  "draw": {
+    "a_draw": {
+      "desc": "free drawing"
+    },
+    "a_line": {
+      "desc": "draw a line"
+    },
+    "a_area": {
+      "desc": "draw rectangle"
+    },
+    "a_underline": {
+      "desc": "underline"
+    },
+    "a_strikeout": {
+      "desc": "strikethrough"
+    },
+    "a_highlight": {
+      "desc": "highlighter"
+    },
+    "a_point": {
+      "desc": "sticky note"
+    },
+    "a_text": {
+      "desc": "text box"
+    }
+  }
+}

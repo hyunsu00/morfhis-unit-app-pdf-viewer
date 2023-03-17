@@ -19,13 +19,12 @@ import AnnotationListener from '../listener/annotationListener.js';
 import AnnotationExecutor from '../action/annotationActionExecutor.js';
 import AnnotationUtils from './annotationUtils.js';
 import webPdfLib from '../webPdfLib.js';
-import is from 'is_js';
 
 export default (function () {
   /*******************************************************************************
    * Private Variables
    ******************************************************************************/
-  /*  
+/*  
   const _keyCodeMap = CommonFrameUtil.keyCodeMap,
   _escKeyCode = parseInt(_keyCodeMap.esc, 10),
   _delKeyCode = parseInt(_keyCodeMap.del, 10)
@@ -126,6 +125,15 @@ export default (function () {
     },
     set currentScaleValue(value) {
       webPdfLib.PDFViewerApplication.pdfViewer.currentScaleValue = value;
+    },
+    get totalPage() {
+      return webPdfLib.PDFViewerApplication.pdfViewer.pagesCount;
+    },
+    get currentPageNumber() {
+      return webPdfLib.PDFViewerApplication.pdfViewer.currentPageNumber;
+    },
+    get documentTitle() {
+      return window.document.title;
     },
 
     _UpdateProperty(properties, adjustTarget) {
@@ -325,13 +333,13 @@ export default (function () {
   };
 
   AnnotationManager.onSetStyleBarDisableState = function (value) {
-    /*    
+/*    
     UiManager.onSetStyleBarDisableState(value);
 */
   };
 
   AnnotationManager.onSetAnnotationSidebarEnable = function (value) {
-    /*    
+/*    
     UiManager.onSetAnnotationSidebarEnable(value);
 */
   };
@@ -1096,7 +1104,7 @@ export default (function () {
       const pdfData = writer.write();
       const blob = new Blob([pdfData], { type: 'application/pdf' });
       const downloadFrame = document.querySelectorAll('#download_iframe')[0];
-      if (downloadFrame && !is.ie()) {
+      if (downloadFrame && !Util.isIE()) {
         const url = window.URL.createObjectURL(blob);
         downloadFrame.contentWindow.location = url;
         downloadFrame.onload = function () {
@@ -1651,7 +1659,7 @@ export default (function () {
 
   AnnotationManager.addComment = function (documentId, annotationId, content, dataString, author) {
     let authorName = author;
-    /*    
+/*    
     if (Util.IsMavenMode()) {
       authorName = Config.userId;
     }

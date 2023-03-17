@@ -199,7 +199,7 @@ export default (function () {
 */	
   }
 
-  function e_first_slide(evtAction) {
+  function e_first_page(evtAction) {
     // 임시코드
     evtAction.value = 'off';
 
@@ -208,7 +208,7 @@ export default (function () {
     });
   }
 
-  function e_previous_slide(evtAction) {
+  function e_previous_page(evtAction) {
     // 임시코드
     evtAction.value = 'off';
 
@@ -217,51 +217,36 @@ export default (function () {
     });
   }
 
-  function e_next_slide(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-
+  function e_next_page(_evtAction) {
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('nextpage', {
       source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
-  function e_last_slide(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-
+  function e_last_page(_evtAction) {
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('lastpage', {
       source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
   function page_number(evtAction) {
-    if (evtAction.value.pageNumber <= webPdfLib.PDFViewerApplication.pdfLinkService.pagesCount) {
-		webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch('pagenumberchanged', {
+    if (evtAction.value <= webPdfLib.PDFViewerApplication.pdfLinkService.pagesCount) {
+      webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch('pagenumberchanged', {
         source: webPdfLib.PDFViewerApplication.toolbar,
-        value: evtAction.value.pageNumber,
+        value: evtAction.value,
       });
     }
   }
 
-  function e_undo(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-
+  function e_undo(_evtAction) {
     webPdfLib.gUndoRedoManager.Undo();
   }
 
-  function e_redo(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-
+  function e_redo(_evtAction) {
     webPdfLib.gUndoRedoManager.Redo();
   }
 
-  function a_delete_annotation(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-
+  function a_delete_annotation(_evtAction) {
     AnnotationManager.deleteAnnotation();
     var selection = window.getSelection();
     selection.removeAllRanges();
@@ -423,10 +408,10 @@ export default (function () {
       ['e_select_all', e_select_all],
       ['e_copy', e_copy],
       ['e_viewsidebar_tab', e_viewsidebar_tab],
-      ['e_first_slide', e_first_slide],
-      ['e_previous_slide', e_previous_slide],
-      ['e_next_slide', e_next_slide],
-      ['e_last_slide', e_last_slide],
+      ['e_first_page', e_first_page],
+      ['e_previous_page', e_previous_page],
+      ['e_next_page', e_next_page],
+      ['e_last_page', e_last_page],
       ['page_number', page_number],
       ['a_line', AnnotationExecutor.switchAnnotation],
       ['a_area', AnnotationExecutor.switchAnnotation],

@@ -1,0 +1,46 @@
+{
+  "palette": {
+    "divider": "rgba(0, 0, 0, 0.12)",
+    "background": {
+      "default": "#fff",
+      "paper": "#fff",
+      "system": "#f5f5f5",
+      "header": "#ececec",
+      "header_pagination_input": "#fff",
+      "dialog": "#fff",
+      "sidebar": "#ececec",
+      "backdrop": "rgba(0, 0, 0, 0.5)"
+    },
+    "text": {
+      "primary": "rgba(0, 0, 0, 0.87)",
+      "secondary": "rgba(0, 0, 0, 0.6)",
+      "disabled": "rgba(0, 0, 0, 0.38)"
+    },
+    "border": {
+      "outline": "rgba(0, 0, 0, 0.23)",
+      "outline_focused": "#304ffe"
+    },
+    "secondary": {
+      "main": "#304ffe"
+    },
+    "error": {
+      "main": "#f44336"
+    },
+    "primary": {
+      "light": "#f5f5f5",
+      "main": "#35363a",
+      "dark": "#000"
+    },
+    "action": {
+      "active": "rgba(0, 0, 0, 0.54)",
+      "hover": "rgba(0, 0, 0, 0.04)",
+      "selected": "rgba(0, 0, 0, 0.08)",
+      "disabled": "rgba(0, 0, 0, 0.26)",
+      "disabled_background": "rgba(0, 0, 0, 0.12)",
+      "focus": "rgba(0, 0, 0, 0.12)"
+    },
+    "scrollbar": {
+      "thumb": "rgba(0, 0, 0, 0.6)"
+    }
+  }
+}

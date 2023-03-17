@@ -1,0 +1,46 @@
+.pdf-viewer {
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+#root,
+body,
+html {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+:root {
+  --scrollbar-thumb-background-color: rgba(0, 0, 0, 0.6);
+}
+
+::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent !important;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px !important;
+  background-color: var(--scrollbar-thumb-background-color) !important;
+}
+::-webkit-scrollbar-button {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent !important;
+}
