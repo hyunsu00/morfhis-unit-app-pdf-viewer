@@ -436,22 +436,5 @@ export default (function () {
       _isAllSelected = select;
 */      
     },
-    isAllSelected() {
-      const elements = document.querySelectorAll('.page');
-      const range = document.createRange();
-      range.setStartBefore(elements[0]);
-      range.setEndAfter(elements[elements.length - 1]);
-  
-      const range2 = document.createRange();
-      range2.setStartBefore(elements[0]);
-      range2.setEndAfter(elements[elements.length - 1]);
-
-      // const selection = window.getSelection();
-      // const range2 = selection.getRangeAt(0);
-      
-      // const ret2 = range.compareBoundaryPoints(Range.START_TO_END, range2);
-      const ret =  range === range2 ? true : false;
-      return ret;
-    }
   };
 })();

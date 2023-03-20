@@ -204,6 +204,8 @@ export default class Util {
         x = (viewport.height / viewport.scale) * -1;
         y = 0;
         break;
+      default:
+        break;
     }
 
     return { x, y };
@@ -549,6 +551,8 @@ export default class Util {
         case 'right':
           x -= metrics.width;
           break;
+        default:
+          break;
       }
       switch (ctx.textBaseline) {
         case 'top':
@@ -556,6 +560,8 @@ export default class Util {
           break;
         case 'middle':
           y += fontSize / 2;
+          break;
+        default:
           break;
       }
 
@@ -581,6 +587,8 @@ export default class Util {
         case 'right':
           x -= metrics.width;
           break;
+        default:
+          break;
       }
       switch (ctx.textBaseline) {
         case 'top':
@@ -588,6 +596,8 @@ export default class Util {
           break;
         case 'middle':
           y += fontSize / 2;
+          break;
+        default:
           break;
       }
 

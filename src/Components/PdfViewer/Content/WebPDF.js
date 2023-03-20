@@ -43,7 +43,6 @@ function WebPDF() {
 
   function onMouseUp(e) {
     ActionManager.execute({name:'e_select_all'});
-    ActionManager.isAllSelected();
   }
 
   return (
