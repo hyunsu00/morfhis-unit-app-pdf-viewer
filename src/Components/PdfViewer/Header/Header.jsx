@@ -13,7 +13,7 @@ import actionManager from '../../../web-pdf-lib/action/actionManager';
 
 const Header = () => {
   const { zoomScale } = Utils();
-  const { winSize, viewportResizing, headerHeight, visiblePropertyBar, setVisiblePropertyBar, headerZIndex } = PdfViewerState();
+  const { winSize, viewportResizing, headerHeight, visibleSidebar, setVisibleSidebar, headerZIndex } = PdfViewerState();
 
   return (
     <Box id={'pdf_viewer_header'} sx={{ userSelect: 'none', height: headerHeight + 'px' }}>
@@ -74,7 +74,7 @@ const Header = () => {
               <IconButton
                 sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
                 onClick={() => {
-                  setVisiblePropertyBar(!visiblePropertyBar);
+                  setVisibleSidebar(!visibleSidebar);
                 }}>
                 <VerticalSplitOutlinedIcon />
               </IconButton>

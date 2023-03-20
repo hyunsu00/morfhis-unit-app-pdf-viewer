@@ -2,7 +2,7 @@ import './PdfViewer.scss';
 import Container from './Container/Container';
 import Header from './Header/Header';
 import Content from './Content/Content';
-import PropertyBar from './PropertyBar/PropertyBar';
+import Sidebar from './Sidebar/Sidebar';
 import { Box } from '@mui/material';
 import PdfViewerState from './Store/PdfViewerState';
 
@@ -23,7 +23,7 @@ const PdfViewer = () => {
         backgroundColor: 'background.system',
         width: winSize.width + 'px',
       }}>
-      <Container header={<Header />} content={<Content />} propertyBar={<PropertyBar />} />
+      <Container header={<Header />} content={<Content />} sidebar={<Sidebar />} />
     </Box>
   );
 };

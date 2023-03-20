@@ -30,7 +30,7 @@ function WebPDF() {
   });
 
   return (
-    <div id="pdfjs_wrap" dangerouslySetInnerHTML={{ __html: html }}></div>
+    <div id="pdfjs_content" dangerouslySetInnerHTML={{ __html: html }}></div>
   );
 }
 

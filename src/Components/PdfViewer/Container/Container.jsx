@@ -1,10 +1,10 @@
 import Main from '../Main/Main';
 
-const Container = ({ header, content, propertyBar }) => {
+const Container = ({ header, content, sidebar }) => {
   return (
     <>
       <Main header={header} content={content} />
-      {propertyBar}
+      {sidebar}
     </>
   );
 };

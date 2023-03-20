@@ -8,8 +8,8 @@ const PdfViewerState = create((set) => ({
   headerZIndex: 1000,
   visibleHeader: true,
   headerHeight: 80,
-  visiblePropertyBar: true,
-  propertyBarWidth: 260,
+  visibleSidebar: true,
+  sidebarWidth: 260,
   selectTheme: undefined,
 
   setWinSize: (value) => {
@@ -68,15 +68,15 @@ const PdfViewerState = create((set) => ({
     });
   },
 
-  setVisiblePropertyBar: (value) => {
+  setVisibleSidebar: (value) => {
     set((state) => {
       if (value === null || value !== false) {
         value = true;
       }
-      if (state.visiblePropertyBar !== value) {
-        return { visiblePropertyBar: value };
+      if (state.visibleSidebar !== value) {
+        return { visibleSidebar: value };
       } else {
-        return { visiblePropertyBar: state.visiblePropertyBar };
+        return { visibleSidebar: state.visibleSidebar };
       }
     });
   },
