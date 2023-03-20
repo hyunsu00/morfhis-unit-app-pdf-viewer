@@ -11,5 +11,6 @@ export default (function () {
     },
 	onDocumentLoaded: 'onDocumentLoaded',
 	onUpdateUi: 'onUpdateUi',
+  onError: 'onError',
   };
 })();

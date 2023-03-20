@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from "react";
 import "../../../web-pdf-lib/webPdfLib.scss";
 import webPdfLib from '../../../web-pdf-lib/webPdfLib';
 import html from "../../../web-pdf-lib/webPdfLib.html";
+import EventManager from "../../../web-pdf-lib/event/eventManager";
+import ActionManager from '../../../web-pdf-lib/action/actionManager';
 
 function WebPDF() {
   console.log("function WebPDF())");
@@ -29,8 +31,23 @@ function WebPDF() {
     }
   });
 
+  useEffect(() => {
+    const onError = function(event) {
+      const {name, value} = event.detail;
+    };
+    EventManager.on(EventManager.onError, onError);
+    return () => {
+      EventManager.off(EventManager.onError, onError);
+    }
+  }, []);
+
+  function onMouseUp(e) {
+    ActionManager.execute({name:'e_select_all'});
+    ActionManager.isAllSelected();
+  }
+
   return (
-    <div id="pdfjs_content" dangerouslySetInnerHTML={{ __html: html }}></div>
+    <div id="pdfjs_content" dangerouslySetInnerHTML={{ __html: html }} onMouseUp={onMouseUp}></div>
   );
 }
 

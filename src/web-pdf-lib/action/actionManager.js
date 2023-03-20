@@ -16,6 +16,7 @@ import Util from '../utils/util.js';
 import webPdfLib from '../webPdfLib.js';
 import uiManager from '../uiFrame/uiManager.js';
 import annotationManager from '../annotation/annotationManager.js';
+import EventManager from '../event/eventManager.js';
 
 export default (function () {
   let _isAllSelected = false;
@@ -129,9 +130,10 @@ export default (function () {
     }
   }
 
-  function e_select_all(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
+  function e_select_all(_evtAction) {
+    console.group(`function e_select_all(_evtAction)`);
+    console.warn(`모두 선택 전에 툴바 밑줄, 취소선, 형광펜이 선택되어 있으면 해제해준다.`)
+
     _isAllSelected = true;
 
     let elements = document.querySelectorAll('.page');
@@ -142,21 +144,12 @@ export default (function () {
     selection.removeAllRanges();
     selection.addRange(range);
 
-    // 모두 선택 전에 툴바 밑줄, 취소선, 형광펜이 선택되어 있으면 해제해준다.
-/*	
-    let pubAction = EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.ENABLE, UIDefine.EVENT_ACTION_NAMES.E_COPY, '');
-    pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.UI, UIDefine.EVENT_ACTION_NAMES.A_HIGHLIGHT, 'off'));
-    pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.UI, UIDefine.EVENT_ACTION_NAMES.A_STRIKOUT, 'off'));
-    pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.UI, UIDefine.EVENT_ACTION_NAMES.A_UNDERLINE, 'off'));
-    $.publish('/ui/update', pubAction);
-*/
     AnnotationManager.switchUI('none');
+
+    console.groupEnd();
   }
 
-  function e_copy(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-
+  function e_copy(_evtAction) {
     document.execCommand('copy'); //복사
   }
 
@@ -199,19 +192,13 @@ export default (function () {
 */	
   }
 
-  function e_first_page(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-
+  function e_first_page(_evtAction) {
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('firstpage', {
       source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
-  function e_previous_page(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-
+  function e_previous_page(_evtAction) {
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('previouspage', {
       source: webPdfLib.PDFViewerApplication.toolbar,
     });
@@ -449,5 +436,22 @@ export default (function () {
       _isAllSelected = select;
 */      
     },
+    isAllSelected() {
+      const elements = document.querySelectorAll('.page');
+      const range = document.createRange();
+      range.setStartBefore(elements[0]);
+      range.setEndAfter(elements[elements.length - 1]);
+  
+      const range2 = document.createRange();
+      range2.setStartBefore(elements[0]);
+      range2.setEndAfter(elements[elements.length - 1]);
+
+      // const selection = window.getSelection();
+      // const range2 = selection.getRangeAt(0);
+      
+      // const ret2 = range.compareBoundaryPoints(Range.START_TO_END, range2);
+      const ret =  range === range2 ? true : false;
+      return ret;
+    }
   };
 })();
