@@ -38,10 +38,19 @@ const PenTool = () => {
             key={key}
             onClick={() => {
               setAnchorEl(null);
-              if (key == 'a_draw' || key == 'a_line' || key == 'a_area') {
+              switch(key) 
+              {
+              case 'a_draw':
+              case 'a_line':
+              case 'a_area':
+              case 'a_underline':
+              case 'a_strikeout':
+              case 'a_highlight':
                 actionManager.execute({ name: key });
-              } else {
+                break;
+              default:
                 alert(`구현요망 antionName = ${key}`);
+                break;
               }
               setSelectDrawTool(key);
             }}>

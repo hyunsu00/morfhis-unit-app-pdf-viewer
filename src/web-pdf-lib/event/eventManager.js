@@ -9,8 +9,9 @@ export default (function () {
     dispatch(eventName, data) {
       document.dispatchEvent(new CustomEvent(eventName, { detail: data }));
     },
-	onDocumentLoaded: 'onDocumentLoaded',
-	onUpdateUi: 'onUpdateUi',
-  onError: 'onError',
+	  onDocumentLoaded: 'onDocumentLoaded',
+	  onUpdateUi: 'onUpdateUi',
+    onQuickMenu: 'onQuickMenu',
+    onError: 'onError',
   };
 })();

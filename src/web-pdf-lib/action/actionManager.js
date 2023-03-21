@@ -4,9 +4,6 @@ import UiController from '../../../commonFrame/js/uiFramework/uiController.js';
 import EventActionGenerator from '../../../commonFrame/js/uiFramework/eventActionGenerator.js';
 import UIDefine from '../../../commonFrame/js/uiFramework/uiDefine.js';
 */
-/*
-import UiManager from '../../uiFrame/uiManager.js';
-*/
 
 import AnnotationManager from '../annotation/annotationManager.js';
 import AnnotationExecutor from './annotationActionExecutor.js';
@@ -14,12 +11,11 @@ import DefineTypes from '../define/defineTypes.js';
 import DefineActions from '../define/defineActions.js';
 import Util from '../utils/util.js';
 import webPdfLib from '../webPdfLib.js';
-import uiManager from '../uiFrame/uiManager.js';
+import UiManager from '../uiFrame/uiManager.js';
 import annotationManager from '../annotation/annotationManager.js';
 import EventManager from '../event/eventManager.js';
 
 export default (function () {
-  let _isAllSelected = false;
 
   async function save(_evtAction) {
     console.group(`function save(_evtAction)`);
@@ -134,16 +130,7 @@ export default (function () {
     console.group(`function e_select_all(_evtAction)`);
     console.warn(`모두 선택 전에 툴바 밑줄, 취소선, 형광펜이 선택되어 있으면 해제해준다.`)
 
-    _isAllSelected = true;
-
-    let elements = document.querySelectorAll('.page');
-    var selection = window.getSelection();
-    var range = document.createRange();
-    range.setStartBefore(elements[0]);
-    range.setEndAfter(elements[elements.length - 1]);
-    selection.removeAllRanges();
-    selection.addRange(range);
-
+    UiManager.setSelectionAll();
     AnnotationManager.switchUI('none');
 
     console.groupEnd();
@@ -235,143 +222,66 @@ export default (function () {
 
   function a_delete_annotation(_evtAction) {
     AnnotationManager.deleteAnnotation();
-    var selection = window.getSelection();
-    selection.removeAllRanges();
-/*	
-    UiManager.setSelection(selection);
-*/	
   }
 
   function a_quick_underline(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-/*
-	// let selection = UiManager.getSelection();
-    // let range = selection.getRangeAt(0);
-    let range = UiManager.getRange();
-
+    const {range} = evtAction;
     let rects = range.getClientRects();
     AnnotationManager.saveRect('underline', rects);
-*/	
   }
 
   function a_quick_strikeout(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-/*
-    // let selection = UiManager.getSelection();
-    // let range = selection.getRangeAt(0);
-    let range = UiManager.getRange();
-
+    const {range} = evtAction;
     let rects = range.getClientRects();
     AnnotationManager.saveRect('strikeout', rects);
-*/	
   }
 
   function a_quick_highlight(evtAction) {
-    // 임시코드
-    evtAction.value = 'off';
-/*
-    // let selection = UiManager.getSelection();
-    // let range = selection.getRangeAt(0);
-    let range = UiManager.getRange();
-
+    const {range} = evtAction;
     let rects = range.getClientRects();
     AnnotationManager.saveRect('highlight', rects);
-*/	
   }
 
   function a_underline(evtAction) {
-    if (checkAllSelectStatus()) {
-      evtAction.value = 'off';
+
+    if (UiManager.isSelectedAllRange()) {
+      EventManager.dispatch('onError', {errType:'ERR_ALL_SELECTED'});
       return;
     }
-/*	
-    // let sel = UiManager.getSelection();
-    // let range = (sel.rangeCount > 0) ? sel.getRangeAt(0) : null;
-    let range = UiManager.getRange();
-
-    // text selection 상태일 경우 팝업 액션을 실행
+    const range = UiManager.getRange();
     if (range && !range.collapsed) {
-      evtAction.value = 'off';
-      let rects = range.getClientRects();
-      AnnotationManager.saveRect('underline', rects);
+      a_quick_underline({name:'a_quick_underline', range});
     } else {
       AnnotationExecutor.switchAnnotation(evtAction);
     }
-*/	
   }
 
   function a_strikeout(evtAction) {
-    if (checkAllSelectStatus()) {
-      evtAction.value = 'off';
+    if (UiManager.isSelectedAllRange()) {
+      EventManager.dispatch('onError', {errType:'ERR_ALL_SELECTED'});
       return;
     }
-/*	
-    // let sel = UiManager.getSelection();
-    // let range = (sel.rangeCount > 0) ? sel.getRangeAt(0) : null;
-    let range = UiManager.getRange();
 
-    // text selection 상태일 경우 팝업 액션을 실행
+    const range = UiManager.getRange();
     if (range && !range.collapsed) {
-      evtAction.value = 'off';
-      let rects = range.getClientRects();
-      AnnotationManager.saveRect('strikeout', rects);
+      a_quick_strikeout({name:'a_quick_strikeout', range});
     } else {
       AnnotationExecutor.switchAnnotation(evtAction);
     }
-*/	
   }
 
   function a_highlight(evtAction) {
-/* 
-    if (checkAllSelectStatus()) {
-      evtAction.value = 'off';
+    if (UiManager.isSelectedAllRange()) {
+      EventManager.dispatch('onError', {errType:'ERR_ALL_SELECTED'});
       return;
     }
-	
-    // let sel = UiManager.getSelection();
-    // let range = (sel.rangeCount > 0) ? sel.getRangeAt(0) : null;
-    let range = UiManager.getRange();
 
-    // text selection 상태일 경우 팝업 액션을 실행
+    const range = UiManager.getRange();
     if (range && !range.collapsed) {
-      evtAction.value = 'off';
-      let rects = range.getClientRects();
-      AnnotationManager.saveRect('highlight', rects);
+      a_quick_highlight({name:'a_quick_highlight', range});
     } else {
       AnnotationExecutor.switchAnnotation(evtAction);
     }
-*/	
-    AnnotationExecutor.switchAnnotation(evtAction);
-  }
-
-  function checkAllSelectStatus() {
-    // 모두 선택 상태에서 밑줄, 취소선, 형광펜 적용 시 토스트 메시지 호출
-    if (_isAllSelected) {
-/*		
-      UiController.showToast(
-        window.LangDefine.AllSelectErrorMessage,
-        {
-          top: '50%',
-          left: '40%',
-          direction: 'bottom',
-          move: 0,
-          opacity: 1,
-          align: 'center',
-        },
-        1
-      );
-
-      var selection = window.getSelection();
-      selection.removeAllRanges();
-      UiManager.setSelection(selection);
-      _isAllSelected = false;
-*/
-      return true;
-    }
-
-    return false;
   }
 
   function e_dialog_password(evtAction) {
@@ -424,17 +334,6 @@ export default (function () {
       if (action) {
         action(evtAction);
       }
-    },
-
-    setAllSelectStatus(select) {
-/*      
-      if (_isAllSelected) {
-        var selection = window.getSelection();
-        selection.removeAllRanges();
-        UiManager.setSelection(selection);
-      }
-      _isAllSelected = select;
-*/      
-    },
+    }
   };
 })();

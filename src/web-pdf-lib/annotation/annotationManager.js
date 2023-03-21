@@ -19,19 +19,12 @@ import AnnotationListener from '../listener/annotationListener.js';
 import AnnotationExecutor from '../action/annotationActionExecutor.js';
 import AnnotationUtils from './annotationUtils.js';
 import webPdfLib from '../webPdfLib.js';
+import EventManager from '../event/eventManager.js';
 
 export default (function () {
   /*******************************************************************************
    * Private Variables
    ******************************************************************************/
-/*  
-  const _keyCodeMap = CommonFrameUtil.keyCodeMap,
-  _escKeyCode = parseInt(_keyCodeMap.esc, 10),
-  _delKeyCode = parseInt(_keyCodeMap.del, 10)
-*/
-  const _escKeyCode = parseInt('27', 10),
-    _delKeyCode = parseInt('46', 10);
-
   let AnnotationManager = {
     get documentData() {
       return this._documentData;
@@ -215,6 +208,22 @@ export default (function () {
   });
 
   AnnotationManager.initialize = function (annotateRender) {
+    const viewerContainer = document.querySelector('#viewerContainer');
+    if (viewerContainer) {
+      viewerContainer.addEventListener('mouseup', (e) => {
+        const posInfo = {x: e.clientX, y: e.clientY};
+        const selection = document.getSelection();
+        if (selection.rangeCount > 0) {
+          UiManager.setSelection(selection);
+        }
+        const range = UiManager.getRange();
+        if (range && !range.collapsed) {
+          EventManager.dispatch(EventManager.onQuickMenu, {posInfo, range});
+        }
+      });
+      document.addEventListener('keydown', this.doKeyDownEvent.bind(this));
+    }
+    
     annotateRender.setStoreAdapter(new annotateRender.LocalStoreAdapter());
     this.annotateRender = annotateRender;
 
@@ -1432,7 +1441,7 @@ export default (function () {
         _UI.disableText();
 
         if (!this.getSelect()) {
-          /*          
+/*          
           UiManager.onSetStyleBarDisableState(true);
 */
         }
@@ -1468,7 +1477,7 @@ export default (function () {
         break;
       case 'text':
         _UI.enableText();
-        /*        
+/*        
         UiManager.onSetStyleBarDisableState(false);
 */
         break;
@@ -1543,6 +1552,8 @@ export default (function () {
 
   AnnotationManager.doKeyDownEvent = function (e) {
     const keyCode = e.keyCode;
+    const escKeyCode = parseInt('27', 10);
+    const delKeyCode = parseInt('46', 10);
 
     switch (this.annotationType) {
       case 'line':
@@ -1553,26 +1564,23 @@ export default (function () {
       case 'draw':
       case 'point':
       case 'text':
-        if (keyCode === _escKeyCode) {
+        if (keyCode === escKeyCode) {
           this.switchUI('cursor');
         }
 
         break;
       case 'cursor':
-        if (keyCode === _escKeyCode) {
+        if (keyCode === escKeyCode) {
           this.select(null);
-          /*          
+/*          
           $.publish('/ui/action', EventActionGenerator.makeUpdateEventAction('e_find_close'));
 */
-        } else if (keyCode === _delKeyCode) {
+        } else if (keyCode === delKeyCode) {
           if (this.getSelect()) {
             e.preventDefault();
-            /*            
-            $.publish('/ui/action', EventActionGenerator.makeUpdateEventAction('a_delete_annotation'));
-*/
+            this.deleteAnnotation();
           }
         }
-
         break;
       default:
         break;
@@ -1580,7 +1588,7 @@ export default (function () {
   };
 
   AnnotationManager.doMouseClickEvent = function (e, id) {
-    /*    
+/*    
     if (UiManager.isPopupEditing()) {
       UiManager.onSetUIEvents(false);
       UiManager.setEditDisabled(true);
@@ -1651,6 +1659,7 @@ export default (function () {
 
   AnnotationManager.deleteAnnotation = function () {
     this.annotateRender.UI.deleteAnnotation();
+    UiManager.clearSelection();
   };
 
   AnnotationManager.saveRect = function (type, rects) {
@@ -1665,32 +1674,6 @@ export default (function () {
     }
 */
     AnnotationManager.annotateRender.getStoreAdapter().addComment(documentId, annotationId, content, dataString, authorName);
-  };
-
-  AnnotationManager.getSelectedAllRange = function() {
-     // .page클래스의 모든 엘리먼트 선택
-     const elements = document.querySelectorAll('.page');
-     // 새로운 범위를 생성
-     const range = document.createRange();
-     // 범위의 시작 지점이 elements[0] 앞으로 지정되며,elements[0]가 첫 번재 노드가 됩니다.
-     range.setStartBefore(elements[0]);
-     // 범위의 마지막 지점이 elements[elements.length - 1] 다음으로 지정되며, elements[elements.length - 1].previousSibling이 마지막 노드가 됩니다.
-     range.setEndAfter(elements[elements.length - 1]);
-
-     return range;
-  };
-
-  AnnotationManager.isAllSelected = function() {
-    const selection = window.getSelection();
-    const selectRange = selection.getRangeAt(0); 
-    const allRange = this.getSelectedAllRange();
-
-    if (allRange.compareBoundaryPoints(selectRange.START_TO_START, selectRange) === 0 && 
-        allRange.compareBoundaryPoints(selectRange.END_TO_END, selectRange) === 0) {
-      return true;
-    }
-
-    return false;
   };
 
   return AnnotationManager;
