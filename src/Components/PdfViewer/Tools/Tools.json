@@ -24,5 +24,26 @@
     "a_text": {
       "desc": "text box"
     }
+  },
+  "zoom": {
+    "original": {
+      "name": "e_zoom",
+      "value": "page-actual",
+      "desc": "original size"
+    },
+    "height": {
+      "name": "e_zoom",
+      "value": "page-height",
+      "desc": "original size"
+    },
+    "width": {
+      "name": "e_zoom",
+      "value": "page-width",
+      "desc": "original size"
+    },
+    "full": {
+      "name": "e_show_mode",
+      "desc": "original size"
+    }
   }
 }

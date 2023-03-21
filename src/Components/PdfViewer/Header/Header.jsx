@@ -3,7 +3,7 @@ import VerticalSplitOutlinedIcon from '@mui/icons-material/VerticalSplitOutlined
 import { AppBar, Box, IconButton } from '@mui/material';
 import PdfViewerState from '../Store/PdfViewerState';
 import Utils from '../Utils';
-import ContentFit from './ContentFit';
+import ZoomTool from './ZoomTool';
 import Filename from './Filename';
 import MoreMenu from './MoreMenu';
 import Pagination from './Pagination';
@@ -69,7 +69,7 @@ const Header = () => {
                 alignItems: 'center',
                 marginLeft: 'auto',
               }}>
-              <ContentFit />
+              <ZoomTool />
               <SelectTheme />
               <IconButton
                 sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}

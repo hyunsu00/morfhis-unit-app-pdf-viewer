@@ -58,6 +58,9 @@ export default (function () {
    },
    isSelectedAllRange: function() {
      const selection = window.getSelection();
+     if (!selection) {
+      return false;
+     }
      const selectRange = selection.getRangeAt(0); 
      const allRange = this.getSelectedAllRange();
  

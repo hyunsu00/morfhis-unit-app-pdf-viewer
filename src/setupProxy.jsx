@@ -1,12 +1,13 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
-const brokerURIPaths = [ '/word', '/hwp', '/show', '/cell', '/common', '/resource'];
+
 module.exports = (app) => {
-  brokerURIPaths.map((uri) => {
+  const paths = ['/word', '/hwp', '/show', '/cell', '/common', '/resource'];
+  for (let path of paths) {
     app.use(
-      createProxyMiddleware(uri, {
+      createProxyMiddleware(path, {
         target: process.env.REACT_APP_BROKER_HOST,
         changeOrigin: true,
       })
     );
-  });
+  }
 };

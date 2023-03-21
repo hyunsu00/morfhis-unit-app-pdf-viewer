@@ -16,10 +16,10 @@ import PopoverMenu from '../Menu/PopoverMenu';
 import DrawerMenu from '../Menu/DrawerMenu';
 import PdfViewerState from '../Store/PdfViewerState';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
-import Action from '../Tools/Tools.json';
+import Tools from '../Tools/Tools.json';
 
 const PenTool = () => {
-  const drawTools = Action.draw;
+  const drawTools = Tools.draw;
   const { winSize, viewportResizing } = PdfViewerState();
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectDrawTool, setSelectDrawTool] = useState('a_draw');
