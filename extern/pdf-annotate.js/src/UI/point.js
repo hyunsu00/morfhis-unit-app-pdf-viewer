@@ -1,5 +1,7 @@
 import PDFJSAnnotate from '../PDFJSAnnotate';
 import { appendChild } from '../render/appendChild';
+import { LangDefine } from '../locales/resouce';
+
 import {
   BORDER_COLOR,
   findSVGAtPoint,
@@ -35,7 +37,7 @@ function handleDocumentMouseup(e) {
 
   input = document.createElement('input');
   input.setAttribute('id', 'pdf-annotate-point-input');
-  input.setAttribute('placeholder', window.LangDefine.SlidePromptBody);
+  input.setAttribute('placeholder', LangDefine.ClickToAddText);
   input.style.border = `3px solid ${BORDER_COLOR}`;
   input.style.borderRadius = '3px';
   input.style.position = 'absolute';

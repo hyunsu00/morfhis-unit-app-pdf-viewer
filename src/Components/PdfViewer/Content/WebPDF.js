@@ -55,11 +55,31 @@ function WebPDF() {
       // actionManager.execute({name:'a_quick_highlight', range:range});
     }
 
+    const onAnnotationSelected = function(event) {
+      const {target, rects} = event.detail;
+      // 주석 선택시 
+      // 1. 주석 속성창 활성화
+      // 2. Quick 메뉴가 보인다면 숨기기
+      // 3. 주석 메뉴 보이기
+    }
+    const onAnnotationUnSelected = function(event) {
+      const {target} = event.detail;
+      // 주석 선택 해제시 
+      // 1. 주석 속성창 비활성화
+      // 2. 주석 메뉴 숨기기
+    }
+
+    
     EventManager.on(EventManager.onError, onError);
     EventManager.on(EventManager.onQuickMenu, onQuickMenu);
+    EventManager.on(EventManager.onAnnotationSelected, onAnnotationSelected);
+    EventManager.on(EventManager.onAnnotationUnSelected, onAnnotationUnSelected);
+    
     return () => {
       EventManager.off(EventManager.onError, onError);
       EventManager.off(EventManager.onQuickMenu, onQuickMenu);
+      EventManager.off(EventManager.onAnnotationSelected, onAnnotationSelected);
+      EventManager.off(EventManager.onAnnotationUnSelected, onAnnotationUnSelected);
     }
   }, []);
 

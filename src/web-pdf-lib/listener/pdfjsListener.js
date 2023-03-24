@@ -15,12 +15,12 @@ import EventManager from "../event/eventManager.js";
 export default (function () {
   return {
     async onDocumentLoaded() {
-      /*      
+/*      
       UiManager.setEnableAnnotate(!Util.isViewMode());
       UiManager.setEnablePrint(true);
 */
       AnnotationManager.modified = false;
-      /*
+/*
       if (Util.IsMavenMode()) {
         webPdfLib.PDFViewerApplication.pdfViewer.mavenModeState = true;
       }
@@ -52,19 +52,19 @@ export default (function () {
     },
 
     onCloseDialog() {
-      /*      
+/*      
       UiController.closeDialog();
 */
     },
     onInitPasswordDialog() {
-      /*      
+/*      
       let uiUpdateAction = EventActionGenerator.makeUpdateEventAction('e_dialog_password', { file_password: '' });
       EventActionGenerator.addFocusProperty(uiUpdateAction, 'file_password');
       $.publish('/ui/update', uiUpdateAction);
 */
     },
     onShowDialog({ eventType, widgetName, value, dialogName, updateValues, focusName }) {
-      /*      
+ /*      
       let pubAction = EventActionGenerator.makeEventActionObj('update', eventType, widgetName, value);
       pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeUpdateEventAction(dialogName, updateValues));
       pubAction = EventActionGenerator.addFocusProperty(pubAction, focusName);
@@ -73,7 +73,7 @@ export default (function () {
     },
 
     onShowAlertModalDialog({ eventType, widgetName, dialogName, value }) {
-      /*     
+/*     
       let pubAction = EventActionGenerator.makeEventActionObj('update', eventType, widgetName, dialogName);
 
       UiController.setValuesToMsgDialog(dialogName, value.cmd, value.title, value.message, false);
@@ -85,7 +85,7 @@ export default (function () {
     },
 
     onUpdateUi({ eventType, widgetName, value }) {
-      /*     
+/*     
       UiController.updateUi(EventActionGenerator.makeEventActionObj('update', eventType, widgetName, value));
  */
       EventManager.dispatch(EventManager.onUpdateUi, { name: widgetName, value });
@@ -112,7 +112,7 @@ export default (function () {
 */
     },
     onUpdateDescription({ value }) {
-      /*     
+/*     
       UiController._updateDescription(value);
 */
     },
@@ -135,7 +135,7 @@ export default (function () {
 */
     },
     onShowLoadingProgress() {
-      /*      
+/*      
       UiManager.showLoadingProgress();
 */
     },

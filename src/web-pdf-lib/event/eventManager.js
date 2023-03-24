@@ -13,5 +13,8 @@ export default (function () {
 	  onUpdateUi: 'onUpdateUi',
     onQuickMenu: 'onQuickMenu',
     onError: 'onError',
+    onAnnotationSelected : 'onAnnotationSelected',
+    onAnnotationUnSelected : 'onAnnotationUnSelected',
+    onAnnotationMenu: 'onAnnotationMenu',
   };
 })();

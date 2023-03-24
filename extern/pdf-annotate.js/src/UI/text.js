@@ -10,6 +10,7 @@ import {
 } from './utils';
 import { fireEvent } from './event';
 import { setSelectNode } from "./selector";
+import { LangDefine } from '../locales/resouce';
 
 let _enabled = false;
 let editorDiv = null;
@@ -44,7 +45,7 @@ function handleDocumentMouseup(e) {
 
   editorDiv = document.createElement('div');
   editorDiv.setAttribute('id', 'pdf-annotate-text-input');
-  editorDiv.setAttribute('default-content', window.LangDefine.SlidePromptBody);
+  editorDiv.setAttribute('default-content', LangDefine.ClickToAddText);
 
   {
     editorDiv.style.border = `${BORDER_SIZE}px solid ${BORDER_COLOR}`;

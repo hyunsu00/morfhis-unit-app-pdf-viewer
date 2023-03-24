@@ -46,10 +46,11 @@ const PenTool = () => {
               case 'a_underline':
               case 'a_strikeout':
               case 'a_highlight':
+              case 'a_point':
+              case 'a_text':
                 actionManager.execute({ name: key });
                 break;
               default:
-                alert(`구현요망 antionName = ${key}`);
                 break;
               }
               setSelectDrawTool(key);

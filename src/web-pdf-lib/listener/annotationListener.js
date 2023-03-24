@@ -10,6 +10,7 @@ import UiManager from '../../uiFrame/uiManager.js';
 import { AddFormCommand, AddChildFormCommand, ModifyFormCommand, RemoveFormCommand, ModifyComment } from '../undoRedo/UndoRedoCommand.js';
 import webPdfLib from '../webPdfLib.js';
 import annotationManager from '../annotation/annotationManager.js';
+import EventManager from "../event/eventManager.js";
 
 export default (function () {
   
@@ -46,62 +47,20 @@ export default (function () {
     // 도형 클릭 선택
     onAnnotationSelected: function (target, rects) {
       console.log('call annotationListener.onAnnotationSelected(target = ', target, ')');
-/*      
-      UiManager.updateAnnotationUI(target);
-      if (UiController.isShowQuickMenu()) {
-        UiController.hideTool(UIDefine.TOOL_QUICK_MENU);
-      }
-
-      // 주석 메뉴 기본 위치에서 보이기
-      if (!CommonFrameUtil.getBrowserDevice().isMobile) {
-        UiController.showTool(UIDefine.TOOL_ANNOTATION_MENU);
-      }
-
-      // 주석 메뉴 위치 수정
-      {
-        const pageBounds = target.parentNode.getBoundingClientRect();
-        const annotationMenuEl = UiController.getToolElement(UIDefine.TOOL_ANNOTATION_MENU);
-        const annotationMenuMargin = 2;
-
-        const menuWidth = annotationMenuEl.offsetWidth;
-        const menuHeight = annotationMenuEl.offsetHeight;
-
-        let x = pageBounds.x + rects.right;
-        let y = pageBounds.y + rects.top;
-
-        // 메뉴가 오른쪽으로 넘어갈 경우
-        if (pageBounds.right < x + menuWidth) {
-          x = pageBounds.right - menuWidth;
-        }
-        // 메뉴가 왼쪽으로 넘어갈 경우
-        if (x < 0) {
-          x = 0;
-        }
-
-        if (pageBounds.bottom < y + menuHeight) {
-          // 메뉴가 영역 아래로 넘어갈 경우
-          y = pageBounds.bottom - menuHeight;
-        } else if (y - menuHeight - annotationMenuMargin < 0) {
-          // 메뉴가 영역 위로 넘어갈 경우
-          y += annotationMenuMargin;
-        } else {
-          y = y - menuHeight - annotationMenuMargin;
-        }
-
-        annotationMenuEl.style.left = `${x}px`;
-        annotationMenuEl.style.top = `${y}px`;
-      }
-*/
+      EventManager.dispatch(EventManager.onAnnotationSelected, {target, rects});
       clearSelection();
     },
 
     // 클릭된 도형 해제
     onAnnotationUnSelected: function (target) {
       console.log('call annotationListener.onAnnotationUnSelected(target = ', target, ')');
-/*      
-      UiManager.updateAnnotationUI(null);
-      UiController.hideTool(UIDefine.TOOL_ANNOTATION_MENU);
-*/      
+      EventManager.dispatch(EventManager.onAnnotationUnSelected, {target});
+    },
+
+    // 스티커노트 추가
+    onAnnotationAddComment: function (documentId, annotationId, content, dataString, author) {
+      console.log(`call annotationListener.onAnnotationAddComment`);
+      annotationManager.addComment(documentId, annotationId, content, dataString, author);
     },
 
     onAnnotationAddForm: function (docId, pageId, target, result) {
@@ -131,6 +90,8 @@ export default (function () {
       console.log(`call annotationListener.onAnnotationModifyComment(docId = ${docId}, pageId = ${pageId}, target = `, target, `, result =`, result, ')');
       webPdfLib.gUndoRedoManager.Add(new ModifyComment(docId, pageId, target, result));
     },
+
+    // 그리기 속성창
     onSetAnnotationSidebarEnable: function (value) {
       console.log(`call annotationListener.onSetAnnotationSidebarEnable(value = ${value})`);
 /*      
@@ -160,11 +121,6 @@ export default (function () {
 /*      
       UiManager.setEventAction(state, value);
 */      
-    },
-
-    onAnnotationAddComment: function (documentId, annotationId, content, dataString, author) {
-      console.log(`call annotationListener.onAnnotationAddComment`);
-      annotationManager.addComment(documentId, annotationId, content, dataString, author);
     },
   };
 })();

@@ -93,7 +93,7 @@ export default (function () {
     console.groupEnd();
   }
 
-  function document_window(evtAction) {
+  function document_window(_evtAction) {
     console.group(`function document_window(evtAction)`);
 
     if (webPdfLib.PDFViewerApplication.pdfSidebar.isOpen) {
@@ -138,45 +138,6 @@ export default (function () {
 
   function e_copy(_evtAction) {
     document.execCommand('copy'); //복사
-  }
-
-  function e_viewsidebar_tab(evtAction) {
-/*	
-    if (evtAction.value === 'viewOutline') {
-      webPdfLib.PDFViewerApplication.pdfSidebar.switchView(2, true);
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'sidebar_area', ''));
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', ''));
-    } else if (evtAction.value === 'viewAttachments') {
-      webPdfLib.PDFViewerApplication.pdfSidebar.switchView(3, true);
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'sidebar_area', ''));
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', ''));
-    } else if (evtAction.value === 'viewLayers') {
-      webPdfLib.PDFViewerApplication.pdfSidebar.switchView(4, true);
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'sidebar_area', ''));
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', ''));
-    } else if (evtAction.value === 'drawn') {
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'sidebar_area', ''));
-
-      hiddenSidebarArea();
-
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'shape_sidebar_area', ''));
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'shape_fill_properties', ''));
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'shape_line_properties', ''));
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'shape_opacity_properties', ''));
-    }
-*/	
-  }
-
-  function hiddenSidebarArea() {
-/*	
-    let pubAction = EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', '');
-
-    pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_fill_properties', ''));
-    pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_line_properties', ''));
-    pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_opacity_properties', ''));
-
-    UiController.updateUi(pubAction);
-*/	
   }
 
   function e_first_page(_evtAction) {
@@ -288,6 +249,45 @@ export default (function () {
     webPdfLib.PDFViewerApplication.passwordPrompt.verify(evtAction.value.file_password);
   }
 
+  function e_viewsidebar_tab(evtAction) {
+/*	
+    if (evtAction.value === 'viewOutline') {
+      webPdfLib.PDFViewerApplication.pdfSidebar.switchView(2, true);
+      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'sidebar_area', ''));
+      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', ''));
+    } else if (evtAction.value === 'viewAttachments') {
+      webPdfLib.PDFViewerApplication.pdfSidebar.switchView(3, true);
+      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'sidebar_area', ''));
+      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', ''));
+    } else if (evtAction.value === 'viewLayers') {
+      webPdfLib.PDFViewerApplication.pdfSidebar.switchView(4, true);
+      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'sidebar_area', ''));
+      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', ''));
+    } else if (evtAction.value === 'drawn') {
+      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'sidebar_area', ''));
+
+      hiddenSidebarArea();
+
+      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'shape_sidebar_area', ''));
+      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'shape_fill_properties', ''));
+      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'shape_line_properties', ''));
+      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'shape_opacity_properties', ''));
+    }
+*/	
+  }
+
+  function hiddenSidebarArea() {
+/*	
+    let pubAction = EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', '');
+
+    pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_fill_properties', ''));
+    pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_line_properties', ''));
+    pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_opacity_properties', ''));
+
+    UiController.updateUi(pubAction);
+*/	
+  }
+
   const _actionMap = (function () {
     return new Map([
       ['d_save', save],
@@ -304,7 +304,6 @@ export default (function () {
       ['t_hand', switchcursortool],
       ['e_select_all', e_select_all],
       ['e_copy', e_copy],
-      ['e_viewsidebar_tab', e_viewsidebar_tab],
       ['e_first_page', e_first_page],
       ['e_previous_page', e_previous_page],
       ['e_next_page', e_next_page],
@@ -325,6 +324,7 @@ export default (function () {
       ['a_quick_strikeout', a_quick_strikeout],
       ['a_quick_highlight', a_quick_highlight],
       ['e_dialog_password', e_dialog_password],
+      ['e_viewsidebar_tab', e_viewsidebar_tab],
     ]);
   })();
 
