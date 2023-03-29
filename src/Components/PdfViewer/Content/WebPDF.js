@@ -4,8 +4,9 @@ import webPdfLib from '../../../web-pdf-lib/webPdfLib';
 import html from "../../../web-pdf-lib/webPdfLib.html";
 import EventManager from "../../../web-pdf-lib/event/eventManager";
 import ActionManager from '../../../web-pdf-lib/action/actionManager';
+import AnnotationManager from '../../../web-pdf-lib/annotation/annotationManager'; 
 import UiManager from '../../../web-pdf-lib/uiFrame/uiManager';
-import actionManager from '../../../web-pdf-lib/action/actionManager';
+import PropertyActions from '../../../web-pdf-lib/define/defineActions';
 
 function WebPDF() {
   console.log("function WebPDF())");
@@ -50,17 +51,22 @@ function WebPDF() {
     };
     const onQuickMenu = function(event) {
       const {posInfo, range} = event.detail;
-      // actionManager.execute({name:'a_quick_underline', range:range});
-      // actionManager.execute({name:'a_quick_strikeout', range:range});
-      // actionManager.execute({name:'a_quick_highlight', range:range});
+      // ActionManager.execute({name:'a_quick_underline', range:range});
+      // ActionManager.execute({name:'a_quick_strikeout', range:range});
+      // ActionManager.execute({name:'a_quick_highlight', range:range});
     }
 
     const onAnnotationSelected = function(event) {
       const {target, rects} = event.detail;
       // 주석 선택시 
       // 1. 주석 속성창 활성화
+      let properties = AnnotationManager.getAnnotationProperties(target);
+      console.log('onAnnotationSelected target.properties = ', JSON.stringify(properties));
       // 2. Quick 메뉴가 보인다면 숨기기
       // 3. 주석 메뉴 보이기
+      // ActionManager.execute({name : 'a_property', target, cmdType: PropertyActions.type.sFill, cmdValue: {color: '#FF0000', opacity: 50}});
+      // ActionManager.execute({name : 'a_property', target, cmdType: PropertyActions.type.sFill, cmdValue: {color: 'none', opacity: 70}});
+      // ActionManager.execute({name : 'a_property', target, cmdType: PropertyActions.type.sFill, cmdValue: {color: '#0000FF', opacity: 0}});
     }
     const onAnnotationUnSelected = function(event) {
       const {target} = event.detail;

@@ -363,11 +363,11 @@ export default (function () {
     _UI.setTextStrikethrough(this.textStrikethrough);
   };
 
-  AnnotationManager.execCommand = function (cmdType, cmdValue) {
+  AnnotationManager.execCommand = function (cmdType, cmdValue, target) {
     const _UI = this.annotateRender.UI;
     let ACTION_TYPE = DefineActions.type;
 
-    let currentTarget = this.getSelect();
+    let currentTarget = target ? target : this.getSelect();
     let docId, pageId, annotationId, annotateType;
     if (currentTarget) {
       docId = currentTarget.parentNode.getAttribute('data-pdf-annotate-document');

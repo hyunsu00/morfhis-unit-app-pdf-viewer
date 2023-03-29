@@ -245,6 +245,11 @@ export default (function () {
     }
   }
 
+  function a_property(evtAction) {
+    const {target, cmdType, cmdValue} = evtAction;
+    AnnotationManager.execCommand(cmdType, cmdValue, target);
+  }
+  
   function e_dialog_password(evtAction) {
     webPdfLib.PDFViewerApplication.passwordPrompt.verify(evtAction.value.file_password);
   }
@@ -323,6 +328,7 @@ export default (function () {
       ['a_quick_underline', a_quick_underline],
       ['a_quick_strikeout', a_quick_strikeout],
       ['a_quick_highlight', a_quick_highlight],
+      ['a_property', a_property],
       ['e_dialog_password', e_dialog_password],
       ['e_viewsidebar_tab', e_viewsidebar_tab],
     ]);

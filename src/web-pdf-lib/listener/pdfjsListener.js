@@ -43,19 +43,21 @@ export default (function () {
       const docId = webPdfLib.PDFViewerApplication.baseUrl;
       AnnotationManager.render(docId, parentNode, canvasWrapper, id, pdfPage, scale);
     },
+    onWebViewerAnnotateThumnailRender({ pageNumber }) {
+      AnnotationManager.renderThumnail(pageNumber);
+    },
+    onParsedAnnotations(annotations, pageIndex) {
+      console.log('Begin pdfjsListener.onParsedAnnotations(annotations)');
+      AnnotationManager.parsedAnnotations(annotations, pageIndex);
+      console.log('End pdfjsListener.onParsedAnnotations(annotations)');
+    },
+
     onDocumentSave() {
       const docId = webPdfLib.PDFViewerApplication.baseUrl;
       AnnotationManager.save(docId, webPdfLib.PDFViewerApplication.pdfDocument, false);
     },
-    onWebViewerAnnotateThumnailRender({ pageNumber }) {
-      AnnotationManager.renderThumnail(pageNumber);
-    },
-
-    onCloseDialog() {
-/*      
-      UiController.closeDialog();
-*/
-    },
+    
+    // 다이얼로그
     onInitPasswordDialog() {
 /*      
       let uiUpdateAction = EventActionGenerator.makeUpdateEventAction('e_dialog_password', { file_password: '' });
@@ -63,6 +65,7 @@ export default (function () {
       $.publish('/ui/update', uiUpdateAction);
 */
     },
+
     onShowDialog({ eventType, widgetName, value, dialogName, updateValues, focusName }) {
  /*      
       let pubAction = EventActionGenerator.makeEventActionObj('update', eventType, widgetName, value);
@@ -84,14 +87,21 @@ export default (function () {
  */
     },
 
+    onCloseDialog() {
+/*      
+      UiController.closeDialog();
+*/
+    },
+
     onUpdateUi({ eventType, widgetName, value }) {
 /*     
       UiController.updateUi(EventActionGenerator.makeEventActionObj('update', eventType, widgetName, value));
- */
+*/
       EventManager.dispatch(EventManager.onUpdateUi, { name: widgetName, value });
     },
+
     onMakeUpdateEventAction({ widgetName, value }) {
-      /*     
+/*     
       // 손도구 / 선택 선택시 주석 입력 활성/비활성화 처리
       if (!Util.isViewMode() && (widgetName == 't_hand' || widgetName == 't_select') && value == 'on') {
         UiManager.setEnableAnnotate(widgetName === 't_hand' ? false : true);
@@ -102,12 +112,12 @@ export default (function () {
  */
     },
     onSidebarButtonStatus({ widgetName, value }) {
-      /*      
+/*      
       UiController.setSidebarButtonOn(widgetName, value);
 */
     },
     onSetEnable({ widgetName, value }) {
-      /*      
+/*      
       UiController.setEnable(widgetName, value);
 */
     },
@@ -117,20 +127,20 @@ export default (function () {
 */
     },
     onSetUIDisableState({ value }) {
-      /*      
+/*      
       UiManager.onSetStyleBarDisableState(value);
       UiManager.onSetAnnotationSidebarEnable(value);
       UiManager.setPopupEditing(true);
 */
     },
     onWebViewerUpdateViewarea() {
-      /*      
+/*      
       UiController.hideQuickMenu();
       UiController.hideTool(UiDefine.TOOL_ANNOTATION_MENU);
 */
     },
     onHideLoadingProgress() {
-      /*      
+/*      
       UiManager.hideLoadingProgress();
 */
     },
@@ -138,11 +148,6 @@ export default (function () {
 /*      
       UiManager.showLoadingProgress();
 */
-    },
-    onParsedAnnotations(annotations, pageIndex) {
-      console.log('Begin pdfjsListener.onParsedAnnotations(annotations)');
-      AnnotationManager.parsedAnnotations(annotations, pageIndex);
-      console.log('End pdfjsListener.onParsedAnnotations(annotations)');
     },
   };
 })();
