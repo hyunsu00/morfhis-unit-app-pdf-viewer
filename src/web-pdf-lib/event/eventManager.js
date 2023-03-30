@@ -13,6 +13,8 @@ export default (function () {
 	  onUpdateUi: 'onUpdateUi',
     onQuickMenu: 'onQuickMenu',
     onError: 'onError',
+    onPassword: 'onPassword',
+    onDocumentSummary: 'onDocumentSummary',
     onAnnotationSelected : 'onAnnotationSelected',
     onAnnotationUnSelected : 'onAnnotationUnSelected',
     onAnnotationMenu: 'onAnnotationMenu',

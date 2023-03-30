@@ -10,7 +10,7 @@ import Util from '../../utils/util.js';
 */
 import AnnotationManager from '../annotation/annotationManager.js';
 import webPdfLib from '../webPdfLib.js';
-import EventManager from "../event/eventManager.js";
+import EventManager from '../event/eventManager.js';
 
 export default (function () {
   return {
@@ -56,7 +56,7 @@ export default (function () {
       const docId = webPdfLib.PDFViewerApplication.baseUrl;
       AnnotationManager.save(docId, webPdfLib.PDFViewerApplication.pdfDocument, false);
     },
-    
+
     // 다이얼로그
     onInitPasswordDialog() {
 /*      
@@ -64,15 +64,25 @@ export default (function () {
       EventActionGenerator.addFocusProperty(uiUpdateAction, 'file_password');
       $.publish('/ui/update', uiUpdateAction);
 */
+      EventManager.dispatch(EventManager.onPassword, { state: 'failed' });
     },
 
+    // 1. 문서오픈시 패스워드 문서를 열경우 호출됨 ==> 다이얼로드 호출
     onShowDialog({ eventType, widgetName, value, dialogName, updateValues, focusName }) {
- /*      
+/*
       let pubAction = EventActionGenerator.makeEventActionObj('update', eventType, widgetName, value);
       pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeUpdateEventAction(dialogName, updateValues));
       pubAction = EventActionGenerator.addFocusProperty(pubAction, focusName);
       $.publish('/ui/update', pubAction);
 */
+      //
+      switch (value) {
+        case 'dialog_password': // 패스워드 다이얼로그
+          EventManager.dispatch(EventManager.onPassword, { state: 'open' });
+          break;
+        case 'dialog_find_replace': // 찾기 다이얼로그
+          break;
+      }
     },
 
     onShowAlertModalDialog({ eventType, widgetName, dialogName, value }) {
@@ -87,17 +97,30 @@ export default (function () {
  */
     },
 
+    // 1. 문서오픈시 패스워드 문서를 성공적으로 오픈시 호출됨
     onCloseDialog() {
 /*      
       UiController.closeDialog();
 */
+      EventManager.dispatch(EventManager.onPassword, { state: 'succeeded' });
     },
 
     onUpdateUi({ eventType, widgetName, value }) {
 /*     
       UiController.updateUi(EventActionGenerator.makeEventActionObj('update', eventType, widgetName, value));
 */
-      EventManager.dispatch(EventManager.onUpdateUi, { name: widgetName, value });
+      switch (widgetName) {
+        case 'description':
+          {
+            EventManager.dispatch(EventManager.onDocumentSummary, { value });
+            webPdfLib.PDFViewerApplication.pdfDocumentProperties.close();
+          }
+          break;
+        case 'page_number':
+        default:
+          EventManager.dispatch(EventManager.onUpdateUi, { name: widgetName, value });
+          break;
+      }
     },
 
     onMakeUpdateEventAction({ widgetName, value }) {

@@ -46,7 +46,7 @@ export default (function () {
   function d_info(_evtAction) {
     console.group(`function d_info(_evtAction)`);
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('documentproperties', {
-      source: webPdfLib.PDFViewerApplication.secondaryToolbar,
+      source: webPdfLib.PDFViewerApplication.secondaryToolbar
     });
     console.warn(`function d_info(_evtAction) 다이얼로그 구현 필요`);
     console.groupEnd();
@@ -251,7 +251,12 @@ export default (function () {
   }
   
   function e_dialog_password(evtAction) {
-    webPdfLib.PDFViewerApplication.passwordPrompt.verify(evtAction.value.file_password);
+    const {file_password} = evtAction;
+    if (file_password) {
+      webPdfLib.PDFViewerApplication.passwordPrompt.verify(file_password);
+    } else {
+      EventManager.dispatch(EventManager.onPassword, {state:'failed'});
+    }
   }
 
   function e_viewsidebar_tab(evtAction) {

@@ -11,10 +11,11 @@
   display: none !important;
 }
 
-// 임시 다이얼로그 생성
-// #overlayContainer {
-//   display: none !important;
-// }
+// pdf.js 다이얼로그 숨기기
+// 패스워드 다이얼로그, 파일정보 다이얼로그
+#overlayContainer {
+  display: none !important;
+}
 
 #annotationEditorLayer {
   display: none !important;
