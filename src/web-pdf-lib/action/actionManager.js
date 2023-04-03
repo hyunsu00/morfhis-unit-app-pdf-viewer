@@ -52,12 +52,19 @@ export default (function () {
     console.groupEnd();
   }
 
-  function d_find(_evtAction) {
+  function d_find(evtAction) {
     console.group(`function d_find(_evtAction)`);
+    const value = evtAction.value;
+    webPdfLib.PDFViewerApplication.findBar.eventBus.dispatch("find", value);
     console.warn(`function d_find(_evtAction) 다이얼로그 구현 필요`);
     console.groupEnd();
   }
   
+  function d_find_close(evtAction) {
+    webPdfLib.PDFViewerApplication.findBar.eventBus.dispatch("findbarclose", {
+      source: webPdfLib.PDFViewerApplication.findBar
+    });
+  }
   /**
    * 
    * @param {*} evtAction 
@@ -306,6 +313,7 @@ export default (function () {
       ['d_print', d_print],
       ['d_info', d_info],
       ['d_find', d_find],
+      ['d_find_close', d_find_close],
       ['e_zoom', zoom],
       ['e_show_mode_start', slideshow],
       ['e_show_mode', slideshow],

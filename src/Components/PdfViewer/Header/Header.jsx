@@ -9,8 +9,8 @@ import MoreMenu from './MoreMenu';
 import Pagination from './Pagination';
 import SelectTheme from './SelectTheme';
 import PenTool from './PenTool';
-import actionManager from '../../../web-pdf-lib/action/actionManager';
-
+import ActionManager from '../../../web-pdf-lib/action/actionManager';
+import ValueGenerator from '../../../web-pdf-lib/action/valueGenerator';
 const Header = () => {
   const { zoomScale } = Utils();
   const { winSize, viewportResizing, headerHeight, visibleSidebar, setVisibleSidebar, headerZIndex } = PdfViewerState();
@@ -45,7 +45,7 @@ const Header = () => {
           <IconButton
             sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
             onClick={() => {
-              actionManager.execute({name:'document_window'});
+              ActionManager.execute({name:'document_window'});
             }}>
             <MenuIcon />
           </IconButton>
@@ -75,6 +75,12 @@ const Header = () => {
                 sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
                 onClick={() => {
                   setVisibleSidebar(!visibleSidebar);
+                  // if (visibleSidebar) {
+                  //   const value = ValueGenerator.createFindValue(ValueGenerator.FIND_TYPE.FIND_AGAIN, "Trace", false, false, true, false);
+                  //   ActionManager.execute({name:'d_find', value: value}); 
+                  // } else {
+                  //   ActionManager.execute({name:'d_find_close'}); 
+                  // }
                 }}>
                 <VerticalSplitOutlinedIcon />
               </IconButton>
