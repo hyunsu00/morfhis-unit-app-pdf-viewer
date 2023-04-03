@@ -462,12 +462,17 @@ class PDFPageView {
     }
 
     let isScalingRestricted = false;
-    if (this.canvas && this.maxCanvasPixels > 0) {
+    if ((this.canvas && this.maxCanvasPixels > 0)) {
       const outputScale = this.outputScale;
+
+      //INFO: maxCanvasPixels 이 모바일에서 5242880 로 제한되어 있어, reset 이 되지 않고 Scaling Restricted 상황이 된다. checkCanvasSizeLimitation 함수 참고.
+      //      위와 같은 상황이 발생하여 annotation Layer 가 reset 되지 않고 그대로 그려져서 스케일링이 되지 않는다.
+      //      maxCanvasPixels 를 조정하는 것은 사이드이펙트 우려가 있으니 16777216 로 조정하여 Scaling Restricted 를 판단한다.
+      const maxScalingRestrictedCanvasPixels = (this.maxCanvasPixels < 16777216) ? 16777216 : this.maxCanvasPixels;
       if (
         ((Math.floor(this.viewport.width) * outputScale.sx) | 0) *
           ((Math.floor(this.viewport.height) * outputScale.sy) | 0) >
-        this.maxCanvasPixels
+        maxScalingRestrictedCanvasPixels
       ) {
         isScalingRestricted = true;
       }

@@ -1354,11 +1354,7 @@ export default (function () {
             ta.createDefaultAppearanceStream();
           } else if (annotation.type == 'textbox') {
             const fontSize = annotation.fontSize;
-            const arrContents = annotation.content.split('\n');
-            let contents = '';
-            for (let i = 0; i < arrContents.length; i++) {
-              contents += arrContents[i];
-            }
+            let contents = annotation.content;
             const imageUrl = annotation.imageUrl;
             const textColor = Util.hexToRgb(annotation.fontColor);
             const sizeInfo = Util.computeAnnotationRect(annotation.x, annotation.y, annotation.width, annotation.height, height, scaleX, scaleY);

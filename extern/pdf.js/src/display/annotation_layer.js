@@ -588,7 +588,8 @@ class LinkAnnotationElement extends AnnotationElement {
     let isBound = false;
 
     if (data.url) {
-      linkService.addLinkAttributes(link, data.url, data.newWindow);
+      //INFO: HanPDF 스펙상, 웹페이지 링크는 원본 문서가 닫히지 않도록 무조건 새창으로 처리한다.
+      linkService.addLinkAttributes(link, data.url, true);
       isBound = true;
     } else if (data.action) {
       this._bindNamedAction(link, data.action);

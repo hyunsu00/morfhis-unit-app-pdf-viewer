@@ -693,6 +693,22 @@ const PDFViewerApplication = {
     this.pdfViewer.decreaseScale(steps);
   },
 
+  pintchToZoomIn(steps) {
+    if (this.pdfViewer.isInPresentationMode) {
+      return;
+    }
+
+    this.pdfViewer.increasePintchToZoomScale(steps);
+  },
+
+  pintchToZoomOut(steps) {
+    if (this.pdfViewer.isInPresentationMode) {
+      return;
+    }
+
+    this.pdfViewer.decreasePintchToZoomScale(steps);
+  },
+
   zoomReset() {
     if (this.pdfViewer.isInPresentationMode) {
       return;

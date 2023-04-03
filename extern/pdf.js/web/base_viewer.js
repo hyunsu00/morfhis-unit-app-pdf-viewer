@@ -1252,6 +1252,14 @@ class BaseViewer {
   }
 
   _updateViewScaleEventAction(sValue) {
+    let scaleArray = ['0.50', '0.75', '1.00', '1.25', '1.50', '2.00', '3.00'],
+        index = scaleArray.indexOf(sValue);
+
+    // scale 콤보에서 없은 아이템은 해당 숫자를 % 로 표현하도록 한다.
+    if (index == -1) {
+      sValue = String(Math.round(Number(sValue) * 100)) + "%";
+    }
+
     this.eventBus.dispatch("updateUi", {
       eventType : "makeUpdateEventAction",
       widgetName : "e_view_scale",
@@ -2286,6 +2294,34 @@ class BaseViewer {
   } else {
     newScale = (index > 0) ? scaleArray[index - 1] : scaleArray[index];
   }
+    this.currentScaleValue = newScale;
+  }
+
+  /**
+   * Increase the current zoom level one, or more, times.
+   * @param {number} [steps] - Defaults to zooming once.
+   */
+  increasePintchToZoomScale(steps = 1) {
+    let newScale = this._currentScale;
+
+    for (let step = 0; step < steps; ++step) {
+      newScale = ((newScale + 0.1) < 3.0) ? (newScale + 0.1) : 3.0;
+    }
+
+    this.currentScaleValue = newScale;
+  }
+
+  /**
+   * Decrease the current zoom level one, or more, times.
+   * @param {number} [steps] - Defaults to zooming once.
+   */
+  decreasePintchToZoomScale(steps = 1) {
+    let newScale = this._currentScale;
+
+    for (let step = 0; step < steps; ++step) {
+      newScale = ((newScale - 0.1) > 0.5) ? (newScale - 0.1) : 0.5;
+    }
+
     this.currentScaleValue = newScale;
   }
 

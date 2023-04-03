@@ -532,6 +532,8 @@ export class DocumentHistory {
                 us = this.updates[this.updates.length - 1]
             }
 
+            this.trailerSize = this.updates[0].size;
+
         } else if (document_entry.sectionType === "stream") { // handle cross reference stream object
             let crs = this.extractCrossReferenceStreamObject(xref)
 
@@ -567,7 +569,10 @@ export class DocumentHistory {
             throw Error("Could not part cross reference table")
         }
 
-        this.trailerSize = this.refNumberCount = this._extractReferenceNumberCount()
+        this.refNumberCount = this._extractReferenceNumberCount()
+        if (this.trailerSize === -1) {
+            this.trailerSize = this.refNumberCount;
+        }
     }
 
     /**

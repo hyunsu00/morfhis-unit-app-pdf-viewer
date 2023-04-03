@@ -614,6 +614,11 @@ export default class Util {
     let canvas = document.createElement('canvas');
     const scaleX = 2, scaleY = 2;
     let w = rect.width, h = rect.height;
+
+    // canvas 의 크기가 없다면 이미지 생성이 실패하므로, 최소 크기로 조정한다.
+		if (w == 0) w = 1;
+		if (h == 0) h = 1;
+    
     canvas.width = w * scaleX; canvas.height = h * scaleY;
     let ctx = canvas.getContext('2d');
     if (!ctx) {

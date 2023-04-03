@@ -768,8 +768,14 @@ class Annotation {
       var pos1 = rc.indexOf(str);
       if (pos1 != -1) {
         var pos2 = rc.indexOf('pt', pos1);
-        var size = rc.substring(pos1 + str.length, pos2);
-        this.textSize = size.trim();
+        if (pos2 == -1) {
+          pos2 = rc.indexOf('px', pos1);
+        }
+
+        if (pos2 != -1) {
+          var size = rc.substring(pos1 + str.length, pos2);
+          this.textSize = size.trim();
+        }
       }
     }
   }
