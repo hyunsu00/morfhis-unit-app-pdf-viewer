@@ -50,7 +50,7 @@ const MoreMenu = () => {
           sx={{ height: winSize.width >= 600 ? '36px' : '56px' }}
           onClick={() => {
             setAnchorEl(null);
-            ActionManager.execute({name: 'd_print'});
+            ActionManager.Execute(AID.PRINT);
           }}>
           <ListItemIcon sx={{ color: 'action.active' }}>
             <PrintOutlined fontSize={winSize.width >= 600 ? 'small' : 'medium'} />
@@ -63,7 +63,7 @@ const MoreMenu = () => {
           sx={{ height: winSize.width >= 600 ? '36px' : '56px' }}
           onClick={() => {
             setAnchorEl(null);
-            ActionManager.execute({name: 'd_download'});
+            ActionManager.Execute(AID.DOWNLOAD);
           }}>
           <ListItemIcon sx={{ color: 'action.active' }}>
             <FileDownloadOutlined fontSize={winSize.width >= 600 ? 'small' : 'medium'} />

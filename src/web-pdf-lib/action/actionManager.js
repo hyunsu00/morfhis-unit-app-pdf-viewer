@@ -17,6 +17,19 @@ import EventManager from '../event/eventManager.js';
 
 export const AID = {
 	OPEN_FILE: "d_open",
+  SAVE: "d_save", // ! 구현 필요
+  DOWNLOAD: "d_download",
+  PRINT: "d_print",
+  THUMBNAIL_VIEW: "document_window",
+  // 찾기
+  FIND_OPEN: "d_find",
+  FIND_CLOSE: "d_find_close",
+  // 페이지 이동
+  FIRST_PAGE: "e_first_page",
+  PREV_PAGE: "e_previous_page",
+  NEXT_PAGE: "e_next_page",
+  LAST_PAGE: "e_last_page",
+  GOTO_PAGE: "page_number",
 };
 
 export default (function () {
@@ -56,15 +69,14 @@ export default (function () {
     console.groupEnd();
   }
 
-  function d_find(evtAction) {
+  function d_find(value) {
     console.group(`function d_find(_evtAction)`);
-    const value = evtAction.value;
     webPdfLib.PDFViewerApplication.findBar.eventBus.dispatch("find", value);
     console.warn(`function d_find(_evtAction) 다이얼로그 구현 필요`);
     console.groupEnd();
   }
   
-  function d_find_close(evtAction) {
+  function d_find_close(_value) {
     webPdfLib.PDFViewerApplication.findBar.eventBus.dispatch("findbarclose", {
       source: webPdfLib.PDFViewerApplication.findBar
     });
@@ -151,35 +163,35 @@ export default (function () {
     document.execCommand('copy'); //복사
   }
 
-  function e_first_page(_evtAction) {
+  function e_first_page(_value) {
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('firstpage', {
       source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
-  function e_previous_page(_evtAction) {
+  function e_previous_page(_value) {
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('previouspage', {
       source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
-  function e_next_page(_evtAction) {
+  function e_next_page(_value) {
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('nextpage', {
       source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
-  function e_last_page(_evtAction) {
+  function e_last_page(_value) {
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('lastpage', {
       source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
-  function page_number(evtAction) {
-    if (evtAction.value <= webPdfLib.PDFViewerApplication.pdfLinkService.pagesCount) {
+  function page_number(value) {
+    if (value <= webPdfLib.PDFViewerApplication.pdfLinkService.pagesCount) {
       webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch('pagenumberchanged', {
         source: webPdfLib.PDFViewerApplication.toolbar,
-        value: evtAction.value,
+        value: value,
       });
     }
   }
@@ -311,26 +323,26 @@ export default (function () {
 
   const _actionMap = (function () {
     return new Map([
-      ['d_save', save],
-      ['d_download', download],
+      [AID.SAVE, save],
+      [AID.DOWNLOAD, download],
       [AID.OPEN_FILE, d_open],
-      ['d_print', d_print],
+      [AID.PRINT, d_print],
       ['d_info', d_info],
-      ['d_find', d_find],
-      ['d_find_close', d_find_close],
+      [AID.FIND_OPEN, d_find],
+      [AID.FIND_CLOSE, d_find_close],
       ['e_zoom', zoom],
       ['e_show_mode_start', slideshow],
       ['e_show_mode', slideshow],
-      ['document_window', document_window],
+      [AID.THUMBNAIL_VIEW, document_window],
       ['t_select', switchcursortool],
       ['t_hand', switchcursortool],
       ['e_select_all', e_select_all],
       ['e_copy', e_copy],
-      ['e_first_page', e_first_page],
-      ['e_previous_page', e_previous_page],
-      ['e_next_page', e_next_page],
-      ['e_last_page', e_last_page],
-      ['page_number', page_number],
+      [AID.FIRST_PAGE, e_first_page],
+      [AID.PREV_PAGE, e_previous_page],
+      [AID.NEXT_PAGE, e_next_page],
+      [AID.LAST_PAGE, e_last_page],
+      [AID.GOTO_PAGE, page_number],
       ['a_line', AnnotationExecutor.switchAnnotation],
       ['a_area', AnnotationExecutor.switchAnnotation],
       ['a_draw', AnnotationExecutor.switchAnnotation],

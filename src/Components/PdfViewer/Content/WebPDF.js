@@ -3,7 +3,7 @@ import '../../../web-pdf-lib/webPdfLib.scss';
 import webPdfLib from '../../../web-pdf-lib/webPdfLib';
 import html from '../../../web-pdf-lib/webPdfLib.html';
 import EventManager from '../../../web-pdf-lib/event/eventManager';
-import ActionManager from '../../../web-pdf-lib/action/actionManager';
+import ActionManager, {AID} from '../../../web-pdf-lib/action/actionManager';
 import AnnotationManager from '../../../web-pdf-lib/annotation/annotationManager';
 import UiManager from '../../../web-pdf-lib/uiFrame/uiManager';
 import PropertyActions from '../../../web-pdf-lib/define/defineActions';
