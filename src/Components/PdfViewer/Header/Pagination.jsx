@@ -4,7 +4,7 @@ import { Box, Typography, IconButton } from '@mui/material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import TextField from '@mui/material/TextField';
-import actionManager from '../../../web-pdf-lib/action/actionManager';
+import ActionManager from '../../../web-pdf-lib/action/actionManager';
 import annotationManager from '../../../web-pdf-lib/annotation/annotationManager';
 import EventManager from "../../../web-pdf-lib/event/eventManager.js";
 
@@ -38,7 +38,7 @@ const Pagination = () => {
   const setPageNumber = (goToPageNumber) => {
     const currentPageNumber = annotationManager.currentPageNumber;
     if (goToPageNumber != currentPageNumber) {
-      actionManager.execute({ name: 'page_number', value: goToPageNumber});
+      ActionManager.execute({ name: 'page_number', value: goToPageNumber});
       setCurrentPage(goToPageNumber);
     }
   };
@@ -115,7 +115,7 @@ const Pagination = () => {
         <IconButton
           sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
           onClick={() => {
-            actionManager.execute({ name: 'e_previous_page' });
+            ActionManager.execute({ name: 'e_previous_page' });
             setCurrentPage(annotationManager.currentPageNumber);
           }}>
           <ArrowCircleUpIcon />
@@ -123,7 +123,7 @@ const Pagination = () => {
         <IconButton
           sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
           onClick={() => {
-            actionManager.execute({ name: 'e_next_page' });
+            ActionManager.execute({ name: 'e_next_page' });
             setCurrentPage(annotationManager.currentPageNumber);
           }}>
           <ArrowCircleDownIcon />

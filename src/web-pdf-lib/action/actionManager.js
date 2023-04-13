@@ -15,6 +15,10 @@ import UiManager from '../uiFrame/uiManager.js';
 import annotationManager from '../annotation/annotationManager.js';
 import EventManager from '../event/eventManager.js';
 
+export const AID = {
+	OPEN_FILE: "d_open",
+};
+
 export default (function () {
 
   async function save(_evtAction) {
@@ -309,7 +313,7 @@ export default (function () {
     return new Map([
       ['d_save', save],
       ['d_download', download],
-      ['d_open', d_open],
+      [AID.OPEN_FILE, d_open],
       ['d_print', d_print],
       ['d_info', d_info],
       ['d_find', d_find],
@@ -352,6 +356,12 @@ export default (function () {
       let action = _actionMap.get(evtAction.name);
       if (action) {
         action(evtAction);
+      }
+    },
+    Execute(aID, value) {
+      let action = _actionMap.get(aID);
+      if (action) {
+        action(value);
       }
     }
   };

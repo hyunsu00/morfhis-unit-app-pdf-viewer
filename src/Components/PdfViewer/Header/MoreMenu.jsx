@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import PopoverMenu from '../Menu/PopoverMenu';
 import DrawerMenu from '../Menu/DrawerMenu';
 import PdfViewerState from '../Store/PdfViewerState';
-import actionManager from '../../../web-pdf-lib/action/actionManager';
+import ActionManager, {AID} from '../../../web-pdf-lib/action/actionManager';
 
 const MoreMenu = () => {
   const { winSize, viewportResizing } = PdfViewerState();
@@ -37,7 +37,7 @@ const MoreMenu = () => {
           sx={{ height: winSize.width >= 600 ? '36px' : '56px' }}
           onClick={() => {
             setAnchorEl(null);
-            actionManager.execute({ name: 'd_open' });
+            ActionManager.Execute(AID.OPEN_FILE);
           }}>
           <ListItemIcon sx={{ color: 'action.active' }}>
             <FileOpenOutlinedIcon fontSize={winSize.width >= 600 ? 'small' : 'medium'} />
@@ -50,7 +50,7 @@ const MoreMenu = () => {
           sx={{ height: winSize.width >= 600 ? '36px' : '56px' }}
           onClick={() => {
             setAnchorEl(null);
-            actionManager.execute({name: 'd_print'});
+            ActionManager.execute({name: 'd_print'});
           }}>
           <ListItemIcon sx={{ color: 'action.active' }}>
             <PrintOutlined fontSize={winSize.width >= 600 ? 'small' : 'medium'} />
@@ -63,7 +63,7 @@ const MoreMenu = () => {
           sx={{ height: winSize.width >= 600 ? '36px' : '56px' }}
           onClick={() => {
             setAnchorEl(null);
-            actionManager.execute({name: 'd_download'});
+            ActionManager.execute({name: 'd_download'});
           }}>
           <ListItemIcon sx={{ color: 'action.active' }}>
             <FileDownloadOutlined fontSize={winSize.width >= 600 ? 'small' : 'medium'} />

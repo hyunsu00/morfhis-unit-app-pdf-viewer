@@ -1,4 +1,4 @@
-import actionManager from '../../../web-pdf-lib/action/actionManager';
+import ActionManager from '../../../web-pdf-lib/action/actionManager';
 import { useEffect, useState } from 'react';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
@@ -48,7 +48,7 @@ const PenTool = () => {
               case 'a_highlight':
               case 'a_point':
               case 'a_text':
-                actionManager.execute({ name: key });
+                ActionManager.execute({ name: key });
                 break;
               default:
                 break;
@@ -80,7 +80,7 @@ const PenTool = () => {
       <ButtonGroup variant='contained'>
         <Button
           onClick={() => {
-            actionManager.execute({ name: selectDrawTool });
+            ActionManager.execute({ name: selectDrawTool });
           }}>
           {selectDrawTool === 'a_draw' ? <EditOutlinedIcon /> : null}
           {selectDrawTool === 'a_line' ? <HorizontalRuleOutlinedIcon /> : null}

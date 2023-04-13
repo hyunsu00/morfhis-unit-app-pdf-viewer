@@ -1,4 +1,4 @@
-import actionManager from '../../../web-pdf-lib/action/actionManager';
+import ActionManager from '../../../web-pdf-lib/action/actionManager';
 import { useEffect, useState } from 'react';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
@@ -40,7 +40,7 @@ const ZoomTool = () => {
               if (key !== 'full') {
                 setSelectZoom(key);
               }
-              actionManager.execute({ name: zoomTools[key].name, value: zoomTools[key].value });
+              ActionManager.execute({ name: zoomTools[key].name, value: zoomTools[key].value });
             }}>
             <ListItemIcon>
               {key === 'original' ? <DocumentScannerOutlinedIcon fontSize={winSize.width >= 600 ? 'small' : 'medium'} /> : null}
