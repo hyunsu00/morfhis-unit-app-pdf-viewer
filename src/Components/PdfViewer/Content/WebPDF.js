@@ -71,9 +71,9 @@ function WebPDF() {
     };
     const onQuickMenu = function (event) {
       const { posInfo, range } = event.detail;
-      // ActionManager.execute({name:'a_quick_underline', range:range});
-      // ActionManager.execute({name:'a_quick_strikeout', range:range});
-      // ActionManager.execute({name:'a_quick_highlight', range:range});
+      // ActionManager.Execute(AID.QUICK_UNDERLINE, range);
+      // ActionManager.Execute(AID.QUICK_STRIKEOUT, range);
+      // ActionManager.Execute(AID.QUICK_HIGHLIGHT, range);
     };
 
     const onAnnotationSelected = function (event) {

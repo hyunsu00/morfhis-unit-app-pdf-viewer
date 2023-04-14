@@ -48,7 +48,7 @@ const PenTool = () => {
               case 'a_highlight':
               case 'a_point':
               case 'a_text':
-                ActionManager.execute({ name: key });
+                ActionManager.Execute(AID.SELECT_DRAW_TOOL, key);
                 break;
               default:
                 break;
@@ -80,7 +80,7 @@ const PenTool = () => {
       <ButtonGroup variant='contained'>
         <Button
           onClick={() => {
-            ActionManager.execute({ name: selectDrawTool });
+            ActionManager.Execute(AID.SELECT_DRAW_TOOL, selectDrawTool);
           }}>
           {selectDrawTool === 'a_draw' ? <EditOutlinedIcon /> : null}
           {selectDrawTool === 'a_line' ? <HorizontalRuleOutlinedIcon /> : null}

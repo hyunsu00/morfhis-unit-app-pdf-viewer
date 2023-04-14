@@ -16,7 +16,6 @@ import Util from '../utils/util.js';
 import UiManager from '../uiFrame/uiManager.js';
 import DocumentLoader from '../controller/documentLoader.js';
 import AnnotationListener from '../listener/annotationListener.js';
-import AnnotationExecutor from '../action/annotationActionExecutor.js';
 import AnnotationUtils from './annotationUtils.js';
 import webPdfLib from '../webPdfLib.js';
 import EventManager from '../event/eventManager.js';
@@ -1448,8 +1447,6 @@ export default (function () {
       default:
         break;
     }
-
-    AnnotationExecutor.updateUI(annotationType);
   };
 
   AnnotationManager.enableUI = function (annotationType) {
