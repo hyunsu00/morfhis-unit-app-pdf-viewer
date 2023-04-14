@@ -40,7 +40,7 @@ const ZoomTool = () => {
               if (key !== 'full') {
                 setSelectZoom(key);
               }
-              ActionManager.execute({ name: zoomTools[key].name, value: zoomTools[key].value });
+              ActionManager.Execute(zoomTools[key].name, zoomTools[key].value);
             }}>
             <ListItemIcon>
               {key === 'original' ? <DocumentScannerOutlinedIcon fontSize={winSize.width >= 600 ? 'small' : 'medium'} /> : null}

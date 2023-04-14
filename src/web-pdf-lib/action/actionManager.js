@@ -30,6 +30,11 @@ export const AID = {
   NEXT_PAGE: "e_next_page",
   LAST_PAGE: "e_last_page",
   GOTO_PAGE: "page_number",
+  // 줌
+  ZOOM: "e_zoom",
+  // 슬라이드쇼
+  SLIDESHOW_FIRST: "e_show_mode_start",
+  SLIDESHOW_CURRENT: "e_show_mode",
 };
 
 export default (function () {
@@ -83,15 +88,15 @@ export default (function () {
   }
   /**
    * 
-   * @param {*} evtAction 
+   * @param {*} value 
+   * page-actual : 실제 사이즈
    * page-height 쪽맞춤
    * page-width 폭맞춤
    * 0.1 ~ 3.0 비율
    */
-  function zoom(evtAction) {
+  function zoom(value) {
     console.group(`function zoom(evtAction)`);
 
-    const value = evtAction.value;
     console.log(`current scaleValue = ${annotationManager.currentScaleValue}`);
     annotationManager.currentScaleValue = value;
     console.log(`changed scaleValue = ${annotationManager.currentScaleValue}`);
@@ -99,15 +104,21 @@ export default (function () {
     console.groupEnd();
   }
 
-  function slideshow(evtAction) {
-    console.group(`function slideshow(evtAction)`);
+  function slideshow_first(value) {
+    console.group(`function slideshow_first(evtAction)`);
 
-    if (evtAction.name == 'e_show_mode_start') {
-      webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('firstpage', {
-        source: webPdfLib.PDFViewerApplication.secondaryToolbar,
-      });
-      webPdfLib.PDFViewerApplication.secondaryToolbar.close();
-    }
+    webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('firstpage', {
+      source: webPdfLib.PDFViewerApplication.secondaryToolbar,
+    });
+    webPdfLib.PDFViewerApplication.secondaryToolbar.close();
+
+    slideshow_current(value);
+
+    console.groupEnd();
+  }
+
+  function slideshow_current(_value) {
+    console.group(`function slideshow_current(evtAction)`);
 
     webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch('presentationmode', {
       source: webPdfLib.PDFViewerApplication.toolbar,
@@ -330,9 +341,9 @@ export default (function () {
       ['d_info', d_info],
       [AID.FIND_OPEN, d_find],
       [AID.FIND_CLOSE, d_find_close],
-      ['e_zoom', zoom],
-      ['e_show_mode_start', slideshow],
-      ['e_show_mode', slideshow],
+      [AID.ZOOM, zoom],
+      [AID.SLIDESHOW_FIRST, slideshow_first],
+      [AID.SLIDESHOW_CURRENT, slideshow_current],
       [AID.THUMBNAIL_VIEW, document_window],
       ['t_select', switchcursortool],
       ['t_hand', switchcursortool],
