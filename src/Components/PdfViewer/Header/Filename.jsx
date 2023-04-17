@@ -3,7 +3,8 @@ import { Box, Typography } from '@mui/material';
 import ic_pdf from '../Image/ic_pdf.svg';
 import DocumentState from '../Store/DocumentState';
 import annotationManager from '../../../web-pdf-lib/annotation/annotationManager';
-import EventManager from "../../../web-pdf-lib/event/eventManager.js";
+import EID from "../../../web-pdf-lib/define/eventDefines";
+import EventManager from "../../../web-pdf-lib/event/eventManager";
 
 const Filename = () => {
   const { filename, setFilename } = DocumentState();
@@ -12,9 +13,9 @@ const Filename = () => {
     const onDocumentLoaded = function() {
       setFilename(annotationManager.documentTitle);
     };
-    EventManager.on(EventManager.onDocumentLoaded, onDocumentLoaded);
+    EventManager.on(EID.onDocumentLoaded, onDocumentLoaded);
     return () => {
-      EventManager.off(EventManager.onDocumentLoaded, onDocumentLoaded);
+      EventManager.off(EID.onDocumentLoaded, onDocumentLoaded);
     }
   }, []);
 

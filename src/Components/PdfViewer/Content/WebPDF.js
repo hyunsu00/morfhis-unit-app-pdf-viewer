@@ -2,11 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import '../../../web-pdf-lib/webPdfLib.scss';
 import webPdfLib from '../../../web-pdf-lib/webPdfLib';
 import html from '../../../web-pdf-lib/webPdfLib.html';
+import EID from "../../../web-pdf-lib/define/eventDefines";
 import EventManager from '../../../web-pdf-lib/event/eventManager';
-import ActionManager, {AID} from '../../../web-pdf-lib/action/actionManager';
+import AID from "../../../web-pdf-lib/define/actionDefines"
+import ActionManager from '../../../web-pdf-lib/action/actionManager';
 import AnnotationManager from '../../../web-pdf-lib/annotation/annotationManager';
 import UiManager from '../../../web-pdf-lib/uiFrame/uiManager';
-import ValueGenerator, {COLOR_TYPE} from '../../../web-pdf-lib/action/valueGenerator';
+import { COLOR_TYPE } from '../../../web-pdf-lib/define/valueDefines';
+import ValueGenerator from '../../../web-pdf-lib/action/valueGenerator';
 
 function WebPDF() {
   console.log('function WebPDF())');
@@ -102,20 +105,20 @@ function WebPDF() {
       // 2. 주석 메뉴 숨기기
     };
 
-    EventManager.on(EventManager.onError, onError);
-    EventManager.on(EventManager.onPassword, onPassword);
-    EventManager.on(EventManager.onDocumentSummary, onDocumentSummary);
-    EventManager.on(EventManager.onQuickMenu, onQuickMenu);
-    EventManager.on(EventManager.onAnnotationSelected, onAnnotationSelected);
-    EventManager.on(EventManager.onAnnotationUnSelected, onAnnotationUnSelected);
+    EventManager.on(EID.onError, onError);
+    EventManager.on(EID.onPassword, onPassword);
+    EventManager.on(EID.onDocumentSummary, onDocumentSummary);
+    EventManager.on(EID.onQuickMenu, onQuickMenu);
+    EventManager.on(EID.onAnnotationSelected, onAnnotationSelected);
+    EventManager.on(EID.onAnnotationUnSelected, onAnnotationUnSelected);
 
     return () => {
-      EventManager.off(EventManager.onError, onError);
-      EventManager.off(EventManager.onPassword, onPassword);
-      EventManager.off(EventManager.onDocumentSummary, onDocumentSummary);
-      EventManager.off(EventManager.onQuickMenu, onQuickMenu);
-      EventManager.off(EventManager.onAnnotationSelected, onAnnotationSelected);
-      EventManager.off(EventManager.onAnnotationUnSelected, onAnnotationUnSelected);
+      EventManager.off(EID.onError, onError);
+      EventManager.off(EID.onPassword, onPassword);
+      EventManager.off(EID.onDocumentSummary, onDocumentSummary);
+      EventManager.off(EID.onQuickMenu, onQuickMenu);
+      EventManager.off(EID.onAnnotationSelected, onAnnotationSelected);
+      EventManager.off(EID.onAnnotationUnSelected, onAnnotationUnSelected);
     };
   }, []);
 

@@ -4,9 +4,11 @@ import { Box, Typography, IconButton } from '@mui/material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import TextField from '@mui/material/TextField';
-import ActionManager, {AID} from '../../../web-pdf-lib/action/actionManager';
+import ActionManager from '../../../web-pdf-lib/action/actionManager';
+import AID from "../../../web-pdf-lib/define/actionDefines";
 import annotationManager from '../../../web-pdf-lib/annotation/annotationManager';
-import EventManager from "../../../web-pdf-lib/event/eventManager.js";
+import EID from "../../../web-pdf-lib/define/eventDefines";
+import EventManager from "../../../web-pdf-lib/event/eventManager";
 
 const Pagination = () => {
 
@@ -27,11 +29,11 @@ const Pagination = () => {
         setCurrentPage(value.pageNumber);
       }
     };
-    EventManager.on(EventManager.onDocumentLoaded, onDocumentLoaded);
-    EventManager.on(EventManager.onUpdateUi, onUpdateUi);
+    EventManager.on(EID.onDocumentLoaded, onDocumentLoaded);
+    EventManager.on(EID.onUpdateUi, onUpdateUi);
     return () => {
-      EventManager.off(EventManager.onDocumentLoaded, onDocumentLoaded);
-      EventManager.on(EventManager.onUpdateUi, onUpdateUi);
+      EventManager.off(EID.onDocumentLoaded, onDocumentLoaded);
+      EventManager.on(EID.onUpdateUi, onUpdateUi);
     }
   }, [currentPage]);
 

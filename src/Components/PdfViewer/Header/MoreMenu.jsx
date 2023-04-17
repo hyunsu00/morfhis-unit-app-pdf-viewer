@@ -12,7 +12,8 @@ import IconButton from '@mui/material/IconButton';
 import PopoverMenu from '../Menu/PopoverMenu';
 import DrawerMenu from '../Menu/DrawerMenu';
 import PdfViewerState from '../Store/PdfViewerState';
-import ActionManager, {AID} from '../../../web-pdf-lib/action/actionManager';
+import ActionManager from '../../../web-pdf-lib/action/actionManager';
+import AID from "../../../web-pdf-lib/define/actionDefines";
 
 const MoreMenu = () => {
   const { winSize, viewportResizing } = PdfViewerState();

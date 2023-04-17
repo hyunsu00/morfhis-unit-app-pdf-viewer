@@ -9,8 +9,10 @@ import MoreMenu from './MoreMenu';
 import Pagination from './Pagination';
 import SelectTheme from './SelectTheme';
 import PenTool from './PenTool';
-import ActionManager, {AID} from '../../../web-pdf-lib/action/actionManager';
-import ValueGenerator, {FIND_TYPE} from '../../../web-pdf-lib/action/valueGenerator';
+import ActionManager from '../../../web-pdf-lib/action/actionManager';
+import AID from "../../../web-pdf-lib/define/actionDefines";
+import ValueGenerator from '../../../web-pdf-lib/action/valueGenerator';
+import { FIND_TYPE } from '../../../web-pdf-lib/define/valueDefines';
 const Header = () => {
   const { zoomScale } = Utils();
   const { winSize, viewportResizing, headerHeight, visibleSidebar, setVisibleSidebar, headerZIndex } = PdfViewerState();

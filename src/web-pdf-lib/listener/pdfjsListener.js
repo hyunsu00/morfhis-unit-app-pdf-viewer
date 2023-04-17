@@ -10,6 +10,7 @@ import Util from '../../utils/util.js';
 */
 import AnnotationManager from '../annotation/annotationManager.js';
 import webPdfLib from '../webPdfLib.js';
+import EID from "../define/eventDefines.js";
 import EventManager from '../event/eventManager.js';
 
 export default (function () {
@@ -37,7 +38,7 @@ export default (function () {
       }
       AnnotationManager.documentData = data;
 
-      EventManager.dispatch(EventManager.onDocumentLoaded, {});
+      EventManager.dispatch(EID.onDocumentLoaded, {});
     },
     onWebViewerAnnotateRender({ parentNode, canvasWrapper, id, pdfPage, scale }) {
       const docId = webPdfLib.PDFViewerApplication.baseUrl;
@@ -64,7 +65,7 @@ export default (function () {
       EventActionGenerator.addFocusProperty(uiUpdateAction, 'file_password');
       $.publish('/ui/update', uiUpdateAction);
 */
-      EventManager.dispatch(EventManager.onPassword, { state: 'failed' });
+      EventManager.dispatch(EID.onPassword, { state: 'failed' });
     },
 
     // 1. 문서오픈시 패스워드 문서를 열경우 호출됨 ==> 다이얼로드 호출
@@ -78,7 +79,7 @@ export default (function () {
       //
       switch (value) {
         case 'dialog_password': // 패스워드 다이얼로그
-          EventManager.dispatch(EventManager.onPassword, { state: 'open' });
+          EventManager.dispatch(EID.onPassword, { state: 'open' });
           break;
         case 'dialog_find_replace': // 찾기 다이얼로그
           break;
@@ -102,7 +103,7 @@ export default (function () {
 /*      
       UiController.closeDialog();
 */
-      EventManager.dispatch(EventManager.onPassword, { state: 'succeeded' });
+      EventManager.dispatch(EID.onPassword, { state: 'succeeded' });
     },
 
     onUpdateUi({ eventType, widgetName, value }) {
@@ -112,13 +113,13 @@ export default (function () {
       switch (widgetName) {
         case 'description':
           {
-            EventManager.dispatch(EventManager.onDocumentSummary, { value });
+            EventManager.dispatch(EID.onDocumentSummary, { value });
             webPdfLib.PDFViewerApplication.pdfDocumentProperties.close();
           }
           break;
         case 'page_number':
         default:
-          EventManager.dispatch(EventManager.onUpdateUi, { name: widgetName, value });
+          EventManager.dispatch(EID.onUpdateUi, { name: widgetName, value });
           break;
       }
     },

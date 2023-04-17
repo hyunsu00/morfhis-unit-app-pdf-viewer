@@ -18,6 +18,7 @@ import DocumentLoader from '../controller/documentLoader.js';
 import AnnotationListener from '../listener/annotationListener.js';
 import AnnotationUtils from './annotationUtils.js';
 import webPdfLib from '../webPdfLib.js';
+import EID from "../define/eventDefines.js";
 import EventManager from '../event/eventManager.js';
 
 export default (function () {
@@ -217,7 +218,7 @@ export default (function () {
         }
         const range = UiManager.getRange();
         if (range && !range.collapsed) {
-          EventManager.dispatch(EventManager.onQuickMenu, {posInfo, range});
+          EventManager.dispatch(EID.onQuickMenu, {posInfo, range});
         }
       });
       document.addEventListener('keydown', this.doKeyDownEvent.bind(this));

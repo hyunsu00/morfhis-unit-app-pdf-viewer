@@ -1,4 +1,6 @@
 import webPdfLib from '../webPdfLib.js';
+import {FIND_TYPE, LINE_STYLE, COLOR_TYPE} from "../define/valueDefines.js"
+
 // @ts-check
 
 export const PROPERTY_VALUE_TYPE = {
@@ -24,42 +26,11 @@ export const PROPERTY_VALUE_TYPE = {
   // -------------------- //
 };
 
-export const LINE_STYLE = {
-  dashed_5_15: 'dashed_5_15',
-  dashed_10_10: 'dashed_10_10',
-  dashed_40_20: 'dashed_40_20',
-  dashed_40_20_20_20: 'dashed_40_20_20_20',
-  dashed_80_20: 'dashed_80_20',
-  dashed_80_20_20_20: 'dashed_80_20_20_20',
-  dashed_80_20_20_20_20_20: 'dashed_80_20_20_20_20_20',
-};
-
-/**
- * 찾기 타입 열거
- * @readonly
- * @enum {String}
- * @property {String} FIND_AGAIN - 다음 찾기
- * @property {String} FIND_HIGHLIGHTALL_CHANGE - 모두 강조 표시
- * @property {String} FIND_CASESENSITIVITY_CHANGE - 대/소문자 구분
- * @property {String} FIND_ENTIREWORD_CHANGE - 단어 단위로
- */
-export const FIND_TYPE = {
-  FIND_AGAIN: 'again',
-  FIND_HIGHLIGHTALL_CHANGE: 'highlightallchange',
-  FIND_CASESENSITIVITY_CHANGE: 'casesensitivitychange',
-  FIND_ENTIREWORD_CHANGE: 'entirewordchange',
-};
-
-export const COLOR_TYPE = {
-  noFill: 'noFill',
-  solid: 'solid',
-};
-
 export default (function () {
   return {
     /**
      * AID.FIND_OPEN 액션에 사용되는 value 생성
-     * @param {enum} type - FIND_TYPE
+     * @param {FIND_TYPE} type - FIND_TYPE
      * @param {String} query - 찾을 내용
      * @param {boolean} caseSensitive - 대/소문자 구분
      * @param {boolean} entireWord - 단어 단위로

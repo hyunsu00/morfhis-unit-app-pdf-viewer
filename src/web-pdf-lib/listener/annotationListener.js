@@ -10,6 +10,7 @@ import UiManager from '../../uiFrame/uiManager.js';
 import { AddFormCommand, AddChildFormCommand, ModifyFormCommand, RemoveFormCommand, ModifyComment } from '../undoRedo/UndoRedoCommand.js';
 import webPdfLib from '../webPdfLib.js';
 import annotationManager from '../annotation/annotationManager.js';
+import EID from "../define/eventDefines.js";
 import EventManager from "../event/eventManager.js";
 
 export default (function () {
@@ -47,14 +48,14 @@ export default (function () {
     // 도형 클릭 선택
     onAnnotationSelected: function (target, rects) {
       console.log('call annotationListener.onAnnotationSelected(target = ', target, ')');
-      EventManager.dispatch(EventManager.onAnnotationSelected, {target, rects});
+      EventManager.dispatch(EID.onAnnotationSelected, {target, rects});
       clearSelection();
     },
 
     // 클릭된 도형 해제
     onAnnotationUnSelected: function (target) {
       console.log('call annotationListener.onAnnotationUnSelected(target = ', target, ')');
-      EventManager.dispatch(EventManager.onAnnotationUnSelected, {target});
+      EventManager.dispatch(EID.onAnnotationUnSelected, {target});
     },
 
     // 스티커노트 추가

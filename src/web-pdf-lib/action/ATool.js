@@ -1,6 +1,6 @@
 import webPdfLib from '../webPdfLib.js';
 import AnnotationManager from '../annotation/annotationManager.js';
-import { CURSOR_TYPE } from './actionManager.js';
+import { CURSOR_TYPE } from "../define/valueDefines.js";
 
 export default class ATool {
   static switchcursortool(cursorType) {

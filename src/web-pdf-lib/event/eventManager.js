@@ -8,15 +8,6 @@ export default (function () {
     },
     dispatch(eventName, data) {
       document.dispatchEvent(new CustomEvent(eventName, { detail: data }));
-    },
-	  onDocumentLoaded: 'onDocumentLoaded',
-	  onUpdateUi: 'onUpdateUi',
-    onQuickMenu: 'onQuickMenu',
-    onError: 'onError',
-    onPassword: 'onPassword',
-    onDocumentSummary: 'onDocumentSummary',
-    onAnnotationSelected : 'onAnnotationSelected',
-    onAnnotationUnSelected : 'onAnnotationUnSelected',
-    onAnnotationMenu: 'onAnnotationMenu',
+    }
   };
 })();

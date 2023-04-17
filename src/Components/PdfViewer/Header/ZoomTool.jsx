@@ -1,4 +1,5 @@
-import ActionManager, {AID} from '../../../web-pdf-lib/action/actionManager';
+import ActionManager from '../../../web-pdf-lib/action/actionManager';
+import AID from "../../../web-pdf-lib/define/actionDefines";
 import { useEffect, useState } from 'react';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
