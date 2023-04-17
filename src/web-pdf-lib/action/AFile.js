@@ -1,5 +1,6 @@
 import webPdfLib from '../webPdfLib.js';
 import AnnotationManager from '../annotation/annotationManager.js';
+import EventManager from '../event/eventManager.js';
 
 export default class AFile {
   static async save(_evtAction) {
@@ -26,6 +27,14 @@ export default class AFile {
     console.group(`function d_print(_evtAction)`);
     AnnotationManager.print(webPdfLib.PDFViewerApplication.baseUrl, webPdfLib.PDFViewerApplication.pdfDocument);
     console.groupEnd();
+  }
+
+  static e_dialog_password(password) {
+    if (password) {
+      webPdfLib.PDFViewerApplication.passwordPrompt.verify(password);
+    } else {
+      EventManager.dispatch(EventManager.onPassword, { state: 'failed' });
+    }
   }
 
   static d_info(_evtAction) {

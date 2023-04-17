@@ -110,4 +110,8 @@ export default class AAnnotation {
     let rects = range.getClientRects();
     AnnotationManager.saveRect('highlight', rects);
   }
+  static a_property(value) {
+    const { target, cmdType, cmdValue } = value;
+    AnnotationManager.execCommand(cmdType, cmdValue, target);
+  }
 }

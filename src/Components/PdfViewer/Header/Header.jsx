@@ -10,7 +10,7 @@ import Pagination from './Pagination';
 import SelectTheme from './SelectTheme';
 import PenTool from './PenTool';
 import ActionManager, {AID} from '../../../web-pdf-lib/action/actionManager';
-import ValueGenerator from '../../../web-pdf-lib/action/valueGenerator';
+import ValueGenerator, {FIND_TYPE} from '../../../web-pdf-lib/action/valueGenerator';
 const Header = () => {
   const { zoomScale } = Utils();
   const { winSize, viewportResizing, headerHeight, visibleSidebar, setVisibleSidebar, headerZIndex } = PdfViewerState();
@@ -76,7 +76,7 @@ const Header = () => {
                 onClick={() => {
                   setVisibleSidebar(!visibleSidebar);
                   // if (visibleSidebar) {
-                  //   const value = ValueGenerator.createFindValue(ValueGenerator.FIND_TYPE.FIND_AGAIN, "Trace", false, false, true, false);
+                  //   const value = ValueGenerator.createFindValue(FIND_TYPE.FIND_AGAIN, "Trace", false, false, true, false);
                   //   ActionManager.Execute(AID.FIND_OPEN, value); 
                   // } else {
                   //   ActionManager.Execute(AID.FIND_CLOSE); 

@@ -6,7 +6,7 @@ import EventManager from '../../../web-pdf-lib/event/eventManager';
 import ActionManager, {AID} from '../../../web-pdf-lib/action/actionManager';
 import AnnotationManager from '../../../web-pdf-lib/annotation/annotationManager';
 import UiManager from '../../../web-pdf-lib/uiFrame/uiManager';
-import PropertyActions from '../../../web-pdf-lib/define/defineActions';
+import ValueGenerator, {COLOR_TYPE} from '../../../web-pdf-lib/action/valueGenerator';
 
 function WebPDF() {
   console.log('function WebPDF())');
@@ -52,14 +52,21 @@ function WebPDF() {
       const { state } = event.detail;
       switch (state) {
         case 'open':
-          ActionManager.execute({name:"e_dialog_password", file_password:""});
+          {
+            console.warn(`패스워드 다이얼로그 입력 상자를 호출한다.`);
+            // const password = "";
+            // ActionManager.Execute(AID.PASSWORD, password);
+          }
           break;
         case 'succeeded':
           console.warn(`성공시 패스워드 다이얼로그를 종료한다.`);
           break;
         case 'failed':
-          console.warn(`실패시 패스워드 다이얼로그 입력 상자를 초기화 해준다.`);
-          ActionManager.execute({name:"e_dialog_password", file_password:"123455"});
+          {
+            console.warn(`실패시 패스워드 다이얼로그 입력 상자를 초기화 해준다.`);
+            // const password = "123455";
+            // ActionManager.Execute(AID.PASSWORD, password);
+          }
           break;
         default:
           break;
@@ -84,9 +91,9 @@ function WebPDF() {
       console.log('onAnnotationSelected target.properties = ', JSON.stringify(properties));
       // 2. Quick 메뉴가 보인다면 숨기기
       // 3. 주석 메뉴 보이기
-      // ActionManager.execute({name : 'a_property', target, cmdType: PropertyActions.type.sFill, cmdValue: {color: '#FF0000', opacity: 50}});
-      // ActionManager.execute({name : 'a_property', target, cmdType: PropertyActions.type.sFill, cmdValue: {color: 'none', opacity: 70}});
-      // ActionManager.execute({name : 'a_property', target, cmdType: PropertyActions.type.sFill, cmdValue: {color: '#0000FF', opacity: 0}});
+      // ActionManager.Execute(AID.CHANGE_PROPERTY, ValueGenerator.createFillColorValue(target, COLOR_TYPE.solid, '#FF0000'));
+      // ActionManager.Execute(AID.CHANGE_PROPERTY, ValueGenerator.createFillOpacityrValue(target, 50));
+      // ActionManager.Execute(AID.CHANGE_PROPERTY, ValueGenerator.createFillColorValue(target, COLOR_TYPE.noFill));
     };
     const onAnnotationUnSelected = function (event) {
       const { target } = event.detail;

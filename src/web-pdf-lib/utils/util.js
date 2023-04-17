@@ -1,4 +1,3 @@
-import DefineTypes from '../define/defineTypes.js';
 /*
 import Config from '../common/config.js';
 */
@@ -6,106 +5,7 @@ import Config from '../common/config.js';
 var defaultWebDPI = 96;
 
 export default class Util {
-  /**
-   * 단위변환
-   * @param {Number} srcMeasurement		원본 Unit (DefineTypes.lengthUnit)
-   * @param {Number} destMeasurement		변환하려는 Unit (DefineTypes.lengthUnit)
-   * @param {Number} value				변환하려는 원본 Unit의 값
-   * @param {Number=} digits				자릿수 제한 값 (0 ~ 20까지 가능)
-   * @returns {Number}
-   */
-  static convertUnit(srcMeasurement, destMeasurement, value, digits) {
-    if (srcMeasurement == destMeasurement) {
-      return value;
-    }
-
-    var srcValue = 0,
-      destValue = 0,
-      LENGTH_UNIT = DefineTypes.lengthUnit;
-
-    switch (srcMeasurement) {
-      case LENGTH_UNIT.twip:
-        srcValue = value;
-        break;
-      case LENGTH_UNIT.inch:
-        srcValue = value * 1440;
-        break;
-      case LENGTH_UNIT.point:
-        srcValue = value * 20;
-        break;
-      case LENGTH_UNIT.point8:
-        srcValue = (value * 20) / 8;
-        break;
-      case LENGTH_UNIT.pixel:
-        srcValue = (value * 1440) / defaultWebDPI;
-        break;
-      case LENGTH_UNIT.pica:
-        srcValue = value * 240;
-        break;
-      case LENGTH_UNIT.pitch:
-        srcValue = 2400 / value;
-        break;
-      case LENGTH_UNIT.mm:
-        srcValue = value * 56.7;
-        break;
-      case LENGTH_UNIT.cm:
-        srcValue = value * 567;
-        break;
-      case LENGTH_UNIT.f:
-        srcValue = value * 0.045107398568019093078758949880668;
-        break;
-      case LENGTH_UNIT.emu:
-        srcValue = value / 635;
-        break;
-      default:
-        break;
-    }
-
-    switch (destMeasurement) {
-      case LENGTH_UNIT.twip:
-        destValue = srcValue;
-        break;
-      case LENGTH_UNIT.inch:
-        destValue = srcValue / 1440;
-        break;
-      case LENGTH_UNIT.point:
-        destValue = srcValue / 20;
-        break;
-      case LENGTH_UNIT.point8:
-        destValue = (srcValue / 20) * 8;
-        break;
-      case LENGTH_UNIT.pixel:
-        destValue = (srcValue / 1440) * defaultWebDPI;
-        break;
-      case LENGTH_UNIT.pica:
-        destValue = srcValue / 240;
-        break;
-      case LENGTH_UNIT.pitch:
-        destValue = 2400 / srcValue;
-        break;
-      case LENGTH_UNIT.mm:
-        destValue = srcValue / 56.7;
-        break;
-      case LENGTH_UNIT.cm:
-        destValue = srcValue / 567;
-        break;
-      case LENGTH_UNIT.f:
-        destValue = srcValue * 22.169312169312169312169312169312;
-        break;
-      case LENGTH_UNIT.emu:
-        destValue = srcValue * 635;
-        break;
-      default:
-        break;
-    }
-
-    if (typeof digits === 'number') {
-      return parseFloat(destValue.toFixed(digits));
-    }
-
-    return destValue;
-  }
-
+  
   static hexToRgb(color) {
     let hex = color.replace('#', '');
     let value = hex.match(/[a-f\d]/gi);

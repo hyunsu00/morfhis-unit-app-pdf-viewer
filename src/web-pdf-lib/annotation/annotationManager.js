@@ -11,7 +11,7 @@ import UiController from '../../../commonFrame/js/uiFramework/uiController.js';
 import Config from '../../common/config.js';
 */
 
-import DefineActions from '../define/defineActions.js';
+import {PROPERTY_VALUE_TYPE} from '../action/valueGenerator.js';
 import Util from '../utils/util.js';
 import UiManager from '../uiFrame/uiManager.js';
 import DocumentLoader from '../controller/documentLoader.js';
@@ -364,8 +364,6 @@ export default (function () {
 
   AnnotationManager.execCommand = function (cmdType, cmdValue, target) {
     const _UI = this.annotateRender.UI;
-    let ACTION_TYPE = DefineActions.type;
-
     let currentTarget = target ? target : this.getSelect();
     let docId, pageId, annotationId, annotateType;
     if (currentTarget) {
@@ -395,7 +393,7 @@ export default (function () {
       imageUrl: null,
     };
 
-    if (cmdType == ACTION_TYPE.sFill) {
+    if (cmdType == PROPERTY_VALUE_TYPE.sFill) {
       if (cmdValue.color) {
         //fill color
         if (cmdValue.color === 'noFill' || cmdValue.color === 'transparent') {
@@ -423,7 +421,7 @@ export default (function () {
 
         properties.opacity = opacity;
       }
-    } else if (cmdType == ACTION_TYPE.sLineFill) {
+    } else if (cmdType == PROPERTY_VALUE_TYPE.sLineFill) {
       //line
       if (cmdValue.color) {
         //line color
@@ -452,7 +450,7 @@ export default (function () {
 
         properties.opacity = opacity;
       }
-    } else if (cmdType == ACTION_TYPE.sLineWidth) {
+    } else if (cmdType == PROPERTY_VALUE_TYPE.sLineWidth) {
       if (properties.type === 'point') {
         let svgTag = currentTarget.querySelector('#icon_sticker_0615');
         svgTag.setAttribute('stroke-width', cmdValue.borderWidth);
@@ -461,7 +459,7 @@ export default (function () {
       }
 
       properties.strokeWidth = cmdValue.borderWidth;
-    } else if (cmdType == ACTION_TYPE.sLineStyle) {
+    } else if (cmdType == PROPERTY_VALUE_TYPE.sLineStyle) {
       let dashed = 'none';
       if (cmdValue.borderStyleDashed === 'dashed_5_15') {
         dashed = '5,15';
@@ -487,7 +485,7 @@ export default (function () {
       }
 
       properties.strokeDashArray = dashed;
-    } else if (cmdType == ACTION_TYPE.sSize) {
+    } else if (cmdType == PROPERTY_VALUE_TYPE.sSize) {
       if (cmdValue.width) {
         //width
         currentTarget.setAttribute('width', cmdValue.width);
@@ -498,7 +496,7 @@ export default (function () {
         currentTarget.setAttribute('height', cmdValue.height);
         properties.height = cmdValue.height;
       }
-    } else if (cmdType == ACTION_TYPE.sPosition) {
+    } else if (cmdType == PROPERTY_VALUE_TYPE.sPosition) {
       if (cmdValue.x) {
         //x
         currentTarget.setAttribute('x', cmdValue.x);
@@ -509,7 +507,7 @@ export default (function () {
         currentTarget.setAttribute('y', cmdValue.y);
         properties.y = cmdValue.y;
       }
-    } else if (cmdType == ACTION_TYPE.bold) {
+    } else if (cmdType == PROPERTY_VALUE_TYPE.bold) {
       let value;
       if (cmdValue === 'on') {
         value = 'bold';
@@ -541,7 +539,7 @@ export default (function () {
         this.select(null);
         this.select(currentTarget);
       }
-    } else if (cmdType == ACTION_TYPE.italic) {
+    } else if (cmdType == PROPERTY_VALUE_TYPE.italic) {
       let value = cmdValue === 'on' ? 'italic' : 'normal';
       _UI.setTextItalic(value);
 
@@ -568,7 +566,7 @@ export default (function () {
         this.select(null);
         this.select(currentTarget);
       }
-    } else if (cmdType == ACTION_TYPE.underline) {
+    } else if (cmdType == PROPERTY_VALUE_TYPE.underline) {
       if (cmdValue === 'on') {
         _UI.setTextUnderline(true);
       } else {
@@ -609,7 +607,7 @@ export default (function () {
         this.select(null);
         this.select(currentTarget);
       }
-    } else if (cmdType == ACTION_TYPE.strikethrough) {
+    } else if (cmdType == PROPERTY_VALUE_TYPE.strikethrough) {
       if (cmdValue === 'on') {
         _UI.setTextStrikethrough(true);
       } else {
@@ -649,7 +647,7 @@ export default (function () {
         this.select(null);
         this.select(currentTarget);
       }
-    } else if (cmdType == ACTION_TYPE.fontSize) {
+    } else if (cmdType == PROPERTY_VALUE_TYPE.fontSize) {
       _UI.setTextSize(cmdValue);
 
       if (currentTarget) {
@@ -675,7 +673,7 @@ export default (function () {
         this.select(null);
         this.select(currentTarget);
       }
-    } else if (cmdType == ACTION_TYPE.fontColor) {
+    } else if (cmdType == PROPERTY_VALUE_TYPE.fontColor) {
       _UI.setTextColor(cmdValue);
 
       if (currentTarget) {

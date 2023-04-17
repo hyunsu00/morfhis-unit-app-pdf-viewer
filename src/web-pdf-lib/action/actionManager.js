@@ -5,12 +5,11 @@ import EventActionGenerator from '../../../commonFrame/js/uiFramework/eventActio
 import UIDefine from '../../../commonFrame/js/uiFramework/uiDefine.js';
 */
 
-import webPdfLib from '../webPdfLib.js';
 import AnnotationManager from '../annotation/annotationManager.js';
-import EventManager from '../event/eventManager.js';
+
 import AFile from './AFile.js';
-import AEdit from "./AEdit.js";
-import AView from "./AView.js";
+import AEdit from './AEdit.js';
+import AView from './AView.js';
 import AAnnotation from './AAnnotation.js';
 import ASlideshow from './ASlideshow.js';
 import ATool from './ATool.js';
@@ -24,13 +23,15 @@ export const AID = {
   SAVE: 'd_save', // ! 구현 필요
   DOWNLOAD: 'd_download',
   PRINT: 'd_print',
+  PASSWORD: 'e_dialog_password',
   DOCUMENT_PROPERTIES: 'd_info',
   //
   // 편집
   //
-  UNDO: "e_undo",
-  REDO: "e_redo",
+  UNDO: 'e_undo',
+  REDO: 'e_redo',
   COPY: 'e_copy',
+  DELETE: 'a_delete_annotation',
   SELECT_ALL: 'e_select_all',
   // 찾기
   FIND_OPEN: 'd_find',
@@ -54,10 +55,11 @@ export const AID = {
   QUICK_UNDERLINE: 'a_quick_underline',
   QUICK_STRIKEOUT: 'a_quick_strikeout',
   QUICK_HIGHLIGHT: 'a_quick_highlight',
+  CHANGE_PROPERTY: 'a_property',
   //
   // 도구
   //
-  SELECT_CURSOR: "switchcursortool",
+  SELECT_CURSOR: 'switchcursortool',
 
   //
   // 페이지 이동
@@ -81,69 +83,11 @@ export const DRAW_TYPE = {
 };
 
 export const CURSOR_TYPE = {
-  SELECT: "t_select",
-  HAND: "t_hand,"
+  SELECT: 't_select',
+  HAND: 't_hand,',
 };
 
 export default (function () {
-  
-  function a_delete_annotation(_evtAction) {
-    AnnotationManager.deleteAnnotation();
-  }
-
-  function a_property(evtAction) {
-    const { target, cmdType, cmdValue } = evtAction;
-    AnnotationManager.execCommand(cmdType, cmdValue, target);
-  }
-
-  function e_dialog_password(evtAction) {
-    const { file_password } = evtAction;
-    if (file_password) {
-      webPdfLib.PDFViewerApplication.passwordPrompt.verify(file_password);
-    } else {
-      EventManager.dispatch(EventManager.onPassword, { state: 'failed' });
-    }
-  }
-
-  function e_viewsidebar_tab(evtAction) {
-    /*	
-    if (evtAction.value === 'viewOutline') {
-      webPdfLib.PDFViewerApplication.pdfSidebar.switchView(2, true);
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'sidebar_area', ''));
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', ''));
-    } else if (evtAction.value === 'viewAttachments') {
-      webPdfLib.PDFViewerApplication.pdfSidebar.switchView(3, true);
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'sidebar_area', ''));
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', ''));
-    } else if (evtAction.value === 'viewLayers') {
-      webPdfLib.PDFViewerApplication.pdfSidebar.switchView(4, true);
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'sidebar_area', ''));
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', ''));
-    } else if (evtAction.value === 'drawn') {
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'sidebar_area', ''));
-
-      hiddenSidebarArea();
-
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'shape_sidebar_area', ''));
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'shape_fill_properties', ''));
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'shape_line_properties', ''));
-      UiController.updateUi(EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.VISIBLE, 'shape_opacity_properties', ''));
-    }
-*/
-  }
-
-  function hiddenSidebarArea() {
-    /*	
-    let pubAction = EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_sidebar_area', '');
-
-    pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_fill_properties', ''));
-    pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_line_properties', ''));
-    pubAction = EventActionGenerator.addEventAction(pubAction, EventActionGenerator.makeEventActionObj(UIDefine.UPDATE_CMD, UIDefine.EVENT_ACTION_TYPE.HIDDEN, 'shape_opacity_properties', ''));
-
-    UiController.updateUi(pubAction);
-*/
-  }
-
   const _actionMap = (function () {
     return new Map([
       // 파일메뉴
@@ -151,11 +95,13 @@ export default (function () {
       [AID.DOWNLOAD, AFile.download],
       [AID.OPEN_FILE, AFile.d_open],
       [AID.PRINT, AFile.d_print],
+      [AID.PASSWORD, AFile.e_dialog_password],
       [AID.DOCUMENT_PROPERTIES, AFile.d_info],
       // 편집메뉴
       [AID.UNDO, AEdit.e_undo],
       [AID.REDO, AEdit.e_redo],
       [AID.COPY, AEdit.e_copy],
+      [AID.DELETE, AEdit.a_delete_annotation],
       [AID.SELECT_ALL, AEdit.e_select_all],
       [AID.FIND_OPEN, AEdit.d_find],
       [AID.FIND_CLOSE, AEdit.d_find_close],
@@ -167,6 +113,7 @@ export default (function () {
       [AID.QUICK_UNDERLINE, AAnnotation.a_quick_underline],
       [AID.QUICK_STRIKEOUT, AAnnotation.a_quick_strikeout],
       [AID.QUICK_HIGHLIGHT, AAnnotation.a_quick_highlight],
+      [AID.CHANGE_PROPERTY, AAnnotation.a_property],
       // 슬라이드쇼
       [AID.SLIDESHOW_FIRST, ASlideshow.slideshow_first],
       [AID.SLIDESHOW_CURRENT, ASlideshow.slideshow_current],
@@ -178,10 +125,6 @@ export default (function () {
       [AID.NEXT_PAGE, APage.e_next_page],
       [AID.LAST_PAGE, APage.e_last_page],
       [AID.GOTO_PAGE, APage.page_number],
-      ['a_delete_annotation', a_delete_annotation],
-      ['a_property', a_property],
-      ['e_dialog_password', e_dialog_password],
-      ['e_viewsidebar_tab', e_viewsidebar_tab],
     ]);
   })();
 
