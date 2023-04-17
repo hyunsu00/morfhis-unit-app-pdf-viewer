@@ -1,0 +1,30 @@
+{
+  // plugins: 플러그인 사용시 추가하는 부분. 기본값은 빈 상태이다.
+  "plugins": ["plugins/markdown"],
+  "opts": {
+    "encoding": "utf8",
+    "readme": "README.md"
+  },
+  // recurseDepth: -r 명령 행 플래그로 재귀를 사용하면 JSDoc은 10 레벨 깊이의 파일을 검색한다.
+  "recurseDepth": 10,
+  // source.includePattern: js, jsx, jsdoc으로 끝나는 파일만 처리한다.
+  // source.excludePattern: 밑줄로 시작하거나 밑줄로 시작하는 디렉토리의 모든 파일은 무시한다.
+  "source": {
+    "include": [".", "src/web-pdf-lib/define"],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  // sourceType: ES2015 모듈을 사용하는 코드를 지원한다.
+  "sourceType": "module",
+  // tags.allowUnknownTags: JSDoc에서 인식할 수 없는 태그를 사용할 수 있다.
+  // tags.dictionaries: 표준 JSDoc 태그와 Closure Compiler 태그가 모두 활성화 된다.
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  // templates.cleverLinks, templates.monospaceLinks: 인라인 {@link} 태그는 일반 텍스트로 렌더링 된다.
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  }
+}
