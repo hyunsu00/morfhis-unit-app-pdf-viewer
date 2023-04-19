@@ -4,14 +4,13 @@ import ic_pdf from '../Image/ic_pdf.svg';
 import DocumentState from '../Store/DocumentState';
 
 import webPdfLib, {EID} from '../../../web-pdf-lib/webPdfLib';
-import AnnotationManager from '../../../web-pdf-lib/annotation/annotationManager';
 
 const Filename = () => {
   const { filename, setFilename } = DocumentState();
 
   useEffect(() => {
     const onDocumentLoaded = function() {
-      setFilename(AnnotationManager.documentTitle);
+      setFilename(webPdfLib.getTitle());
     };
     webPdfLib.getEventManager().on(EID.onDocumentLoaded, onDocumentLoaded);
     return () => {

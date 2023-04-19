@@ -3,6 +3,7 @@
   "plugins": ["plugins/markdown"],
   "opts": {
     "encoding": "utf8",
+    "destination": "./docs/",
     "readme": "README.md"
   },
   // recurseDepth: -r 명령 행 플래그로 재귀를 사용하면 JSDoc은 10 레벨 깊이의 파일을 검색한다.

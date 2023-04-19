@@ -40,26 +40,58 @@ export default class AAnnotation {
   }
 
   static select(drawType) {
+    switch (drawType) {
+      case DRAW_TYPE.LINE:
+        AAnnotation.a_line();
+        break;
+      case DRAW_TYPE.AREA:
+        AAnnotation.a_area();
+        break;
+      case DRAW_TYPE.PEN:
+        AAnnotation.a_draw();
+        break;
+      case DRAW_TYPE.MEMO:
+        AAnnotation.a_point();
+        break;
+      case DRAW_TYPE.TEXT:
+        AAnnotation.a_text();
+        break;
+      case DRAW_TYPE.UNDERLINE:
+        AAnnotation.a_underline();
+        break;
+      case DRAW_TYPE.STRIKEOUT:
+        AAnnotation.a_strikeout();
+        break;
+      case DRAW_TYPE.HIGHLIGHT:
+        AAnnotation.a_highlight();
+        break;
+      default:
+        break;
+    }
+  }
+
+  static _select(drawType) {
     let annotationType = AAnnotation._ToAnnotationType(drawType);
     if (AnnotationManager.annotationType === annotationType) {
       annotationType = 'cursor';
     }
     AnnotationManager.switchUI(annotationType);
   }
+
   static a_line(_event) {
-    AAnnotation.select(DRAW_TYPE.LINE);
+    AAnnotation._select(DRAW_TYPE.LINE);
   }
   static a_area(_event) {
-    AAnnotation.select(DRAW_TYPE.AREA);
+    AAnnotation._select(DRAW_TYPE.AREA);
   }
   static a_draw(_event) {
-    AAnnotation.select(DRAW_TYPE.PEN);
+    AAnnotation._select(DRAW_TYPE.PEN);
   }
   static a_point(_event) {
-    AAnnotation.select(DRAW_TYPE.MEMO);
+    AAnnotation._select(DRAW_TYPE.MEMO);
   }
   static a_text(_event) {
-    AAnnotation.select(DRAW_TYPE.TEXT);
+    AAnnotation._select(DRAW_TYPE.TEXT);
   }
   static a_underline(_event) {
     if (UiManager.isSelectedAllRange()) {
@@ -70,7 +102,7 @@ export default class AAnnotation {
     if (range && !range.collapsed) {
       AAnnotation.a_quick_underline(range);
     } else {
-      AAnnotation.select(DRAW_TYPE.UNDERLINE);
+      AAnnotation._select(DRAW_TYPE.UNDERLINE);
     }
   }
   static a_strikeout(_event) {
@@ -83,7 +115,7 @@ export default class AAnnotation {
     if (range && !range.collapsed) {
       AAnnotation.a_quick_strikeout(range);
     } else {
-      AAnnotation.select(DRAW_TYPE.STRIKEOUT);
+      AAnnotation._select(DRAW_TYPE.STRIKEOUT);
     }
   }
   static a_highlight(_event) {
@@ -96,7 +128,7 @@ export default class AAnnotation {
     if (range && !range.collapsed) {
       AAnnotation.a_quick_highlight(range);
     } else {
-      AAnnotation.select(DRAW_TYPE.HIGHLIGHT);
+      AAnnotation._select(DRAW_TYPE.HIGHLIGHT);
     }
   }
   static a_quick_underline(range) {

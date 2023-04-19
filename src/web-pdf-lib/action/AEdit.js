@@ -29,6 +29,12 @@ export default class AEdit {
     console.groupEnd();
   }
 
+  static e_select_clear(_value) {
+    console.group(`function e_select_clear(_value) `);
+    UiManager.clearSelection();
+    console.groupEnd();
+  }
+
   static d_find(value) {
     console.group(`function d_find(_value)`);
     webPdfLib.PDFViewerApplication.findBar.eventBus.dispatch('find', value);

@@ -6,7 +6,6 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import TextField from '@mui/material/TextField';
 
 import webPdfLib, {AID, EID} from '../../../web-pdf-lib/webPdfLib';
-import AnnotationManager from '../../../web-pdf-lib/annotation/annotationManager';
 
 const Pagination = () => {
 
@@ -18,8 +17,8 @@ const Pagination = () => {
     refCurrentPage.current.value = currentPage;
 
     const onDocumentLoaded = function() {
-      setCurrentPage(AnnotationManager.currentPageNumber);
-      setTotalPage(AnnotationManager.totalPage);
+      setCurrentPage(webPdfLib.getCurrentPageNumber());
+      setTotalPage(webPdfLib.getTotalPageNumber());
     };
     const onUpdateUi = function(event) {
       const {name, value} = event.detail;
@@ -36,7 +35,7 @@ const Pagination = () => {
   }, [currentPage]);
 
   const setPageNumber = (goToPageNumber) => {
-    const currentPageNumber = AnnotationManager.currentPageNumber;
+    const currentPageNumber = webPdfLib.getCurrentPageNumber();
     if (goToPageNumber != currentPageNumber) {
       webPdfLib.getActionManager().Execute(AID.GOTO_PAGE, goToPageNumber);
       setCurrentPage(goToPageNumber);
@@ -116,7 +115,7 @@ const Pagination = () => {
           sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
           onClick={() => {
             webPdfLib.getActionManager().Execute(AID.PREV_PAGE);
-            setCurrentPage(AnnotationManager.currentPageNumber);
+            setCurrentPage(webPdfLib.getCurrentPageNumber());
           }}>
           <ArrowCircleUpIcon />
         </IconButton>
@@ -124,7 +123,7 @@ const Pagination = () => {
           sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
           onClick={() => {
             webPdfLib.getActionManager().Execute(AID.NEXT_PAGE);
-            setCurrentPage(AnnotationManager.currentPageNumber);
+            setCurrentPage(webPdfLib.getCurrentPageNumber());
           }}>
           <ArrowCircleDownIcon />
         </IconButton>

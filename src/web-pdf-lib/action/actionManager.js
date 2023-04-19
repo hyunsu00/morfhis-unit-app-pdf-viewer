@@ -24,6 +24,7 @@ export default (function () {
       [AID.COPY, AEdit.e_copy],
       [AID.DELETE, AEdit.a_delete_annotation],
       [AID.SELECT_ALL, AEdit.e_select_all],
+      [AID.SELECT_CLEAR, AEdit.e_select_clear],
       [AID.FIND_OPEN, AEdit.d_find],
       [AID.FIND_CLOSE, AEdit.d_find_close],
       // 보기

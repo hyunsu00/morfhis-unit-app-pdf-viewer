@@ -1,7 +1,9 @@
-// pdfjsApp.js
+// webPdfLib.js
 import PDFJsListener from './listener/pdfjsListener.js';
 import AnnotationManager from './annotation/annotationManager.js';
 import UndoRedoManager from './undoRedo/UndoRedoManager.js';
+//
+import './webPdfLib.scss';
 import mainHtml from './template/webPdfLib.html';
 import sideHtml from "./template/webPdfSidebar.html";
 import AID from "./define/actionDefines.js";
@@ -110,5 +112,17 @@ export default (function () {
     getEventManager() {
       return EventManager;
     },
+    getAnnotationProperties(target) {
+      return AnnotationManager.getAnnotationProperties(target);
+    },
+    getCurrentPageNumber() {
+      return AnnotationManager.currentPageNumber;
+    },
+    getTotalPageNumber() {
+      return AnnotationManager.totalPage;
+    },
+    getTitle() {
+      return AnnotationManager.documentTitle;
+    }
   };
 })();

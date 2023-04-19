@@ -1,9 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import '../../../web-pdf-lib/webPdfLib.scss';
 import webPdfLib, {AID, EID, COLOR_TYPE} from '../../../web-pdf-lib/webPdfLib';
-import AnnotationManager from '../../../web-pdf-lib/annotation/annotationManager';
-import UiManager from '../../../web-pdf-lib/uiFrame/uiManager';
 
 function WebPDF() {
   console.log('function WebPDF())');
@@ -37,8 +34,8 @@ function WebPDF() {
       switch (errType) {
         case 'ERR_ALL_SELECTED':
           {
-            UiManager.clearSelection();
             console.warn(`주석은 최대 한 페이지까지만 적용 가능합니다.`);
+            webPdfLib.getActionManager().Execute(AID.SELECT_CLEAR);
           }
           break;
         default:
@@ -84,7 +81,7 @@ function WebPDF() {
       const { target, rects } = event.detail;
       // 주석 선택시
       // 1. 주석 속성창 활성화
-      let properties = AnnotationManager.getAnnotationProperties(target);
+      let properties = webPdfLib.getAnnotationProperties(target);
       console.log('onAnnotationSelected target.properties = ', JSON.stringify(properties));
       // 2. Quick 메뉴가 보인다면 숨기기
       // 3. 주석 메뉴 보이기

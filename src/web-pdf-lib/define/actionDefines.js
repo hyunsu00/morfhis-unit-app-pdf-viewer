@@ -51,6 +51,7 @@ export const AID = {
   COPY: 'e_copy',
   DELETE: 'a_delete_annotation',
   SELECT_ALL: 'e_select_all',
+  SELECT_CLEAR: 'e_select_clear',
   // 찾기
   FIND_OPEN: 'd_find',
   FIND_CLOSE: 'd_find_close',
