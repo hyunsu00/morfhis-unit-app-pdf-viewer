@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
-import html from "../../../web-pdf-lib/webPdfSidebar.html";
+
+import webPdfLib from '../../../web-pdf-lib/webPdfLib';
 
 function WebPDFSidebar() {
   console.log("function WebPDFSidebar())");
@@ -25,7 +26,7 @@ function WebPDFSidebar() {
   });
 
   return (
-    <div id="pdfjs_sidebar" dangerouslySetInnerHTML={{ __html: html }}></div>
+    <div id="pdfjs_sidebar" dangerouslySetInnerHTML={{ __html: webPdfLib.getSideTemplate() }}></div>
   );
 }
 

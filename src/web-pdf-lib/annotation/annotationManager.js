@@ -10,8 +10,7 @@ import UiController from '../../../commonFrame/js/uiFramework/uiController.js';
 
 import Config from '../../common/config.js';
 */
-
-import {PROPERTY_VALUE_TYPE} from '../action/valueGenerator.js';
+import PROPERTY_VALUE_TYPE  from "../define/_propertyDefines.js";
 import Util from '../utils/util.js';
 import UiManager from '../uiFrame/uiManager.js';
 import DocumentLoader from '../controller/documentLoader.js';

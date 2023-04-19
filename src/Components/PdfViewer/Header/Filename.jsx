@@ -2,20 +2,20 @@ import { useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import ic_pdf from '../Image/ic_pdf.svg';
 import DocumentState from '../Store/DocumentState';
-import annotationManager from '../../../web-pdf-lib/annotation/annotationManager';
-import EID from "../../../web-pdf-lib/define/eventDefines";
-import EventManager from "../../../web-pdf-lib/event/eventManager";
+
+import webPdfLib, {EID} from '../../../web-pdf-lib/webPdfLib';
+import AnnotationManager from '../../../web-pdf-lib/annotation/annotationManager';
 
 const Filename = () => {
   const { filename, setFilename } = DocumentState();
 
   useEffect(() => {
     const onDocumentLoaded = function() {
-      setFilename(annotationManager.documentTitle);
+      setFilename(AnnotationManager.documentTitle);
     };
-    EventManager.on(EID.onDocumentLoaded, onDocumentLoaded);
+    webPdfLib.getEventManager().on(EID.onDocumentLoaded, onDocumentLoaded);
     return () => {
-      EventManager.off(EID.onDocumentLoaded, onDocumentLoaded);
+      webPdfLib.getEventManager().off(EID.onDocumentLoaded, onDocumentLoaded);
     }
   }, []);
 

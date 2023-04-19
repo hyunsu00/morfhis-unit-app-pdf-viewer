@@ -2,6 +2,24 @@
 import PDFJsListener from './listener/pdfjsListener.js';
 import AnnotationManager from './annotation/annotationManager.js';
 import UndoRedoManager from './undoRedo/UndoRedoManager.js';
+import mainHtml from './template/webPdfLib.html';
+import sideHtml from "./template/webPdfSidebar.html";
+import AID from "./define/actionDefines.js";
+import EID from './define/eventDefines.js';
+import {FIND_TYPE, DRAW_TYPE, CURSOR_TYPE, LINE_STYLE, COLOR_TYPE} from './define/valueDefines.js';
+import ActionManager from './action/actionManager.js';
+import EventManager from './event/eventManager.js';
+import ValueGenerator from './action/valueGenerator.js';
+
+export {
+  AID,
+  EID,
+  FIND_TYPE, 
+  DRAW_TYPE, 
+  CURSOR_TYPE, 
+  LINE_STYLE, 
+  COLOR_TYPE,
+};
 
 export default (function () {
   return {
@@ -76,6 +94,21 @@ export default (function () {
         .catch((err) => {
           console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdfjs/web/viewer.js) Failed] : ${err.message}`);
         });
+    },
+    getMainTemplate() {
+      return mainHtml;
+    },
+    getSideTemplate() {
+      return sideHtml;
+    },
+    getActionManager() {
+      return ActionManager;
+    },
+    getValueGenerator() {
+      return ValueGenerator;
+    },
+    getEventManager() {
+      return EventManager;
     },
   };
 })();

@@ -12,8 +12,8 @@ import IconButton from '@mui/material/IconButton';
 import PopoverMenu from '../Menu/PopoverMenu';
 import DrawerMenu from '../Menu/DrawerMenu';
 import PdfViewerState from '../Store/PdfViewerState';
-import ActionManager from '../../../web-pdf-lib/action/actionManager';
-import AID from "../../../web-pdf-lib/define/actionDefines";
+
+import webPdfLib, {AID} from '../../../web-pdf-lib/webPdfLib';
 
 const MoreMenu = () => {
   const { winSize, viewportResizing } = PdfViewerState();
@@ -38,7 +38,7 @@ const MoreMenu = () => {
           sx={{ height: winSize.width >= 600 ? '36px' : '56px' }}
           onClick={() => {
             setAnchorEl(null);
-            ActionManager.Execute(AID.OPEN_FILE);
+            webPdfLib.getActionManager().Execute(AID.OPEN_FILE);
           }}>
           <ListItemIcon sx={{ color: 'action.active' }}>
             <FileOpenOutlinedIcon fontSize={winSize.width >= 600 ? 'small' : 'medium'} />
@@ -51,7 +51,7 @@ const MoreMenu = () => {
           sx={{ height: winSize.width >= 600 ? '36px' : '56px' }}
           onClick={() => {
             setAnchorEl(null);
-            ActionManager.Execute(AID.PRINT);
+            webPdfLib.getActionManager().Execute(AID.PRINT);
           }}>
           <ListItemIcon sx={{ color: 'action.active' }}>
             <PrintOutlined fontSize={winSize.width >= 600 ? 'small' : 'medium'} />
@@ -64,7 +64,7 @@ const MoreMenu = () => {
           sx={{ height: winSize.width >= 600 ? '36px' : '56px' }}
           onClick={() => {
             setAnchorEl(null);
-            ActionManager.Execute(AID.DOWNLOAD);
+            webPdfLib.getActionManager().Execute(AID.DOWNLOAD);
           }}>
           <ListItemIcon sx={{ color: 'action.active' }}>
             <FileDownloadOutlined fontSize={winSize.width >= 600 ? 'small' : 'medium'} />

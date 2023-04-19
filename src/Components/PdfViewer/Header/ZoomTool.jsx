@@ -1,5 +1,3 @@
-import ActionManager from '../../../web-pdf-lib/action/actionManager';
-import AID from "../../../web-pdf-lib/define/actionDefines";
 import { useEffect, useState } from 'react';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,6 +13,8 @@ import DrawerMenu from '../Menu/DrawerMenu';
 import PdfViewerState from '../Store/PdfViewerState';
 import Tools from '../Tools/Tools.json';
 import DividerVertical from '../DividerVertical/DividerVertical';
+
+import webPdfLib, {AID} from '../../../web-pdf-lib/webPdfLib';
 
 const ZoomTool = () => {
   const zoomTools = Tools.zoom;
@@ -41,7 +41,7 @@ const ZoomTool = () => {
               if (key !== 'full') {
                 setSelectZoom(key);
               }
-              ActionManager.Execute(zoomTools[key].name, zoomTools[key].value);
+              webPdfLib.getActionManager().Execute(zoomTools[key].name, zoomTools[key].value);
             }}>
             <ListItemIcon>
               {key === 'original' ? <DocumentScannerOutlinedIcon fontSize={winSize.width >= 600 ? 'small' : 'medium'} /> : null}

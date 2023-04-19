@@ -1,15 +1,9 @@
 import React, { useEffect, useRef } from 'react';
+
 import '../../../web-pdf-lib/webPdfLib.scss';
-import webPdfLib from '../../../web-pdf-lib/webPdfLib';
-import html from '../../../web-pdf-lib/webPdfLib.html';
-import EID from "../../../web-pdf-lib/define/eventDefines";
-import EventManager from '../../../web-pdf-lib/event/eventManager';
-import AID from "../../../web-pdf-lib/define/actionDefines"
-import ActionManager from '../../../web-pdf-lib/action/actionManager';
+import webPdfLib, {AID, EID, COLOR_TYPE} from '../../../web-pdf-lib/webPdfLib';
 import AnnotationManager from '../../../web-pdf-lib/annotation/annotationManager';
 import UiManager from '../../../web-pdf-lib/uiFrame/uiManager';
-import { COLOR_TYPE } from '../../../web-pdf-lib/define/valueDefines';
-import ValueGenerator from '../../../web-pdf-lib/action/valueGenerator';
 
 function WebPDF() {
   console.log('function WebPDF())');
@@ -58,7 +52,7 @@ function WebPDF() {
           {
             console.warn(`패스워드 다이얼로그 입력 상자를 호출한다.`);
             // const password = "";
-            // ActionManager.Execute(AID.PASSWORD, password);
+            // webPdfLib.getActionManager().Execute(AID.PASSWORD, password);
           }
           break;
         case 'succeeded':
@@ -68,7 +62,7 @@ function WebPDF() {
           {
             console.warn(`실패시 패스워드 다이얼로그 입력 상자를 초기화 해준다.`);
             // const password = "123455";
-            // ActionManager.Execute(AID.PASSWORD, password);
+            // webPdfLib.getActionManager().Execute(AID.PASSWORD, password);
           }
           break;
         default:
@@ -81,9 +75,9 @@ function WebPDF() {
     };
     const onQuickMenu = function (event) {
       const { posInfo, range } = event.detail;
-      // ActionManager.Execute(AID.QUICK_UNDERLINE, range);
-      // ActionManager.Execute(AID.QUICK_STRIKEOUT, range);
-      // ActionManager.Execute(AID.QUICK_HIGHLIGHT, range);
+      // webPdfLib.getActionManager().Execute(AID.QUICK_UNDERLINE, range);
+      // webPdfLib.getActionManager().Execute(AID.QUICK_STRIKEOUT, range);
+      // webPdfLib.getActionManager().Execute(AID.QUICK_HIGHLIGHT, range);
     };
 
     const onAnnotationSelected = function (event) {
@@ -94,9 +88,9 @@ function WebPDF() {
       console.log('onAnnotationSelected target.properties = ', JSON.stringify(properties));
       // 2. Quick 메뉴가 보인다면 숨기기
       // 3. 주석 메뉴 보이기
-      // ActionManager.Execute(AID.CHANGE_PROPERTY, ValueGenerator.createFillColorValue(target, COLOR_TYPE.solid, '#FF0000'));
-      // ActionManager.Execute(AID.CHANGE_PROPERTY, ValueGenerator.createFillOpacityrValue(target, 50));
-      // ActionManager.Execute(AID.CHANGE_PROPERTY, ValueGenerator.createFillColorValue(target, COLOR_TYPE.noFill));
+      // webPdfLib.getActionManager().Execute(AID.CHANGE_PROPERTY, webPdfLib.getValueGenerator().createFillColorValue(target, COLOR_TYPE.solid, '#FF0000'));
+      // webPdfLib.getActionManager().Execute(AID.CHANGE_PROPERTY, webPdfLib.getValueGenerator().createFillOpacityrValue(target, 50));
+      // webPdfLib.getActionManager().Execute(AID.CHANGE_PROPERTY, webPdfLib.getValueGenerator().createFillColorValue(target, COLOR_TYPE.noFill));
     };
     const onAnnotationUnSelected = function (event) {
       const { target } = event.detail;
@@ -105,24 +99,24 @@ function WebPDF() {
       // 2. 주석 메뉴 숨기기
     };
 
-    EventManager.on(EID.onError, onError);
-    EventManager.on(EID.onPassword, onPassword);
-    EventManager.on(EID.onDocumentSummary, onDocumentSummary);
-    EventManager.on(EID.onQuickMenu, onQuickMenu);
-    EventManager.on(EID.onAnnotationSelected, onAnnotationSelected);
-    EventManager.on(EID.onAnnotationUnSelected, onAnnotationUnSelected);
+    webPdfLib.getEventManager().on(EID.onError, onError);
+    webPdfLib.getEventManager().on(EID.onPassword, onPassword);
+    webPdfLib.getEventManager().on(EID.onDocumentSummary, onDocumentSummary);
+    webPdfLib.getEventManager().on(EID.onQuickMenu, onQuickMenu);
+    webPdfLib.getEventManager().on(EID.onAnnotationSelected, onAnnotationSelected);
+    webPdfLib.getEventManager().on(EID.onAnnotationUnSelected, onAnnotationUnSelected);
 
     return () => {
-      EventManager.off(EID.onError, onError);
-      EventManager.off(EID.onPassword, onPassword);
-      EventManager.off(EID.onDocumentSummary, onDocumentSummary);
-      EventManager.off(EID.onQuickMenu, onQuickMenu);
-      EventManager.off(EID.onAnnotationSelected, onAnnotationSelected);
-      EventManager.off(EID.onAnnotationUnSelected, onAnnotationUnSelected);
+      webPdfLib.getEventManager().off(EID.onError, onError);
+      webPdfLib.getEventManager().off(EID.onPassword, onPassword);
+      webPdfLib.getEventManager().off(EID.onDocumentSummary, onDocumentSummary);
+      webPdfLib.getEventManager().off(EID.onQuickMenu, onQuickMenu);
+      webPdfLib.getEventManager().off(EID.onAnnotationSelected, onAnnotationSelected);
+      webPdfLib.getEventManager().off(EID.onAnnotationUnSelected, onAnnotationUnSelected);
     };
   }, []);
 
-  return <div id='pdfjs_content' dangerouslySetInnerHTML={{ __html: html }}></div>;
+  return <div id='pdfjs_content' dangerouslySetInnerHTML={{ __html: webPdfLib.getMainTemplate() }}></div>;
 }
 
 export default WebPDF;

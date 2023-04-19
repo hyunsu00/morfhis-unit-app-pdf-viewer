@@ -9,10 +9,9 @@ import MoreMenu from './MoreMenu';
 import Pagination from './Pagination';
 import SelectTheme from './SelectTheme';
 import PenTool from './PenTool';
-import ActionManager from '../../../web-pdf-lib/action/actionManager';
-import AID from "../../../web-pdf-lib/define/actionDefines";
-import ValueGenerator from '../../../web-pdf-lib/action/valueGenerator';
-import { FIND_TYPE } from '../../../web-pdf-lib/define/valueDefines';
+
+import webPdfLib, {AID, FIND_TYPE} from '../../../web-pdf-lib/webPdfLib';
+
 const Header = () => {
   const { zoomScale } = Utils();
   const { winSize, viewportResizing, headerHeight, visibleSidebar, setVisibleSidebar, headerZIndex } = PdfViewerState();
@@ -47,7 +46,7 @@ const Header = () => {
           <IconButton
             sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
             onClick={() => {
-              ActionManager.Execute(AID.THUMBNAIL_VIEW);
+              webPdfLib.getActionManager().Execute(AID.THUMBNAIL_VIEW);
             }}>
             <MenuIcon />
           </IconButton>
@@ -78,10 +77,10 @@ const Header = () => {
                 onClick={() => {
                   setVisibleSidebar(!visibleSidebar);
                   // if (visibleSidebar) {
-                  //   const value = ValueGenerator.createFindValue(FIND_TYPE.FIND_AGAIN, "Trace", false, false, true, false);
-                  //   ActionManager.Execute(AID.FIND_OPEN, value); 
+                  //   const value = webPdfLib.getValueGenerator().createFindValue(FIND_TYPE.FIND_AGAIN, "Trace", false, false, true, false);
+                  //   webPdfLib.getActionManager().Execute(AID.FIND_OPEN, value); 
                   // } else {
-                  //   ActionManager.Execute(AID.FIND_CLOSE); 
+                  //   webPdfLib.getActionManager().Execute(AID.FIND_CLOSE); 
                   // }
                 }}>
                 <VerticalSplitOutlinedIcon />

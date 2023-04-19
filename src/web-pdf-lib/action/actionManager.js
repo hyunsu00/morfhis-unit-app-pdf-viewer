@@ -50,12 +50,6 @@ export default (function () {
   })();
 
   return {
-    execute(evtAction) {
-      let action = _actionMap.get(evtAction.name);
-      if (action) {
-        action(evtAction);
-      }
-    },
     Execute(aID, value) {
       let action = _actionMap.get(aID);
       if (action) {

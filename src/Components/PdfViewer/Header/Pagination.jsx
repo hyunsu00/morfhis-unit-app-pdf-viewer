@@ -4,11 +4,9 @@ import { Box, Typography, IconButton } from '@mui/material';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import TextField from '@mui/material/TextField';
-import ActionManager from '../../../web-pdf-lib/action/actionManager';
-import AID from "../../../web-pdf-lib/define/actionDefines";
-import annotationManager from '../../../web-pdf-lib/annotation/annotationManager';
-import EID from "../../../web-pdf-lib/define/eventDefines";
-import EventManager from "../../../web-pdf-lib/event/eventManager";
+
+import webPdfLib, {AID, EID} from '../../../web-pdf-lib/webPdfLib';
+import AnnotationManager from '../../../web-pdf-lib/annotation/annotationManager';
 
 const Pagination = () => {
 
@@ -20,8 +18,8 @@ const Pagination = () => {
     refCurrentPage.current.value = currentPage;
 
     const onDocumentLoaded = function() {
-      setCurrentPage(annotationManager.currentPageNumber);
-      setTotalPage(annotationManager.totalPage);
+      setCurrentPage(AnnotationManager.currentPageNumber);
+      setTotalPage(AnnotationManager.totalPage);
     };
     const onUpdateUi = function(event) {
       const {name, value} = event.detail;
@@ -29,18 +27,18 @@ const Pagination = () => {
         setCurrentPage(value.pageNumber);
       }
     };
-    EventManager.on(EID.onDocumentLoaded, onDocumentLoaded);
-    EventManager.on(EID.onUpdateUi, onUpdateUi);
+    webPdfLib.getEventManager().on(EID.onDocumentLoaded, onDocumentLoaded);
+    webPdfLib.getEventManager().on(EID.onUpdateUi, onUpdateUi);
     return () => {
-      EventManager.off(EID.onDocumentLoaded, onDocumentLoaded);
-      EventManager.on(EID.onUpdateUi, onUpdateUi);
+      webPdfLib.getEventManager().off(EID.onDocumentLoaded, onDocumentLoaded);
+      webPdfLib.getEventManager().on(EID.onUpdateUi, onUpdateUi);
     }
   }, [currentPage]);
 
   const setPageNumber = (goToPageNumber) => {
-    const currentPageNumber = annotationManager.currentPageNumber;
+    const currentPageNumber = AnnotationManager.currentPageNumber;
     if (goToPageNumber != currentPageNumber) {
-      ActionManager.Execute(AID.GOTO_PAGE, goToPageNumber);
+      webPdfLib.getActionManager().Execute(AID.GOTO_PAGE, goToPageNumber);
       setCurrentPage(goToPageNumber);
     }
   };
@@ -117,16 +115,16 @@ const Pagination = () => {
         <IconButton
           sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
           onClick={() => {
-            ActionManager.Execute(AID.PREV_PAGE);
-            setCurrentPage(annotationManager.currentPageNumber);
+            webPdfLib.getActionManager().Execute(AID.PREV_PAGE);
+            setCurrentPage(AnnotationManager.currentPageNumber);
           }}>
           <ArrowCircleUpIcon />
         </IconButton>
         <IconButton
           sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
           onClick={() => {
-            ActionManager.Execute(AID.NEXT_PAGE);
-            setCurrentPage(annotationManager.currentPageNumber);
+            webPdfLib.getActionManager().Execute(AID.NEXT_PAGE);
+            setCurrentPage(AnnotationManager.currentPageNumber);
           }}>
           <ArrowCircleDownIcon />
         </IconButton>

@@ -1,5 +1,3 @@
-import ActionManager from '../../../web-pdf-lib/action/actionManager';
-import AID from "../../../web-pdf-lib/define/actionDefines";
 import { useEffect, useState } from 'react';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,6 +16,8 @@ import DrawerMenu from '../Menu/DrawerMenu';
 import PdfViewerState from '../Store/PdfViewerState';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import Tools from '../Tools/Tools.json';
+
+import webPdfLib, {AID} from '../../../web-pdf-lib/webPdfLib';
 
 const PenTool = () => {
   const drawTools = Tools.draw;
@@ -49,7 +49,7 @@ const PenTool = () => {
               case 'a_highlight':
               case 'a_point':
               case 'a_text':
-                ActionManager.Execute(AID.SELECT_DRAW_TOOL, key);
+                webPdfLib.getActionManager().Execute(AID.SELECT_DRAW_TOOL, key);
                 break;
               default:
                 break;
@@ -81,7 +81,7 @@ const PenTool = () => {
       <ButtonGroup variant='contained'>
         <Button
           onClick={() => {
-            ActionManager.Execute(AID.SELECT_DRAW_TOOL, selectDrawTool);
+            webPdfLib.getActionManager().Execute(AID.SELECT_DRAW_TOOL, selectDrawTool);
           }}>
           {selectDrawTool === 'a_draw' ? <EditOutlinedIcon /> : null}
           {selectDrawTool === 'a_line' ? <HorizontalRuleOutlinedIcon /> : null}
