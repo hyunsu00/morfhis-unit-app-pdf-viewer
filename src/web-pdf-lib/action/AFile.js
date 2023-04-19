@@ -1,6 +1,6 @@
 import webPdfLib from '../webPdfLib.js';
 import AnnotationManager from '../annotation/annotationManager.js';
-import EID from "../define/eventDefines.js";
+import EVENT_ID from "../define/eventDefines.js";
 import EventManager from '../event/eventManager.js';
 
 export default class AFile {
@@ -34,7 +34,7 @@ export default class AFile {
     if (password) {
       webPdfLib.PDFViewerApplication.passwordPrompt.verify(password);
     } else {
-      EventManager.dispatch(EID.onPassword, { state: 'failed' });
+      EventManager.dispatch(EVENT_ID.onPassword, { state: 'failed' });
     }
   }
 

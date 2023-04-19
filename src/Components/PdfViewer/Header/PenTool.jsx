@@ -17,7 +17,7 @@ import PdfViewerState from '../Store/PdfViewerState';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import Tools from '../Tools/Tools.json';
 
-import webPdfLib, {AID} from '../../../web-pdf-lib/webPdfLib';
+import webPdfLib, {ACTION_ID} from '../../../web-pdf-lib/webPdfLib';
 
 const PenTool = () => {
   const drawTools = Tools.draw;
@@ -49,7 +49,7 @@ const PenTool = () => {
               case 'a_highlight':
               case 'a_point':
               case 'a_text':
-                webPdfLib.getActionManager().Execute(AID.SELECT_DRAW_TOOL, key);
+                webPdfLib.getActionManager().Execute(ACTION_ID.SELECT_DRAW_TOOL, key);
                 break;
               default:
                 break;
@@ -81,7 +81,7 @@ const PenTool = () => {
       <ButtonGroup variant='contained'>
         <Button
           onClick={() => {
-            webPdfLib.getActionManager().Execute(AID.SELECT_DRAW_TOOL, selectDrawTool);
+            webPdfLib.getActionManager().Execute(ACTION_ID.SELECT_DRAW_TOOL, selectDrawTool);
           }}>
           {selectDrawTool === 'a_draw' ? <EditOutlinedIcon /> : null}
           {selectDrawTool === 'a_line' ? <HorizontalRuleOutlinedIcon /> : null}

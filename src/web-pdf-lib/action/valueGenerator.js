@@ -6,7 +6,7 @@ import PROPERTY_VALUE_TYPE  from "../define/_propertyDefines.js";
 export default (function () {
   return {
     /**
-     * AID.FIND_OPEN 액션에 사용되는 value 생성
+     * ACTION_ID.FIND_OPEN 액션에 사용되는 value 생성
      * @param {FIND_TYPE} type - FIND_TYPE
      * @param {String} query - 찾을 내용
      * @param {boolean} caseSensitive - 대/소문자 구분
@@ -30,7 +30,7 @@ export default (function () {
       };
     },
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {number} width - 너비(optional)
      * @param {number} height - 높이(optional)
@@ -48,7 +48,7 @@ export default (function () {
       };
     },
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {number} xPos - x좌표
      * @param {number} yPos - y좌표
@@ -66,7 +66,7 @@ export default (function () {
       };
     },
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {COLOR_TYPE} colorType - 없음, 단색
      * @param {String} fillColor - 채우기 색('#RRGGBB' 형식)(optional)
@@ -83,7 +83,7 @@ export default (function () {
       };
     },
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {number} opacity - 채우기 불투명도 설정(0~100사이 정수)
      *
@@ -99,7 +99,7 @@ export default (function () {
       };
     },
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {COLOR_TYPE} colorType - 없음, 단색
      * @param {String} lineFillColor - 선 채우기 색('#RRGGBB' 형식)(optional)
@@ -116,7 +116,7 @@ export default (function () {
       };
     },
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {number} lineFillOpacity - 선 불투명도(0~100사이 정수)
      *
@@ -132,7 +132,7 @@ export default (function () {
       };
     },
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {number} lineWidth - 선 굵기(px단위)
      *
@@ -149,7 +149,7 @@ export default (function () {
     },
 
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {LINE_STYLE} lineStyle - 선 종류
      *
@@ -165,7 +165,7 @@ export default (function () {
       };
     },
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {number} fontSize - 글자크기(pt단위)
      * 
@@ -179,7 +179,7 @@ export default (function () {
       };
     },
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {number} fontColr - 폰트색상('#RRGGBB' 형식)
      * 
@@ -193,7 +193,7 @@ export default (function () {
       };
     },
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {Boolean} flag - 진하게(on, off)
      * 
@@ -207,7 +207,7 @@ export default (function () {
       };
     },
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {Boolean} flag - 기울임(on, off)
      * 
@@ -221,7 +221,7 @@ export default (function () {
       };
     },
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {Boolean} flag - 밑줄(on, off)
      * 
@@ -235,7 +235,7 @@ export default (function () {
       };
     },
     /**
-     * AID.CHANGE_PROPERTY 액션에 사용되는 value 생성
+     * ACTION_ID.CHANGE_PROPERTY 액션에 사용되는 value 생성
      * @param {Object} target - Annotation개체
      * @param {Boolean} flag - 취소선(on, off)
      * 

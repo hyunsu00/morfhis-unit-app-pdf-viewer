@@ -10,7 +10,7 @@ import Pagination from './Pagination';
 import SelectTheme from './SelectTheme';
 import PenTool from './PenTool';
 
-import webPdfLib, {AID, FIND_TYPE} from '../../../web-pdf-lib/webPdfLib';
+import webPdfLib, {ACTION_ID, FIND_TYPE} from '../../../web-pdf-lib/webPdfLib';
 
 const Header = () => {
   const { zoomScale } = Utils();
@@ -46,7 +46,7 @@ const Header = () => {
           <IconButton
             sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
             onClick={() => {
-              webPdfLib.getActionManager().Execute(AID.THUMBNAIL_VIEW);
+              webPdfLib.getActionManager().Execute(ACTION_ID.THUMBNAIL_VIEW);
             }}>
             <MenuIcon />
           </IconButton>
@@ -78,9 +78,9 @@ const Header = () => {
                   setVisibleSidebar(!visibleSidebar);
                   // if (visibleSidebar) {
                   //   const value = webPdfLib.getValueGenerator().createFindValue(FIND_TYPE.FIND_AGAIN, "Trace", false, false, true, false);
-                  //   webPdfLib.getActionManager().Execute(AID.FIND_OPEN, value); 
+                  //   webPdfLib.getActionManager().Execute(ACTION_ID.FIND_OPEN, value); 
                   // } else {
-                  //   webPdfLib.getActionManager().Execute(AID.FIND_CLOSE); 
+                  //   webPdfLib.getActionManager().Execute(ACTION_ID.FIND_CLOSE); 
                   // }
                 }}>
                 <VerticalSplitOutlinedIcon />

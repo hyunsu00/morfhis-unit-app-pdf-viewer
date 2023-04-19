@@ -14,7 +14,7 @@ import PdfViewerState from '../Store/PdfViewerState';
 import Tools from '../Tools/Tools.json';
 import DividerVertical from '../DividerVertical/DividerVertical';
 
-import webPdfLib, {AID} from '../../../web-pdf-lib/webPdfLib';
+import webPdfLib, {ACTION_ID} from '../../../web-pdf-lib/webPdfLib';
 
 const ZoomTool = () => {
   const zoomTools = Tools.zoom;

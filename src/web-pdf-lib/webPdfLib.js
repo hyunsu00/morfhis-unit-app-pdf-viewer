@@ -6,16 +6,16 @@ import UndoRedoManager from './undoRedo/UndoRedoManager.js';
 import './webPdfLib.scss';
 import mainHtml from './template/webPdfLib.html';
 import sideHtml from "./template/webPdfSidebar.html";
-import AID from "./define/actionDefines.js";
-import EID from './define/eventDefines.js';
+import ACTION_ID from "./define/actionDefines.js";
+import EVENT_ID from './define/eventDefines.js';
 import {FIND_TYPE, DRAW_TYPE, CURSOR_TYPE, LINE_STYLE, COLOR_TYPE} from './define/valueDefines.js';
 import ActionManager from './action/actionManager.js';
 import EventManager from './event/eventManager.js';
 import ValueGenerator from './action/valueGenerator.js';
 
 export {
-  AID,
-  EID,
+  ACTION_ID,
+  EVENT_ID,
   FIND_TYPE, 
   DRAW_TYPE, 
   CURSOR_TYPE, 

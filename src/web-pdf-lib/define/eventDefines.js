@@ -1,4 +1,4 @@
-export const EID = {
+export const EVENT_ID = {
   onDocumentLoaded: 'onDocumentLoaded',
   onUpdateUi: 'onUpdateUi',
   onQuickMenu: 'onQuickMenu',
@@ -10,4 +10,4 @@ export const EID = {
   onAnnotationMenu: 'onAnnotationMenu',
 };
 
-export default EID;
+export default EVENT_ID;

@@ -1,6 +1,6 @@
 import { DRAW_TYPE } from '../define/valueDefines.js';
 import UiManager from '../uiFrame/uiManager.js';
-import EID from "../define/eventDefines.js";
+import EVENT_ID from "../define/eventDefines.js";
 import EventManager from '../event/eventManager.js';
 import AnnotationManager from '../annotation/annotationManager.js';
 

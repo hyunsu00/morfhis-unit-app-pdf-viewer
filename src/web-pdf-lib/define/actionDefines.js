@@ -33,7 +33,7 @@
  * @property {String} GOTO_PAGE - 페이지 이동
  */
 
-export const AID = {
+export const ACTION_ID = {
   //
   // 파일
   //
@@ -90,4 +90,4 @@ export const AID = {
   GOTO_PAGE: 'page_number',
 };
 
-export default AID;
+export default ACTION_ID;

@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import ic_pdf from '../Image/ic_pdf.svg';
 import DocumentState from '../Store/DocumentState';
 
-import webPdfLib, {EID} from '../../../web-pdf-lib/webPdfLib';
+import webPdfLib, {EVENT_ID} from '../../../web-pdf-lib/webPdfLib';
 
 const Filename = () => {
   const { filename, setFilename } = DocumentState();
@@ -12,9 +12,9 @@ const Filename = () => {
     const onDocumentLoaded = function() {
       setFilename(webPdfLib.getTitle());
     };
-    webPdfLib.getEventManager().on(EID.onDocumentLoaded, onDocumentLoaded);
+    webPdfLib.getEventManager().on(EVENT_ID.onDocumentLoaded, onDocumentLoaded);
     return () => {
-      webPdfLib.getEventManager().off(EID.onDocumentLoaded, onDocumentLoaded);
+      webPdfLib.getEventManager().off(EVENT_ID.onDocumentLoaded, onDocumentLoaded);
     }
   }, []);
 

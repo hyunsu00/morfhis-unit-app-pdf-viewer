@@ -5,7 +5,7 @@ import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import TextField from '@mui/material/TextField';
 
-import webPdfLib, {AID, EID} from '../../../web-pdf-lib/webPdfLib';
+import webPdfLib, {ACTION_ID, EVENT_ID} from '../../../web-pdf-lib/webPdfLib';
 
 const Pagination = () => {
 
@@ -26,18 +26,18 @@ const Pagination = () => {
         setCurrentPage(value.pageNumber);
       }
     };
-    webPdfLib.getEventManager().on(EID.onDocumentLoaded, onDocumentLoaded);
-    webPdfLib.getEventManager().on(EID.onUpdateUi, onUpdateUi);
+    webPdfLib.getEventManager().on(EVENT_ID.onDocumentLoaded, onDocumentLoaded);
+    webPdfLib.getEventManager().on(EVENT_ID.onUpdateUi, onUpdateUi);
     return () => {
-      webPdfLib.getEventManager().off(EID.onDocumentLoaded, onDocumentLoaded);
-      webPdfLib.getEventManager().on(EID.onUpdateUi, onUpdateUi);
+      webPdfLib.getEventManager().off(EVENT_ID.onDocumentLoaded, onDocumentLoaded);
+      webPdfLib.getEventManager().on(EVENT_ID.onUpdateUi, onUpdateUi);
     }
   }, [currentPage]);
 
   const setPageNumber = (goToPageNumber) => {
     const currentPageNumber = webPdfLib.getCurrentPageNumber();
     if (goToPageNumber != currentPageNumber) {
-      webPdfLib.getActionManager().Execute(AID.GOTO_PAGE, goToPageNumber);
+      webPdfLib.getActionManager().Execute(ACTION_ID.GOTO_PAGE, goToPageNumber);
       setCurrentPage(goToPageNumber);
     }
   };
@@ -114,7 +114,7 @@ const Pagination = () => {
         <IconButton
           sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
           onClick={() => {
-            webPdfLib.getActionManager().Execute(AID.PREV_PAGE);
+            webPdfLib.getActionManager().Execute(ACTION_ID.PREV_PAGE);
             setCurrentPage(webPdfLib.getCurrentPageNumber());
           }}>
           <ArrowCircleUpIcon />
@@ -122,7 +122,7 @@ const Pagination = () => {
         <IconButton
           sx={{ color: 'action.active', borderRadius: '4px', margin: '4px' }}
           onClick={() => {
-            webPdfLib.getActionManager().Execute(AID.NEXT_PAGE);
+            webPdfLib.getActionManager().Execute(ACTION_ID.NEXT_PAGE);
             setCurrentPage(webPdfLib.getCurrentPageNumber());
           }}>
           <ArrowCircleDownIcon />
