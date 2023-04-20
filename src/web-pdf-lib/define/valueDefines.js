@@ -74,7 +74,14 @@ export const CURSOR_TYPE = {
  * 선 종류 열거
  * @readonly
  * @const {String}
- *
+ * @property {String} none - 실선
+ * @property {String} dashed_5_15 - 점선
+ * @property {String} dashed_10_10 - 긴 점선
+ * @property {String} dashed_40_20 - 파선
+ * @property {String} dashed_40_20_20_20 - 파선-점선
+ * @property {String} dashed_80_20 - 긴 파선
+ * @property {String} dashed_80_20_20_20 - 긴 파선-점선
+ * @property {String} dashed_80_20_20_20_20_20 - 긴 파선-점선-점선
  */
 export const LINE_STYLE = {
   none: 'none',

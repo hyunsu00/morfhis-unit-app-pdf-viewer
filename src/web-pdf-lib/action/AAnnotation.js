@@ -2,6 +2,7 @@ import { DRAW_TYPE } from '../define/valueDefines.js';
 import UiManager from '../uiFrame/uiManager.js';
 import EventManager from '../event/eventManager.js';
 import AnnotationManager from '../annotation/annotationManager.js';
+import { EVENT_ID } from '../webPdfLib.js';
 
 /**  
  * Annotation 액션 클래스.
@@ -97,7 +98,7 @@ export default class AAnnotation {
   }
   static a_underline() {
     if (UiManager.isSelectedAllRange()) {
-      EventManager.dispatch('onError', { errType: 'ERR_ALL_SELECTED' });
+      EventManager.dispatch(EVENT_ID.ERROR, { errType: 'ERR_ALL_SELECTED' });
       return;
     }
     const range = UiManager.getRange();
@@ -109,7 +110,7 @@ export default class AAnnotation {
   }
   static a_strikeout() {
     if (UiManager.isSelectedAllRange()) {
-      EventManager.dispatch('onError', { errType: 'ERR_ALL_SELECTED' });
+      EventManager.dispatch(EVENT_ID.ERROR, { errType: 'ERR_ALL_SELECTED' });
       return;
     }
 
@@ -122,7 +123,7 @@ export default class AAnnotation {
   }
   static a_highlight(_eent) {
     if (UiManager.isSelectedAllRange()) {
-      EventManager.dispatch('onError', { errType: 'ERR_ALL_SELECTED' });
+      EventManager.dispatch(EVENT_ID.ERROR, { errType: 'ERR_ALL_SELECTED' });
       return;
     }
 

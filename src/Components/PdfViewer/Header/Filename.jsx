@@ -12,9 +12,9 @@ const Filename = () => {
     const onDocumentLoaded = function() {
       setFilename(webPdfLib.getTitle());
     };
-    webPdfLib.getEventManager().on(EVENT_ID.onDocumentLoaded, onDocumentLoaded);
+    webPdfLib.getEventManager().on(EVENT_ID.DOCUMENT_LOADED, onDocumentLoaded);
     return () => {
-      webPdfLib.getEventManager().off(EVENT_ID.onDocumentLoaded, onDocumentLoaded);
+      webPdfLib.getEventManager().off(EVENT_ID.DOCUMENT_LOADED, onDocumentLoaded);
     }
   }, []);
 

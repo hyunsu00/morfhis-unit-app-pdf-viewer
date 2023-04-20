@@ -217,7 +217,7 @@ export default (function () {
         }
         const range = UiManager.getRange();
         if (range && !range.collapsed) {
-          EventManager.dispatch(EVENT_ID.onQuickMenu, {posInfo, range});
+          EventManager.dispatch(EVENT_ID.QUICK_MENU, {posInfo, range});
         }
       });
       document.addEventListener('keydown', this.doKeyDownEvent.bind(this));

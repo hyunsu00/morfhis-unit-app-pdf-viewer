@@ -48,14 +48,14 @@ export default (function () {
     // 도형 클릭 선택
     onAnnotationSelected: function (target, rects) {
       console.log('call annotationListener.onAnnotationSelected(target = ', target, ')');
-      EventManager.dispatch(EVENT_ID.onAnnotationSelected, {target, rects});
+      EventManager.dispatch(EVENT_ID.ANNOTATION_SELECTED, {target, rects});
       clearSelection();
     },
 
     // 클릭된 도형 해제
     onAnnotationUnSelected: function (target) {
       console.log('call annotationListener.onAnnotationUnSelected(target = ', target, ')');
-      EventManager.dispatch(EVENT_ID.onAnnotationUnSelected, {target});
+      EventManager.dispatch(EVENT_ID.ANNOTATION_UNSELECTED, {target});
     },
 
     // 스티커노트 추가

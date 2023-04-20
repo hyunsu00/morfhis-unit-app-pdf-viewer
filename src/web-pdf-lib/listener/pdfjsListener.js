@@ -38,7 +38,7 @@ export default (function () {
       }
       AnnotationManager.documentData = data;
 
-      EventManager.dispatch(EVENT_ID.onDocumentLoaded, {});
+      EventManager.dispatch(EVENT_ID.DOCUMENT_LOADED, {});
     },
     onWebViewerAnnotateRender({ parentNode, canvasWrapper, id, pdfPage, scale }) {
       const docId = webPdfLib.PDFViewerApplication.baseUrl;
@@ -65,7 +65,7 @@ export default (function () {
       EventActionGenerator.addFocusProperty(uiUpdateAction, 'file_password');
       $.publish('/ui/update', uiUpdateAction);
 */
-      EventManager.dispatch(EVENT_ID.onPassword, { state: 'failed' });
+      EventManager.dispatch(EVENT_ID.PASSWORD, { state: 'failed' });
     },
 
     // 1. 문서오픈시 패스워드 문서를 열경우 호출됨 ==> 다이얼로드 호출
@@ -79,7 +79,7 @@ export default (function () {
       //
       switch (value) {
         case 'dialog_password': // 패스워드 다이얼로그
-          EventManager.dispatch(EVENT_ID.onPassword, { state: 'open' });
+          EventManager.dispatch(EVENT_ID.PASSWORD, { state: 'open' });
           break;
         case 'dialog_find_replace': // 찾기 다이얼로그
           break;
@@ -103,7 +103,7 @@ export default (function () {
 /*      
       UiController.closeDialog();
 */
-      EventManager.dispatch(EVENT_ID.onPassword, { state: 'succeeded' });
+      EventManager.dispatch(EVENT_ID.PASSWORD, { state: 'succeeded' });
     },
 
     onUpdateUi({ eventType, widgetName, value }) {
@@ -113,7 +113,7 @@ export default (function () {
       switch (widgetName) {
         case 'description':
           {
-            EventManager.dispatch(EVENT_ID.onDocumentSummary, { value });
+            EventManager.dispatch(EVENT_ID.DOCUMENT_SUMMARY, { value });
             webPdfLib.PDFViewerApplication.pdfDocumentProperties.close();
           }
           break;

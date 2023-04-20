@@ -96,20 +96,20 @@ function WebPDF() {
       // 2. 주석 메뉴 숨기기
     };
 
-    webPdfLib.getEventManager().on(EVENT_ID.onError, onError);
-    webPdfLib.getEventManager().on(EVENT_ID.onPassword, onPassword);
-    webPdfLib.getEventManager().on(EVENT_ID.onDocumentSummary, onDocumentSummary);
-    webPdfLib.getEventManager().on(EVENT_ID.onQuickMenu, onQuickMenu);
-    webPdfLib.getEventManager().on(EVENT_ID.onAnnotationSelected, onAnnotationSelected);
-    webPdfLib.getEventManager().on(EVENT_ID.onAnnotationUnSelected, onAnnotationUnSelected);
+    webPdfLib.getEventManager().on(EVENT_ID.ERROR, onError);
+    webPdfLib.getEventManager().on(EVENT_ID.PASSWORD, onPassword);
+    webPdfLib.getEventManager().on(EVENT_ID.DOCUMENT_SUMMARY, onDocumentSummary);
+    webPdfLib.getEventManager().on(EVENT_ID.QUICK_MENU, onQuickMenu);
+    webPdfLib.getEventManager().on(EVENT_ID.ANNOTATION_SELECTED, onAnnotationSelected);
+    webPdfLib.getEventManager().on(EVENT_ID.ANNOTATION_UNSELECTED, onAnnotationUnSelected);
 
     return () => {
-      webPdfLib.getEventManager().off(EVENT_ID.onError, onError);
-      webPdfLib.getEventManager().off(EVENT_ID.onPassword, onPassword);
-      webPdfLib.getEventManager().off(EVENT_ID.onDocumentSummary, onDocumentSummary);
-      webPdfLib.getEventManager().off(EVENT_ID.onQuickMenu, onQuickMenu);
-      webPdfLib.getEventManager().off(EVENT_ID.onAnnotationSelected, onAnnotationSelected);
-      webPdfLib.getEventManager().off(EVENT_ID.onAnnotationUnSelected, onAnnotationUnSelected);
+      webPdfLib.getEventManager().off(EVENT_ID.ERROR, onError);
+      webPdfLib.getEventManager().off(EVENT_ID.PASSWORD, onPassword);
+      webPdfLib.getEventManager().off(EVENT_ID.DOCUMENT_SUMMARY, onDocumentSummary);
+      webPdfLib.getEventManager().off(EVENT_ID.QUICK_MENU, onQuickMenu);
+      webPdfLib.getEventManager().off(EVENT_ID.ANNOTATION_SELECTED, onAnnotationSelected);
+      webPdfLib.getEventManager().off(EVENT_ID.ANNOTATION_UNSELECTED, onAnnotationUnSelected);
     };
   }, []);
 

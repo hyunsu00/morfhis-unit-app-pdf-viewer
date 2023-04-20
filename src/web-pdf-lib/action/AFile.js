@@ -37,7 +37,7 @@ export default class AFile {
     if (password) {
       webPdfLib.PDFViewerApplication.passwordPrompt.verify(password);
     } else {
-      EventManager.dispatch(EVENT_ID.onPassword, { state: 'failed' });
+      EventManager.dispatch(EVENT_ID.PASSWORD, { state: 'failed' });
     }
   }
 

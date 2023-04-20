@@ -3,14 +3,35 @@
  */
 export default (function () {
   return {
-    on(eventName, listener) {
-      document.addEventListener(eventName, listener);
+    /**
+     * 이벤트 등록
+     * @memberof EventManager
+     * @param {EVENT_ID} eID - 이벤트 ID
+     * @param {eventCallback} cb - 이벤트 발생시 호출되는 콜백함수
+     * 
+     */
+    on(eID, cb) {
+      document.addEventListener(eID, cb);
     },
-    off(eventName, listener) {
-      document.removeEventListener(eventName, listener);
+    /**
+     * 이벤트 취소
+     * @memberof EventManager
+     * @param {EVENT_ID} eID - 이벤트 ID
+     * @param {eventCallback} cb - 이벤트 발생시 호출되는 콜백함수
+     * 
+     */
+    off(eID, cb) {
+      document.removeEventListener(eID, cb);
     },
-    dispatch(eventName, data) {
-      document.dispatchEvent(new CustomEvent(eventName, { detail: data }));
+    /**
+     * 이벤트 실행
+     * @memberof EventManager
+     * @param {EVENT_ID} eID - 이벤트 ID
+     * @param {Object} data - 이벤트 데이타
+     * 
+     */
+    dispatch(eID, data) {
+      document.dispatchEvent(new CustomEvent(eID, { detail: data }));
     }
   };
 })();
