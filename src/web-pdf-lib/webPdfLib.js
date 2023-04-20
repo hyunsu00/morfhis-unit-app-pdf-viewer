@@ -8,7 +8,9 @@ import mainHtml from './template/webPdfLib.html';
 import sideHtml from "./template/webPdfSidebar.html";
 import ACTION_ID from "./define/actionDefines.js";
 import EVENT_ID from './define/eventDefines.js';
-import {FIND_TYPE, DRAW_TYPE, CURSOR_TYPE, LINE_STYLE, COLOR_TYPE} from './define/valueDefines.js';
+import {
+  ZOOM_VALUE, FIND_TYPE, DRAW_TYPE, CURSOR_TYPE, LINE_STYLE, COLOR_TYPE
+} from './define/valueDefines.js';
 import ActionManager from './action/actionManager.js';
 import EventManager from './event/eventManager.js';
 import ValueGenerator from './action/valueGenerator.js';
@@ -16,6 +18,7 @@ import ValueGenerator from './action/valueGenerator.js';
 export {
   ACTION_ID,
   EVENT_ID,
+  ZOOM_VALUE,
   FIND_TYPE, 
   DRAW_TYPE, 
   CURSOR_TYPE, 
@@ -23,6 +26,9 @@ export {
   COLOR_TYPE,
 };
 
+/**
+ * @class webPdfLib
+ */
 export default (function () {
   return {
     initialize(lipsPath) {
@@ -103,24 +109,67 @@ export default (function () {
     getSideTemplate() {
       return sideHtml;
     },
+    /**
+     * ActionManager 함수객체 반환
+     * @memberof webPdfLib
+     *
+     * @return {ActionManager}
+     */
     getActionManager() {
       return ActionManager;
     },
+    /**
+     * ValueGenerator 함수객체 반환
+     * @memberof webPdfLib
+     *
+     * @return {ValueGenerator}
+     */
     getValueGenerator() {
       return ValueGenerator;
     },
+    /**
+     * EventManager 함수객체 반환
+     * @memberof webPdfLib
+     *
+     * @return {EventManager}
+     */
     getEventManager() {
       return EventManager;
     },
+    /**
+     * target 개체의 속성 반환
+     * @memberof webPdfLib
+     * @param {Object} target - 주석 개체
+     *
+     * @return {Object}
+     */
     getAnnotationProperties(target) {
       return AnnotationManager.getAnnotationProperties(target);
     },
+    /**
+     * 현재 활성화된 페이지 번호 반환
+     * @memberof webPdfLib
+     *
+     * @return {number}
+     */
     getCurrentPageNumber() {
       return AnnotationManager.currentPageNumber;
     },
+    /**
+     * 문서의 전체 페이지수 반환
+     * @memberof webPdfLib
+     * 
+     * @return {number}
+     */
     getTotalPageNumber() {
       return AnnotationManager.totalPage;
     },
+    /**
+     * 문서 타이틀 반환
+     * @memberof webPdfLib
+     *
+     * @return {String}
+     */
     getTitle() {
       return AnnotationManager.documentTitle;
     }

@@ -1,9 +1,11 @@
 import { DRAW_TYPE } from '../define/valueDefines.js';
 import UiManager from '../uiFrame/uiManager.js';
-import EVENT_ID from "../define/eventDefines.js";
 import EventManager from '../event/eventManager.js';
 import AnnotationManager from '../annotation/annotationManager.js';
 
+/**  
+ * Annotation 액션 클래스.
+*/
 export default class AAnnotation {
   static _ToAnnotationType(drawType) {
     let annotationType = null;
@@ -78,22 +80,22 @@ export default class AAnnotation {
     AnnotationManager.switchUI(annotationType);
   }
 
-  static a_line(_event) {
+  static a_line() {
     AAnnotation._select(DRAW_TYPE.LINE);
   }
-  static a_area(_event) {
+  static a_area() {
     AAnnotation._select(DRAW_TYPE.AREA);
   }
-  static a_draw(_event) {
+  static a_draw() {
     AAnnotation._select(DRAW_TYPE.PEN);
   }
-  static a_point(_event) {
+  static a_point() {
     AAnnotation._select(DRAW_TYPE.MEMO);
   }
-  static a_text(_event) {
+  static a_text() {
     AAnnotation._select(DRAW_TYPE.TEXT);
   }
-  static a_underline(_event) {
+  static a_underline() {
     if (UiManager.isSelectedAllRange()) {
       EventManager.dispatch('onError', { errType: 'ERR_ALL_SELECTED' });
       return;
@@ -105,7 +107,7 @@ export default class AAnnotation {
       AAnnotation._select(DRAW_TYPE.UNDERLINE);
     }
   }
-  static a_strikeout(_event) {
+  static a_strikeout() {
     if (UiManager.isSelectedAllRange()) {
       EventManager.dispatch('onError', { errType: 'ERR_ALL_SELECTED' });
       return;
@@ -118,7 +120,7 @@ export default class AAnnotation {
       AAnnotation._select(DRAW_TYPE.STRIKEOUT);
     }
   }
-  static a_highlight(_event) {
+  static a_highlight(_eent) {
     if (UiManager.isSelectedAllRange()) {
       EventManager.dispatch('onError', { errType: 'ERR_ALL_SELECTED' });
       return;

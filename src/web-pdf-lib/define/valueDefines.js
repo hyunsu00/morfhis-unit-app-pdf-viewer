@@ -1,9 +1,24 @@
 // @ts-check
 
 /**
+ * 미리정의된 줌값 설정
+ * @readonly
+ * @const {String}
+ *
+ * @property {String} PAGE_ACTUAL - 실제 사이즈
+ * @property {String} PAGE_HEIGHT - 쪽맞춤
+ * @property {String} PAGE_WIDHT - 폭맞춤
+ */
+export const ZOOM_VALUE = {
+  PAGE_ACTUAL: 'page-actual',
+  PAGE_HEIGHT: 'page-height',
+  PAGE_WIDHT: 'page-width',
+};
+
+/**
  * 찾기 타입 열거
  * @readonly
- * @enum {String}
+ * @const {String}
  *
  * @property {String} FIND_AGAIN - 다음 찾기
  * @property {String} FIND_HIGHLIGHTALL_CHANGE - 모두 강조 표시
@@ -20,7 +35,7 @@ export const FIND_TYPE = {
 /**
  * 주석 타입 열거
  * @readonly
- * @enum {String}
+ * @const {String}
  *
  * @property {String} LINE - 선 그리기
  * @property {String} AREA - 직사각형
@@ -45,7 +60,7 @@ export const DRAW_TYPE = {
 /**
  * 커서 타입 열거
  * @readonly
- * @enum {String}
+ * @const {String}
  *
  * @property {String} SELECT - 선택
  * @property {String} HAND - 손도구
@@ -58,7 +73,7 @@ export const CURSOR_TYPE = {
 /**
  * 선 종류 열거
  * @readonly
- * @enum {String}
+ * @const {String}
  *
  */
 export const LINE_STYLE = {
@@ -75,7 +90,7 @@ export const LINE_STYLE = {
 /**
  * 색상 타입 열거
  * @readonly
- * @enum {String}
+ * @const {String}
  * 
  * @property {String} noFill - 없음
  * @property {String} solid - 단색

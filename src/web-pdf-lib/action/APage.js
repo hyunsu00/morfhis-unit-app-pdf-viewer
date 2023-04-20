@@ -1,25 +1,28 @@
 import webPdfLib from '../webPdfLib.js';
 
+/**  
+ * Page 액션 클래스.
+*/
 export default class APage {
-  static e_first_page(_value) {
+  static e_first_page() {
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('firstpage', {
       source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
-  static e_previous_page(_value) {
+  static e_previous_page() {
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('previouspage', {
       source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
-  static e_next_page(_value) {
+  static e_next_page() {
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('nextpage', {
       source: webPdfLib.PDFViewerApplication.toolbar,
     });
   }
 
-  static e_last_page(_value) {
+  static e_last_page() {
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('lastpage', {
       source: webPdfLib.PDFViewerApplication.toolbar,
     });

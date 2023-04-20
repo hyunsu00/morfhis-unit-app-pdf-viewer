@@ -2,6 +2,9 @@ import webPdfLib from '../webPdfLib.js';
 import AnnotationManager from '../annotation/annotationManager.js';
 import { CURSOR_TYPE } from "../define/valueDefines.js";
 
+/**  
+ * Tool 액션 클래스.
+*/
 export default class ATool {
   static switchcursortool(cursorType) {
     const details = {

@@ -1,3 +1,6 @@
+/**
+ * @class EventManager
+ */
 export default (function () {
   return {
     on(eventName, listener) {

@@ -1,4 +1,4 @@
-// antionManager.js
+// actionManager.js
 import ACTION_ID from '../define/actionDefines.js'
 import AFile from './AFile.js';
 import AEdit from './AEdit.js';
@@ -8,6 +8,9 @@ import ASlideshow from './ASlideshow.js';
 import ATool from './ATool.js';
 import APage from './APage.js';
 
+/**
+ * @class ActionManager
+ */
 export default (function () {
   const _actionMap = (function () {
     return new Map([
@@ -51,6 +54,13 @@ export default (function () {
   })();
 
   return {
+    /**
+     * 액션 실행
+     * @memberof ActionManager
+     * @param {ACTION_ID} aID - 액션 ID
+     * @param {any} value - 액션 Value(optional)
+     * 
+     */
     Execute(aID, value) {
       let action = _actionMap.get(aID);
       if (action) {

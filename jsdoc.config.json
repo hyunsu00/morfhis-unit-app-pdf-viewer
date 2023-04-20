@@ -1,6 +1,9 @@
 {
   // plugins: 플러그인 사용시 추가하는 부분. 기본값은 빈 상태이다.
-  "plugins": ["plugins/markdown"],
+  "plugins": [
+    "plugins/markdown",
+    "node_modules/jsdoc-export-default-interop/dist/index"
+  ],
   "opts": {
     "encoding": "utf8",
     "destination": "./docs/",
@@ -11,7 +14,13 @@
   // source.includePattern: js, jsx, jsdoc으로 끝나는 파일만 처리한다.
   // source.excludePattern: 밑줄로 시작하거나 밑줄로 시작하는 디렉토리의 모든 파일은 무시한다.
   "source": {
-    "include": [".", "src/web-pdf-lib/define"],
+    "include": [
+      ".", 
+      "src/web-pdf-lib", 
+      "src/web-pdf-lib/define", 
+      "src/web-pdf-lib/action",
+      "src/web-pdf-lib/event"
+    ],
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },

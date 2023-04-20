@@ -1,5 +1,8 @@
 import webPdfLib from '../webPdfLib.js';
 
+/**  
+ * Slideshow 액션 클래스.
+*/
 export default class ASlideshow {
   static slideshow_first(value) {
     console.group(`function slideshow_first(evtAction)`);
@@ -14,7 +17,7 @@ export default class ASlideshow {
     console.groupEnd();
   }
 
-  static slideshow_current(_value) {
+  static slideshow_current() {
     console.group(`function slideshow_current(evtAction)`);
 
     webPdfLib.PDFViewerApplication.toolbar.eventBus.dispatch('presentationmode', {
