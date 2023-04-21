@@ -16,11 +16,13 @@
     "destination": "./docs/", // 기존에 생성되던 out이라는 폴더를 docs라는 폴더로 생성
     "readme": "README.md", // README.md를 추가
     "template": "node_modules/better-docs"
+    // "tutorials": "./tutorials"
   },
   "recurseDepth": 10, // -r 명령 행 플래그로 재귀가 사용 가능한 경우 JSDoc은 10 레벨 깊이의 파일을 검색
   "source": {
     "include": [
       "./", // ./ 이하 js, jsx, jsdoc을 대상으로 합니다.
+      "tutorials",
       "src/web-pdf-lib",
       "src/web-pdf-lib/define",
       "src/web-pdf-lib/action",

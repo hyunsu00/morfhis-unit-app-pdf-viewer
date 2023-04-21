@@ -7,6 +7,10 @@ import { CURSOR_TYPE } from "../define/valueDefines.js";
  * @class Tool 액션 클래스.
 */
 export default class ATool {
+  /**
+   * ACTION_ID.SELECT_CURSOR 액션시 호출되는 함수
+   * @param {CURSOR_TYPE} cursorType - 커서 타입
+   */
   static switchcursortool(cursorType) {
     const details = {
       source: webPdfLib.PDFViewerApplication.secondaryToolbar,

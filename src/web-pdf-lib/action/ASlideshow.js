@@ -5,7 +5,10 @@ import webPdfLib from '../webPdfLib.js';
  * @class Slideshow 액션 클래스.
 */
 export default class ASlideshow {
-  static slideshow_first(value) {
+  /**
+   * ACTION_ID.SLIDESHOW_FIRST 액션시 호출되는 함수
+   */
+  static slideshow_first() {
     console.group(`function slideshow_first(evtAction)`);
 
     webPdfLib.PDFViewerApplication.secondaryToolbar.eventBus.dispatch('firstpage', {
@@ -13,11 +16,13 @@ export default class ASlideshow {
     });
     webPdfLib.PDFViewerApplication.secondaryToolbar.close();
 
-    ASlideshow.slideshow_current(value);
+    ASlideshow.slideshow_current();
 
     console.groupEnd();
   }
-
+  /**
+   * ACTION_ID.SLIDESHOW_CURRENT 액션시 호출되는 함수
+   */
   static slideshow_current() {
     console.group(`function slideshow_current(evtAction)`);
 

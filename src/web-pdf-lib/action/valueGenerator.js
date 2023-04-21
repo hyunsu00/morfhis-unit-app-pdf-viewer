@@ -1,6 +1,5 @@
 import webPdfLib from '../webPdfLib.js';
-import {FIND_TYPE, LINE_STYLE, COLOR_TYPE} from "../define/valueDefines.js";
-import PROPERTY_VALUE_TYPE  from "../define/_propertyDefines.js";
+import {FIND_TYPE, LINE_STYLE, COLOR_TYPE, PROPERTY_TYPE} from "../define/valueDefines.js";
 
 // @ts-check
 /**
@@ -46,7 +45,7 @@ export default (function () {
     createResizeValue(target, width, height) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.sSize,
+        cmdType: PROPERTY_TYPE.sSize,
         cmdValue: {
           width: width,
           height: height,
@@ -65,7 +64,7 @@ export default (function () {
     createMoveValue(target, xPos, yPos) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.sPosition,
+        cmdType: PROPERTY_TYPE.sPosition,
         cmdValue: {
           x: xPos,
           y: yPos,
@@ -84,7 +83,7 @@ export default (function () {
     createFillColorValue(target, colorType, fillColor) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.sFill,
+        cmdType: PROPERTY_TYPE.sFill,
         cmdValue: {
           color: colorType == COLOR_TYPE.solid ? fillColor : colorType,
         },
@@ -101,7 +100,7 @@ export default (function () {
     createFillOpacityrValue(target, fillOpacity) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.sFill,
+        cmdType: PROPERTY_TYPE.sFill,
         cmdValue: {
           opacity: fillOpacity,
         },
@@ -119,7 +118,7 @@ export default (function () {
     createLineFillColorValue(target, colorType, lineFillColor) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.sLineFill,
+        cmdType: PROPERTY_TYPE.sLineFill,
         cmdValue: {
           color: colorType == COLOR_TYPE.solid ? lineFillColor : colorType,
         },
@@ -136,7 +135,7 @@ export default (function () {
     createLineFillOpacityrValue(target, lineFillOpacity) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.sLineFill,
+        cmdType: PROPERTY_TYPE.sLineFill,
         cmdValue: {
           opacity: lineFillOpacity,
         },
@@ -153,7 +152,7 @@ export default (function () {
     createLineWidthValue(target, lineWidth) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.sLineWidth,
+        cmdType: PROPERTY_TYPE.sLineWidth,
         cmdValue: {
           borderWidth: lineWidth,
         },
@@ -171,7 +170,7 @@ export default (function () {
     createLineStyleValue(target, lineStyle) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.sLineStyle,
+        cmdType: PROPERTY_TYPE.sLineStyle,
         cmdValue: {
           borderStyleDashed: lineStyle,
         },
@@ -188,7 +187,7 @@ export default (function () {
     createTexFontSizeValue(target, fontSize) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.fontSize,
+        cmdType: PROPERTY_TYPE.fontSize,
         cmdValue: fontSize,
       };
     },
@@ -203,7 +202,7 @@ export default (function () {
     createTexFontColorValue(target, fontColor) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.fontColor,
+        cmdType: PROPERTY_TYPE.fontColor,
         cmdValue: fontColor,
       };
     },
@@ -218,7 +217,7 @@ export default (function () {
     createTextBoldValue(target, flag) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.bold,
+        cmdType: PROPERTY_TYPE.bold,
         cmdValue: flag ? 'on' : 'off',
       };
     },
@@ -233,7 +232,7 @@ export default (function () {
     createTextItalicValue(target, flag) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.italic,
+        cmdType: PROPERTY_TYPE.italic,
         cmdValue: flag ? 'on' : 'off',
       };
     },
@@ -248,7 +247,7 @@ export default (function () {
     createTextUnderlineValue(target, flag) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.underline,
+        cmdType: PROPERTY_TYPE.underline,
         cmdValue: flag ? 'on' : 'off',
       };
     },
@@ -263,7 +262,7 @@ export default (function () {
     createTextStrikethroughValue(target, flag) {
       return {
         target: target,
-        cmdType: PROPERTY_VALUE_TYPE.strikethrough,
+        cmdType: PROPERTY_TYPE.strikethrough,
         cmdValue: flag ? 'on' : 'off',
       };
     },

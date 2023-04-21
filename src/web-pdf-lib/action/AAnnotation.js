@@ -43,6 +43,10 @@ export default class AAnnotation {
     return annotationType;
   }
 
+  /**
+   * ACTION_ID.SELECT_DRAW_TOOL 액션시 호출되는 함수
+   * @param {DRAW_TYPE} drawType - 주석 타입 열거
+   */
   static select(drawType) {
     switch (drawType) {
       case DRAW_TYPE.LINE:
@@ -135,18 +139,37 @@ export default class AAnnotation {
       AAnnotation._select(DRAW_TYPE.HIGHLIGHT);
     }
   }
+  /**
+   * ACTION_ID.QUICK_UNDERLINE 액션시 호출되는 함수
+   * @param {Range} range - 선택영역
+   */
   static a_quick_underline(range) {
     let rects = range.getClientRects();
     AnnotationManager.saveRect('underline', rects);
   }
+  /**
+   * ACTION_ID.QUICK_STRIKEOUT 액션시 호출되는 함수
+   * @param {Range} range - 선택영역
+   */
   static a_quick_strikeout(range) {
     let rects = range.getClientRects();
     AnnotationManager.saveRect('strikeout', rects);
   }
+  /**
+   * ACTION_ID.QUICK_HIGHLIGHT 액션시 호출되는 함수
+   * @param {Range} range - 선택영역
+   */
   static a_quick_highlight(range) {
     let rects = range.getClientRects();
     AnnotationManager.saveRect('highlight', rects);
   }
+  /**
+   * ACTION_ID.QUICK_HIGHLIGHT 액션시 호출되는 함수
+   * @param {Object} value - 선택영역
+   * @param {Object} value.target - 주석 개체
+   * @param {PROPERTY_TYPE} value.cmdType - 변경 속성타입
+   * @param {Object} value.cmdValue - 변경 속성값
+   */
   static a_property(value) {
     const { target, cmdType, cmdValue } = value;
     AnnotationManager.execCommand(cmdType, cmdValue, target);
