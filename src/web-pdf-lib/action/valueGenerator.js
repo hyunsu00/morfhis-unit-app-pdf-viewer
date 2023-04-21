@@ -4,6 +4,7 @@ import PROPERTY_VALUE_TYPE  from "../define/_propertyDefines.js";
 
 // @ts-check
 /**
+ * @category Action
  * @class ValueGenerator
  */
 export default (function () {

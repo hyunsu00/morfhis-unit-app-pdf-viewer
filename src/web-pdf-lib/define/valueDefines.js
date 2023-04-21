@@ -2,6 +2,7 @@
 
 /**
  * 미리정의된 줌값 설정
+ * @category Action
  * @readonly
  * @const {String}
  *
@@ -17,6 +18,7 @@ export const ZOOM_VALUE = {
 
 /**
  * 찾기 타입 열거
+ * @category Action
  * @readonly
  * @const {String}
  *
@@ -34,6 +36,7 @@ export const FIND_TYPE = {
 
 /**
  * 주석 타입 열거
+ * @category Action
  * @readonly
  * @const {String}
  *
@@ -59,6 +62,7 @@ export const DRAW_TYPE = {
 
 /**
  * 커서 타입 열거
+ * @category Action
  * @readonly
  * @const {String}
  *
@@ -72,6 +76,7 @@ export const CURSOR_TYPE = {
 
 /**
  * 선 종류 열거
+ * @category Action
  * @readonly
  * @const {String}
  * @property {String} none - 실선
@@ -96,6 +101,7 @@ export const LINE_STYLE = {
 
 /**
  * 색상 타입 열거
+ * @category Action
  * @readonly
  * @const {String}
  * 

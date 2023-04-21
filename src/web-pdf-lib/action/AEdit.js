@@ -3,7 +3,8 @@ import AnnotationManager from '../annotation/annotationManager.js';
 import UiManager from '../uiFrame/uiManager.js';
 
 /**  
- * Edit 액션 클래스.
+ * @category Action
+ * @class Edit 액션 클래스.
 */
 export default class AEdit {
   static e_undo() {

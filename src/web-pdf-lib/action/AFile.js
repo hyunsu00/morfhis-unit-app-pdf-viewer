@@ -4,7 +4,8 @@ import EVENT_ID from "../define/eventDefines.js";
 import EventManager from '../event/eventManager.js';
 
 /**  
- * File 액션 클래스.
+ * @category Action
+ * @class File 액션 클래스.
 */
 export default class AFile {
   static async save() {

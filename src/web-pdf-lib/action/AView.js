@@ -2,7 +2,8 @@ import webPdfLib from '../webPdfLib.js';
 import AnnotationManager from '../annotation/annotationManager.js';
 
 /**  
- * View 액션 클래스.
+ * @category Action
+ * @class View 액션 클래스.
 */
 export default class AView {
   /**

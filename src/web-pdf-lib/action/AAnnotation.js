@@ -5,7 +5,8 @@ import AnnotationManager from '../annotation/annotationManager.js';
 import { EVENT_ID } from '../webPdfLib.js';
 
 /**  
- * Annotation 액션 클래스.
+ * @category Action
+ * @class Annotation 액션 클래스.
 */
 export default class AAnnotation {
   static _ToAnnotationType(drawType) {

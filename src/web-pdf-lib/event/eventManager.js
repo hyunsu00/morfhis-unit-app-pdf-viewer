@@ -1,4 +1,5 @@
 /**
+ * @category Event
  * @class EventManager
  */
 export default (function () {

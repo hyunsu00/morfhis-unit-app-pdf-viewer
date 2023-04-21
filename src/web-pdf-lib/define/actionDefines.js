@@ -1,7 +1,8 @@
 /**
  * 액션 ID
+ * @category Action
  * @readonly
- * @enum {String}
+ * @const {String}
  *
  * @property {String} OPEN_FILE - 열기
  * @property {String} SAVE - 저장하기

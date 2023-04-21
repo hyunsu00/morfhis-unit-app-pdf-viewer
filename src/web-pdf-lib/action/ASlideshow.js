@@ -1,7 +1,8 @@
 import webPdfLib from '../webPdfLib.js';
 
 /**  
- * Slideshow 액션 클래스.
+ * @category Action
+ * @class Slideshow 액션 클래스.
 */
 export default class ASlideshow {
   static slideshow_first(value) {

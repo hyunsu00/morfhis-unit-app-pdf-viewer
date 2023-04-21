@@ -27,7 +27,8 @@ export {
 };
 
 /**
- * @namespace webPdfLib
+ * @category Main
+ * @class webPdfLib
  */
 export default (function () {
   return {

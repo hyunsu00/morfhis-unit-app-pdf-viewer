@@ -1,7 +1,8 @@
 /**
  * 이벤트 ID
+ * @category Event
  * @readonly
- * @enum {String}
+ * @const {String}
  *
  * @property {String} DOCUMENT_LOADED - 문서가 메모리에 모두 로드되었을 경우 이벤트 등록
  * @property {String} onUpdateUi - 

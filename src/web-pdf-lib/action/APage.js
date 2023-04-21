@@ -1,7 +1,8 @@
 import webPdfLib from '../webPdfLib.js';
 
 /**  
- * Page 액션 클래스.
+ * @category Action
+ * @class Page 액션 클래스.
 */
 export default class APage {
   static e_first_page() {

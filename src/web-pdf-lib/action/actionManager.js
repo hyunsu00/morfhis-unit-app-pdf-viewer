@@ -9,6 +9,7 @@ import ATool from './ATool.js';
 import APage from './APage.js';
 
 /**
+ * @category Action
  * @class ActionManager
  */
 export default (function () {
