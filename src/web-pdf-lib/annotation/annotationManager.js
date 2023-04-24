@@ -13,7 +13,6 @@ import Config from '../../common/config.js';
 import {PROPERTY_TYPE}  from "../define/valueDefines.js";
 import Util from '../utils/util.js';
 import UiManager from '../uiFrame/uiManager.js';
-import DocumentLoader from '../controller/documentLoader.js';
 import AnnotationListener from '../listener/annotationListener.js';
 import AnnotationUtils from './annotationUtils.js';
 import webPdfLib from '../webPdfLib.js';
@@ -1084,7 +1083,9 @@ export default (function () {
       let writer = await writeAnnotation(docId, pdfDocument);
       let pdfData = writer.write();
 
-      DocumentLoader.save(pdfData, isUnload);
+      EventManager.dispatch(EVENT_ID.DOCUMENT_SAVE, {data: pdfData});
+
+      UiManager.hideLoadingProgress();
     } catch (err) {
       console.log(`AnnotationManager.save Failed Err = ${err}`);
     } finally {

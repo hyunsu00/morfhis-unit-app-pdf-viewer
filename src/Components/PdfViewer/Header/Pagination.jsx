@@ -22,15 +22,20 @@ const Pagination = () => {
     };
     const onUpdateUi = function(event) {
       const {name, value} = event.detail;
-      if (name == 'page_number') {
-        setCurrentPage(value.pageNumber);
+      switch (name) {
+        case 'page_number':
+          setCurrentPage(value.pageNumber);
+          break;
+        case 'loadingProgress':
+          console.warn(`loadingProgress value = ${value} 구현 필요`);
+          break;
       }
     };
     webPdfLib.getEventManager().on(EVENT_ID.DOCUMENT_LOADED, onDocumentLoaded);
-    webPdfLib.getEventManager().on(EVENT_ID.onUpdateUi, onUpdateUi);
+    webPdfLib.getEventManager().on(EVENT_ID.UPDATE_UI, onUpdateUi);
     return () => {
       webPdfLib.getEventManager().off(EVENT_ID.DOCUMENT_LOADED, onDocumentLoaded);
-      webPdfLib.getEventManager().on(EVENT_ID.onUpdateUi, onUpdateUi);
+      webPdfLib.getEventManager().off(EVENT_ID.UPDATE_UI, onUpdateUi);
     }
   }, [currentPage]);
 

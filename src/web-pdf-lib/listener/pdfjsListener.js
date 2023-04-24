@@ -1,17 +1,12 @@
 // pdfjsListener.js
 /*
-import UiController from '../../../commonFrame/js/uiFramework/uiController.js';
-import EventActionGenerator from '../../../commonFrame/js/uiFramework/eventActionGenerator.js';
-import UiDefine from '../../../commonFrame/js/uiFramework/uiDefine.js';
-*/
-/*
-import UiManager from '../../uiFrame/uiManager.js';
 import Util from '../../utils/util.js';
 */
 import AnnotationManager from '../annotation/annotationManager.js';
 import webPdfLib from '../webPdfLib.js';
 import EVENT_ID from "../define/eventDefines.js";
 import EventManager from '../event/eventManager.js';
+import UiManager from '../uiFrame/uiManager.js';
 
 export default (function () {
   return {
@@ -119,7 +114,7 @@ export default (function () {
           break;
         case 'page_number':
         default:
-          EventManager.dispatch(EVENT_ID.onUpdateUi, { name: widgetName, value });
+          EventManager.dispatch(EVENT_ID.UPDATE_UI, { name: widgetName, value });
           break;
       }
     },
@@ -163,15 +158,11 @@ export default (function () {
       UiController.hideTool(UiDefine.TOOL_ANNOTATION_MENU);
 */
     },
-    onHideLoadingProgress() {
-/*      
+    onHideLoadingProgress() {  
       UiManager.hideLoadingProgress();
-*/
     },
-    onShowLoadingProgress() {
-/*      
+    onShowLoadingProgress() { 
       UiManager.showLoadingProgress();
-*/
     },
   };
 })();

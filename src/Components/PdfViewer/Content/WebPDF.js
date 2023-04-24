@@ -95,6 +95,36 @@ function WebPDF() {
       // 1. 주석 속성창 비활성화
       // 2. 주석 메뉴 숨기기
     };
+    const onDocumentSave = function (event) {
+      console.warn(`EVENT_ID.DOCUMENT_SAVE 구현 필요`);
+      const { data } = event.detail;
+
+      // const xhr = new XMLHttpRequest();
+      // const formdata = new FormData();
+      // formdata.enctype = 'multipart/form-data';
+      // formdata.method = 'post';
+      // formdata.append("open", _getEncodingOpen(_parameters.open));
+      // formdata.append("docId", _documentId);
+      // formdata.append("adapter", _parameters.adapter);
+      // formdata.append("userSession", _parameters.smb_conn);
+      // formdata.append("type", _requestName.save);
+      // formdata.append("smb", _parameters.smb);
+      // formdata.append("document_session_auth_token", _parameters.document_session_auth_token);
+      // formdata.append("locale", _parameters.lang);
+      // formdata.append("unlock", isUnload);
+      // formdata.append("data", data);
+      // xhr.open("Post", "handler/save", true);
+      // xhr.onload = function (e) {
+      //     UiManager.hideLoadingProgress();
+      //     // if (xhr.status === 200) {
+      //     //     successCb(e.target.response);
+      //     // } else {
+      //     //     errorCb(xhr);
+      //     // }
+      // };
+      // xhr.send(formdata);
+
+    };
 
     webPdfLib.getEventManager().on(EVENT_ID.ERROR, onError);
     webPdfLib.getEventManager().on(EVENT_ID.PASSWORD, onPassword);
@@ -102,7 +132,7 @@ function WebPDF() {
     webPdfLib.getEventManager().on(EVENT_ID.QUICK_MENU, onQuickMenu);
     webPdfLib.getEventManager().on(EVENT_ID.ANNOTATION_SELECTED, onAnnotationSelected);
     webPdfLib.getEventManager().on(EVENT_ID.ANNOTATION_UNSELECTED, onAnnotationUnSelected);
-
+    webPdfLib.getEventManager().on(EVENT_ID.DOCUMENT_SAVE, onDocumentSave);
     return () => {
       webPdfLib.getEventManager().off(EVENT_ID.ERROR, onError);
       webPdfLib.getEventManager().off(EVENT_ID.PASSWORD, onPassword);
@@ -110,6 +140,7 @@ function WebPDF() {
       webPdfLib.getEventManager().off(EVENT_ID.QUICK_MENU, onQuickMenu);
       webPdfLib.getEventManager().off(EVENT_ID.ANNOTATION_SELECTED, onAnnotationSelected);
       webPdfLib.getEventManager().off(EVENT_ID.ANNOTATION_UNSELECTED, onAnnotationUnSelected);
+      webPdfLib.getEventManager().off(EVENT_ID.DOCUMENT_SAVE, onDocumentSave);
     };
   }, []);
 
