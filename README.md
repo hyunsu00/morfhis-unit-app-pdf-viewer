@@ -14,3 +14,8 @@ details > summary {
 <details>
   <summary>빌드방법</summary>
 </details> -->
+
+"devDependencies": {
+    ...
+    "webpdfsdk": "file:./webpdfsdk"
+  }
