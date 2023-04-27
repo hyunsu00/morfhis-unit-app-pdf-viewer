@@ -47,7 +47,7 @@
     "dev:pdf-lib": "npm --prefix ./extern/pdf-lib run build:es && npm --prefix ./extern/pdf-lib run build:umd",
     "clean:pdf-lib": "npm --prefix ./extern/pdf-lib run clean",
     "jsdoc:build": "jsdoc -c jsdoc.config.json",
-    "jsdoc:clear": "rimraf ./docs"
+    "jsdoc:clean": "rimraf ./docs"
   },
   "homepage": "/hdv",
   "eslintConfig": {
