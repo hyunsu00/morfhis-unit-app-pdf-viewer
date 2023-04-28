@@ -43,12 +43,20 @@ export default class UndoRedoManager {
 		this._Debug('[UndoRedoManager.Redo]');
 	}
 
+	GetUndoCount() {
+		return this._undoStack.length;
+	}
+	
+	GetRedoCount() {
+		return this._undoStack.length;
+	}
+
 	IsUndo() {
-		return this._undoStack.length ? true : false;
+		return this.GetUndoCount() ? true : false;
 	}
 
 	IsRedo() {
-		return this._redoStack.length ? true : false;
+		return this.GetRedoCount() ? true : false;
 	}
 
 	_UpdateUI() {

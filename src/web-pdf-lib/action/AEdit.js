@@ -43,7 +43,9 @@ export default class AEdit {
 
     console.groupEnd();
   }
-
+  /**
+   * ACTION_ID.SELECT_CLEAR 액션시 호출되는 함수
+   */
   static e_select_clear() {
     console.group(`function e_select_clear(_value) `);
     UiManager.clearSelection();

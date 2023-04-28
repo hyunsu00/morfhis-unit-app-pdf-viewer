@@ -27,6 +27,7 @@ export default (function () {
     /**
      * 이벤트 실행
      * @memberof EventManager
+     * @ignore
      * @param {EVENT_ID} eID - 이벤트 ID
      * @param {Object} data - 이벤트 데이타
      * 

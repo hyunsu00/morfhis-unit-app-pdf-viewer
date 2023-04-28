@@ -5,26 +5,15 @@ import UndoRedoManager from './undoRedo/UndoRedoManager.js';
 //
 import './webPdfLib.scss';
 import mainHtml from './template/webPdfLib.html';
-import sideHtml from "./template/webPdfSidebar.html";
-import ACTION_ID from "./define/actionDefines.js";
+import sideHtml from './template/webPdfSidebar.html';
+import ACTION_ID from './define/actionDefines.js';
 import EVENT_ID from './define/eventDefines.js';
-import {
-  ZOOM_VALUE, FIND_TYPE, DRAW_TYPE, CURSOR_TYPE, LINE_STYLE, COLOR_TYPE
-} from './define/valueDefines.js';
+import { ZOOM_VALUE, FIND_TYPE, DRAW_TYPE, CURSOR_TYPE, LINE_STYLE, COLOR_TYPE } from './define/valueDefines.js';
 import ActionManager from './action/actionManager.js';
 import EventManager from './event/eventManager.js';
 import ValueGenerator from './action/valueGenerator.js';
 
-export {
-  ACTION_ID,
-  EVENT_ID,
-  ZOOM_VALUE,
-  FIND_TYPE, 
-  DRAW_TYPE, 
-  CURSOR_TYPE, 
-  LINE_STYLE, 
-  COLOR_TYPE,
-};
+export { ACTION_ID, EVENT_ID, ZOOM_VALUE, FIND_TYPE, DRAW_TYPE, CURSOR_TYPE, LINE_STYLE, COLOR_TYPE };
 
 /**
  * @category Main
@@ -32,6 +21,13 @@ export {
  */
 export default (function () {
   return {
+    /**
+     * 초기화
+     * @memberof webPdfLib
+     * @param {String} lipsPath - libs 경로
+     * @example <caption>초기화</caption>
+     * webPdfLib.initialize(`${process.env.PUBLIC_URL}/libs`);
+     */
     initialize(lipsPath) {
       console.log(`[webPdfLib.initialize(${lipsPath})]`);
       // libPath = `${process.env.PUBLIC_URL}/libs`;
@@ -71,7 +67,7 @@ export default (function () {
               this.PDFAppOptions = window.PDFViewerApplicationOptions;
               this.PDFAnnotateRender = window.PDFAnnotate['default'];
               this.gUndoRedoManager = new UndoRedoManager(window.PDFViewerApplication.baseUrl);
-              
+
               AnnotationManager.initialize(this.PDFAnnotateRender);
 
               console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdf-annotate.js) Succeeded`);
@@ -104,9 +100,21 @@ export default (function () {
           console.log(`[import(/* webpackIgnore: true */ ${lipsPath}/pdfjs/web/viewer.js) Failed] : ${err.message}`);
         });
     },
+    /**
+     * MainTemplate HTML 탬플릿 반환
+     * @memberof webPdfLib
+     *
+     * @return {String}
+     */
     getMainTemplate() {
       return mainHtml;
     },
+    /**
+     * SideTemplate HTML 탬플릿 반환
+     * @memberof webPdfLib
+     *
+     * @return {String}
+     */
     getSideTemplate() {
       return sideHtml;
     },
@@ -115,6 +123,13 @@ export default (function () {
      * @memberof webPdfLib
      *
      * @return {ActionManager}
+     * @example <caption>기본 사용법</caption>
+     * // 파일 오픈
+     * webPdfLib.getActionManager().Execute(ACTION_ID.OPEN_FILE);
+     * // 줌 설정 (폭맞춤)
+     * webPdfLib.getActionManager().Execute(ACTION_ID.ZOOM, ZOOM_VALUE.PAGE_WIDHT);
+     * // 줌 설정 (200%)
+     * webPdfLib.getActionManager().Execute(ACTION_ID.ZOOM, 2.0);
      */
     getActionManager() {
       return ActionManager;
@@ -124,6 +139,17 @@ export default (function () {
      * @memberof webPdfLib
      *
      * @return {ValueGenerator}
+     * @example <caption>기본 사용법</caption>
+     * // [찾기]
+     * const value = webPdfLib.getValueGenerator().createFindValue(FIND_TYPE.FIND_AGAIN, "Trace", false, false, true, false);
+     * webPdfLib.getActionManager().Execute(ACTION_ID.FIND_OPEN, value);
+     * // [속성변경]
+     * // 채우기 속성 변경 (단색)
+     * webPdfLib.getActionManager().Execute(ACTION_ID.CHANGE_PROPERTY, webPdfLib.getValueGenerator().createFillColorValue(target, COLOR_TYPE.solid, '#FF0000'));
+     * // 채우기 속성 변경 (없음)
+     * webPdfLib.getActionManager().Execute(ACTION_ID.CHANGE_PROPERTY, webPdfLib.getValueGenerator().createFillColorValue(target, COLOR_TYPE.noFill));
+     * // 투명도 속성 변경
+     * webPdfLib.getActionManager().Execute(ACTION_ID.CHANGE_PROPERTY, webPdfLib.getValueGenerator().createFillOpacityrValue(target, 50));
      */
     getValueGenerator() {
       return ValueGenerator;
@@ -133,6 +159,16 @@ export default (function () {
      * @memberof webPdfLib
      *
      * @return {EventManager}
+     * @example <caption>기본 사용법</caption>
+     * // [문서가 메모리에 모두 로드되었을 경우 이벤트 등록]
+     * // 콜백함수 생성
+     * const onDocumentLoaded = function() {
+     *  // 필요한 작업 처리
+     * };
+     * // 콜백함수 등록
+     * webPdfLib.getEventManager().on(EVENT_ID.DOCUMENT_LOADED, onDocumentLoaded);
+     * // 콜백함수 해제
+     * webPdfLib.getEventManager().off(EVENT_ID.DOCUMENT_LOADED, onDocumentLoaded);
      */
     getEventManager() {
       return EventManager;
@@ -159,7 +195,7 @@ export default (function () {
     /**
      * 문서의 전체 페이지수 반환
      * @memberof webPdfLib
-     * 
+     *
      * @return {number}
      */
     getTotalPageNumber() {
@@ -173,6 +209,24 @@ export default (function () {
      */
     getTitle() {
       return AnnotationManager.documentTitle;
+    },
+     /**
+     * 되돌리기 갯수 반환
+     * @memberof webPdfLib
+     *
+     * @return {number}
+     */
+    getUndoCount() {
+      return this.gUndoRedoManager.GetUndoCount();
+    },
+    /**
+     * 다시 실행 갯수 반환
+     * @memberof webPdfLib
+     *
+     * @return {number}
+     */
+    getRedoCount() {
+      return this.gUndoRedoManager.GetRedoCount();
     }
   };
 })();

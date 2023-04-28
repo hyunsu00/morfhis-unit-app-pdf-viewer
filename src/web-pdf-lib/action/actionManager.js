@@ -59,7 +59,7 @@ export default (function () {
      * 액션 실행
      * @memberof ActionManager
      * @param {ACTION_ID} aID - 액션 ID
-     * @param {any} value - 액션 Value(optional)
+     * @param {any} value - 액션 Value(optional)([ACTION_ID참고]{@link ACTION_ID})
      * 
      */
     Execute(aID, value) {
