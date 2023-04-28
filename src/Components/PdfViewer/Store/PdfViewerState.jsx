@@ -11,6 +11,7 @@ const PdfViewerState = create((set) => ({
   visibleSidebar: true,
   sidebarWidth: 260,
   selectTheme: undefined,
+  undoRedoLength: { undo: 0, redo: 0 },
 
   setWinSize: (value) => {
     set((state) => {
@@ -93,6 +94,16 @@ const PdfViewerState = create((set) => ({
       }
     });
   },
+
+  setUndoRedoLength: (value) => {
+    set((state) => {
+      if (state.undoRedoLength !== value) {
+        return { undoRedoLength: value };
+      } else {
+        return { undoRedoLength: state.undoRedoLength };
+      }
+    });
+  }
 }));
 
 export default PdfViewerState;

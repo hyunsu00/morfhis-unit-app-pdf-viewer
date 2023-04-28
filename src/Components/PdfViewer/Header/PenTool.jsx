@@ -17,7 +17,7 @@ import PdfViewerState from '../Store/PdfViewerState';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import Tools from '../Tools/Tools.json';
 
-import webPdfLib, {ACTION_ID} from '../../../web-pdf-lib/webPdfLib';
+import webPdfLib, { ACTION_ID } from '../../../web-pdf-lib/webPdfLib';
 
 const PenTool = () => {
   const drawTools = Tools.draw;
@@ -39,20 +39,19 @@ const PenTool = () => {
             key={key}
             onClick={() => {
               setAnchorEl(null);
-              switch(key) 
-              {
-              case 'a_draw':
-              case 'a_line':
-              case 'a_area':
-              case 'a_underline':
-              case 'a_strikeout':
-              case 'a_highlight':
-              case 'a_point':
-              case 'a_text':
-                webPdfLib.getActionManager().Execute(ACTION_ID.SELECT_DRAW_TOOL, key);
-                break;
-              default:
-                break;
+              switch (key) {
+                case 'a_draw':
+                case 'a_line':
+                case 'a_area':
+                case 'a_underline':
+                case 'a_strikeout':
+                case 'a_highlight':
+                case 'a_point':
+                case 'a_text':
+                  webPdfLib.getActionManager().Execute(ACTION_ID.SELECT_DRAW_TOOL, key);
+                  break;
+                default:
+                  break;
               }
               setSelectDrawTool(key);
             }}>

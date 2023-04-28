@@ -8,12 +8,28 @@ import mainHtml from './template/webPdfLib.html';
 import sideHtml from './template/webPdfSidebar.html';
 import ACTION_ID from './define/actionDefines.js';
 import EVENT_ID from './define/eventDefines.js';
-import { ZOOM_VALUE, FIND_TYPE, DRAW_TYPE, CURSOR_TYPE, LINE_STYLE, COLOR_TYPE } from './define/valueDefines.js';
+import { 
+  ZOOM_VALUE, 
+  FIND_TYPE, 
+  DRAW_TYPE, 
+  CURSOR_TYPE, 
+  LINE_STYLE, 
+  COLOR_TYPE 
+} from './define/valueDefines.js';
 import ActionManager from './action/actionManager.js';
 import EventManager from './event/eventManager.js';
 import ValueGenerator from './action/valueGenerator.js';
 
-export { ACTION_ID, EVENT_ID, ZOOM_VALUE, FIND_TYPE, DRAW_TYPE, CURSOR_TYPE, LINE_STYLE, COLOR_TYPE };
+export { 
+  ACTION_ID, 
+  EVENT_ID, 
+  ZOOM_VALUE, 
+  FIND_TYPE, 
+  DRAW_TYPE, 
+  CURSOR_TYPE, 
+  LINE_STYLE, 
+  COLOR_TYPE 
+};
 
 /**
  * @category Main
