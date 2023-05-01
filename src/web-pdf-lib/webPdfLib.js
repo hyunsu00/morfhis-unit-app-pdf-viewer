@@ -25,10 +25,11 @@ export default (function () {
      * 초기화
      * @memberof webPdfLib
      * @param {String} lipsPath - libs 경로
+     * @param {String} defaultUrl - 초기화시 defaultUrl의 파일 경로
      * @example <caption>초기화</caption>
      * webPdfLib.initialize(`${process.env.PUBLIC_URL}/libs`);
      */
-    initialize(lipsPath) {
+    initialize(lipsPath, defaultUrl) {
       console.log(`[webPdfLib.initialize(${lipsPath})]`);
       // libPath = `${process.env.PUBLIC_URL}/libs`;
       import(/* webpackIgnore: true */ `${lipsPath}/pdfjs/web/viewer.js`)
@@ -36,7 +37,7 @@ export default (function () {
           const _appOptions = window.PDFViewerApplicationOptions;
           _appOptions.set('disablePreferences', true);
           _appOptions.set('scrollModeOnLoad', 0);
-          _appOptions.set('defaultUrl', `${lipsPath}/pdfjs/web/compressed.tracemonkey-pldi-09.pdf`); // 절대경로
+          _appOptions.set('defaultUrl', (defaultUrl ?? '')); // 절대경로
           _appOptions.set('workerSrc', `${lipsPath}/pdfjs/build/pdf.worker.js`); // 절대경로
           _appOptions.set('sandboxBundleSrc', `${lipsPath}/pdfjs/build/pdf.sandbox.js`); // 절대경로
           _appOptions.set('documentloaded', PDFJsListener.onDocumentLoaded);

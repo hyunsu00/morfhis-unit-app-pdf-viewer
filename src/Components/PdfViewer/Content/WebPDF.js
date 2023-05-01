@@ -10,7 +10,7 @@ function WebPDF() {
     console.log('WebPDF.componentDidMount[Function]');
 
     // import_pdfjs();
-    webPdfLib.initialize(`${process.env.PUBLIC_URL}/libs`);
+    webPdfLib.initialize(`${process.env.PUBLIC_URL}/libs`, `${process.env.PUBLIC_URL}/libs/pdfjs/web/compressed.tracemonkey-pldi-09.pdf`);
 
     // componentWillUnmount with useEffect
     return () => {
