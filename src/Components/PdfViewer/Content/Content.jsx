@@ -1,6 +1,6 @@
-import WebPDF from './WebPDF';
 import Box from '@mui/material/Box';
 import PdfViewerState from '../Store/PdfViewerState';
+import webPdfLib from '../../../web-pdf-lib/webPdfLib';
 
 const Content = () => {
   const { winSize, touchScreen, visibleHeader, headerHeight, visibleSidebar, sidebarWidth } = PdfViewerState();
@@ -25,7 +25,7 @@ const Content = () => {
 
   return (
     <Box id={'pdf_viewer_content'} sx={{ minWidth: minWidth(), minHeight: minHeight() }}>
-      <WebPDF />
+      <div id='pdfjs_content' dangerouslySetInnerHTML={{ __html: webPdfLib.getMainTemplate() }}></div>
     </Box>
   );
 };

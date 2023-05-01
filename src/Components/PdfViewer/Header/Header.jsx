@@ -10,7 +10,10 @@ import Pagination from './Pagination';
 import SelectTheme from './SelectTheme';
 import PenTool from './PenTool';
 
-import webPdfLib, {ACTION_ID, FIND_TYPE} from '../../../web-pdf-lib/webPdfLib';
+import webPdfLib, { ACTION_ID, FIND_TYPE } from '../../../web-pdf-lib/webPdfLib';
+import UndoRedo from './UndoRedo';
+import Cursor from './Cursor';
+import Zoom from './Zoom';
 
 const Header = () => {
   const { zoomScale } = Utils();
@@ -90,7 +93,10 @@ const Header = () => {
           </Box>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%' }}>
+          <UndoRedo />
+          <Cursor />
           <PenTool />
+          <Zoom />
         </Box>
       </AppBar>
     </Box>
