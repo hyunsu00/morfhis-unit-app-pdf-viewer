@@ -37,19 +37,23 @@ cp -R ./node_modules\webpdfsdk\dist\libs public/libs
   </head>
   <body>
     ...
+    <div id="root" style="height: 100%;"></div>
+    ...
   </body>
 </html>
 ```
 
-2. src/Components/WebPDF.js 파일 추가
+2. src/Components/ 위치에 WebPDF.js, WebPDFSidebar.js 파일 추가
 
 ```nodejs
+// src/Components/WebPDF.js
 import React, { useEffect, useRef } from 'react';
-import webPdfLib from 'webpdfsdk/dist/webPdfLib';
+import "webpdfsdk/dist/webPdfLib.css"
+import webPdfLib from "webpdfsdk/dist/webPdfLib";
 
 function WebPDF() {
   useEffect(() => {
-    webPdfLib.initialize(`${process.env.PUBLIC_URL}/libs`);
+    webPdfLib.initialize(`${process.env.PUBLIC_URL}/libs`, `${process.env.PUBLIC_URL}/libs/pdfjs/web/compressed.tracemonkey-pldi-09.pdf`);
   }, []);
   
   const mounted = useRef(false);
@@ -65,22 +69,37 @@ function WebPDF() {
 export default WebPDF;
 ```
 
-3. 생성한 WebPDF 구성 요소 사용
 ```nodejs
-import WebPDF from './WebPDF';
-import Box from '@mui/material/Box';
+// src/Components/WebPDFSidebar.js
+import webPdfLib from "webpdfsdk/dist/webPdfLib";
 
-const Content = () => {
-  ...
-
+function WebPDFSidebar() {
   return (
-    <Box id={'pdf_viewer_content'} sx={{ minWidth: minWidth(), minHeight: minHeight() }}>
-      <WebPDF />
-    </Box>
+    <div id="pdfjs_sidebar" style={{ visibility: "hidden" }} dangerouslySetInnerHTML={{ __html: webPdfLib.getSideTemplate() }}></div>
   );
-};
+}
 
-export default Content;
+export default WebPDFSidebar;
+```
+
+3. 생성한 WebPDF, WebPDFSidebar 구성 요소 사용
+```nodejs
+// src/App.js
+import logo from "./logo.svg";
+import "./App.css";
+import WebPDF from "./Components/WebPDF";
+import WebPDFSidebar from "./Components/WebPDFSidebar";
+
+function App() {
+  return (
+    <div className="App" style={{ height:'100%', overflow:'hidden'}}>
+        <WebPDF />
+        <WebPDFSidebar />
+    </div>
+  );
+}
+
+export default App;
 ```
 
 4. 앱을 시작하고 기본브라우저에서 실행
