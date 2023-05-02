@@ -43,7 +43,7 @@ export default (function () {
      * @param {String} lipsPath - libs 경로
      * @param {String} defaultUrl - 초기화시 defaultUrl의 파일 경로
      * @example <caption>초기화</caption>
-     * webPdfLib.initialize(`${process.env.PUBLIC_URL}/libs`);
+     * webPdfLib.initialize(`${process.env.PUBLIC_URL}/libs`, `${process.env.PUBLIC_URL}/libs/pdfjs/web/compressed.tracemonkey-pldi-09.pdf`);
      */
     initialize(lipsPath, defaultUrl) {
       console.log(`[webPdfLib.initialize(${lipsPath})]`);
