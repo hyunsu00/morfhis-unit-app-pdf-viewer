@@ -244,6 +244,15 @@ export default (function () {
      */
     getRedoCount() {
       return this.gUndoRedoManager.GetRedoCount();
+    },
+    /**
+     * 현재 줌 반환
+     * @memberof webPdfLib
+     *
+     * @return {ZOOM_VALUE | number}
+     */
+    getZoomValue() {
+      return AnnotationManager.currentScaleValue;
     }
   };
 })();
