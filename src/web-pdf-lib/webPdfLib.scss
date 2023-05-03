@@ -514,3 +514,12 @@ select {
   width: 100%;
   height: 100%;
 }
+
+// @import url(%PUBLIC_URL%/libs/pdfjs/web/viewer.css);
+// 실패시 hidden 클래스 및 element는 보이지 않게 한다.
+.hidden {
+  display: none !important;
+}
+[hidden] {
+  display: none !important;
+}
