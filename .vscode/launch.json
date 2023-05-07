@@ -59,6 +59,18 @@
 				"--nolazy"
 			],
 			"console": "internalConsole",
-		}
+		},
+		{
+			"type": "node",
+			"name": "[react-app-rewired build] 디버그",
+			"request": "launch",
+			"runtimeExecutable": "${workspaceFolder}/node_modules/.bin/react-app-rewired",
+			"args": [
+				"build",
+				"--debug"
+			],
+			"cwd": "${workspaceFolder}",
+			"console": "internalConsole"
+		  }
 	]
 }
